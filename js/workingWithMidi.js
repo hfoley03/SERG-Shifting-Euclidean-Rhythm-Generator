@@ -2,7 +2,7 @@ const Midi = require('@tonejs/midi');
 const fs = require("fs");
 const Tone = require("tone");
 
-// Working With the ToneJs Midi Lib //
+// Working With the ToneJs Midi Lib
 // part 2 is more important/relevant to us
 // Read https://github.com/Tonejs for more understanding
 
