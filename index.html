@@ -32,25 +32,7 @@
 
   <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
   <script>
-    const Midi = require('@tonejs/midi');
-    const fs = require("fs");
-    const Tone = require("tone");
 
-    const midiData = fs.readFileSync("/Users/harryfoley/Documents/ACTM/c4c3c3c3.mid")
-    const c4c3c3c3 = new Midi.Midi(midiData);
-    console.log( c4c3c3c3)
-    const myNotes =  c4c3c3c3.tracks[0].notes;
-    // 24 ticks = 1/16 note, 96 ticks = 1/4 note
-    //ticks in 1 bar 0-383
-    console.log(myNotes);
-
-    //create a synth and connect it to the main output (your speakers)
-
-    const synth = new Tone.Synth().toDestination();
-    const now = Tone.now()
-    synth.triggerAttackRelease("C4", "8n", now)
-    synth.triggerAttackRelease("E4", "8n", now + 0.5)
-    synth.triggerAttackRelease("G4", "8n", now + 1)
   </script>
   <script src="https://www.google-analytics.com/analytics.js" async></script>
 </body>
