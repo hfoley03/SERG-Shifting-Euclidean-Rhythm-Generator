@@ -1,7 +1,5 @@
-const Midi = require('@tonejs/midi');
-const fs = require("fs");
-const Tone = require("tone");
-
+//import fs from "/fs";
+import Midi from "@tonejs/midi";
 // Working With the ToneJs Midi Lib
 // part 2 is more important/relevant to us
 // Read https://github.com/Tonejs for more understanding
