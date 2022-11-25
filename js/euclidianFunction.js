@@ -23,10 +23,14 @@ function euclidianPattern(onsets, pulses) {
     A = B;
     B = [];
   }
-  return (A.join() + U[0].toString()).replaceAll(',', '');
+  var output = A.join().replaceAll(',', '');
+  if (U[0]) {
+    output = (A.join() + U[0].toString()).replaceAll(',', '');
+  }
+  return output
 }
 
-console.log(euclidianPattern(3, 8))
+console.log(euclidianPattern(4, 8))
 
 
 function info(){
