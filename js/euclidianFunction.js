@@ -1,13 +1,15 @@
 
+// takes onsets (hits) pulses (tatum/steps)
+// returns a string version of the rhythm eg 10010010
 function euclidianPattern(onsets, pulses) {
-  var U = new Array(pulses - onsets).fill([0]);
-  var A = new Array(onsets).fill([1]);
-  var B = [];
+  let U = new Array(pulses - onsets).fill([0]);
+  let A = new Array(onsets).fill([1]);
+  let B = [];
 
   while (U.length > 1) {
-    var ca = A.length;
-    var uc = U.length;
-    var i = 0;
+    let ca = A.length;
+    let uc = U.length;
+    let i = 0;
 
     while ((ca > 0) && (uc > 0)) {
       B[i] = A[i].concat(U[i]);
@@ -23,16 +25,17 @@ function euclidianPattern(onsets, pulses) {
     A = B;
     B = [];
   }
-  var output = A.join().replaceAll(',', '');
+  let output = A.join().replaceAll(',', '');
   if (U[0]) {
     output = (A.join() + U[0].toString()).replaceAll(',', '');
   }
   return output
 }
 
-console.log(euclidianPattern(4, 8))
+console.log(euclidianPattern(4, 16))
+console.log()
 
-
+// only used for debugging
 function info(){
   console.log('////////')
   console.log(B);
