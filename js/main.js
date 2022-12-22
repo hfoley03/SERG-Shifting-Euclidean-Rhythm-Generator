@@ -1,6 +1,7 @@
 import Midi from "@tonejs/midi";
 import fs from 'fs';
 
+// Variables that could change by user
 let onsetsA = 3                             // How many hits
 let pulsesA = 16                              // How many steps, 4,8 or 16
 let onsetsB = 3
@@ -192,3 +193,5 @@ function vel(){
   }
   return vel_
 }
+
+

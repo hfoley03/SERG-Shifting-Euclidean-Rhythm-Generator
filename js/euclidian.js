@@ -1,10 +1,9 @@
-//import * as fs from 'fs';
 
 // Variables that could change by user
 let onsetsA = 3                             // How many hits
-let pulsesA = 16                             // How many steps, 4,8 or 16
+let pulsesA = 8                             // How many steps, 4,8 or 16
 let onsetsB = 3
-let pulsesB = 16
+let pulsesB = 3
 
 let phaseShiftAmount = 1;                   // How many pulses is each shift
 let phaseShiftPeriod = 1;                   // After how many bars does a shift occur
@@ -34,7 +33,7 @@ let pulseInTicksB = (oneBarInTicks)/pulsesB
 // Create binary euclidean rhythm
 let binaryRhythmA = euclidianPattern(onsetsA, pulsesA)
 let binaryRhythmB = euclidianPattern(onsetsB, pulsesB)
-console.log(binaryRhythmB)
+//console.log(binaryRhythmB)
 
 
 // Convert into Midi object
@@ -42,36 +41,22 @@ let midiObject = binaryRhythmToMidi(binaryRhythmA, midiInProgress, pulseInTicksA
 midiObject = binaryRhythmToMidi(binaryRhythmB, midiObject, pulseInTicksB, 2)
 
 
-
-
-//Synths that will play the sound
-const synths = []
-
-Tone.Destination.volume.value = -9; // this value is in dB
-
-let main_bpm = 60;
-let main_loop_interval = length; // duration of looping
-let ready = false; // if ready to play or not
-
-
-
+/*
 for( let j = 0; j < 4; j++){
   console.log(midiObject.tracks[j].notes.length)
-}
+}*/
 
 // Creates full composition, with phase shifts
 let finalMidiObject = phaseAndCompose(midiObject, phaseShiftAmount, phaseShiftPeriod, length, numberOfTracks, mode)
-
+console.log(finalMidiObject)
 //for( let j = 0; j < 4; j++){
 //  console.log(finalMidiObject.tracks[j].notes.length)
 //}
 // Write midi object to a midi file
 //fs.writeFileSync("temp5.mid", new Buffer(finalMidiObject.toArray()))
 
-
-
-
-document.getElementById("play-button").addEventListener("click", function() {
+/*
+function start_stop(){
   console.log("pressed")
   if (!ready) {
     initializeAudio();
@@ -80,21 +65,22 @@ document.getElementById("play-button").addEventListener("click", function() {
     // click again to play-button...
     if (Tone.Transport.state === "stopped") Tone.Transport.start();
     else if (Tone.Transport.state === "started") {
-       Tone.Transport.stop()
+      Tone.Transport.stop()
 
-       for(var i=0;i<synths.length;i++){
-         synths[i].context._timeouts.cancel(0);
-         synths[i].dispose();
-       }
+      for(var i=0;i<synths.length;i++){
+        synths[i].context._timeouts.cancel(0);
+        synths[i].dispose();
+      }
     }
 
   }
-});
 
-let main_loop = new Tone.Loop(playNotes , main_loop_interval);
-let print_loop = new Tone.Loop(() => {
-  console.log("Loop")
-} , main_loop_interval);
+}
+
+ */
+
+
+
 
 
 
@@ -238,43 +224,6 @@ function vel(){
 }
 
 
-
-
-//Functions for playing on the browser
-
-//This fnc initializes the Tone Transport and starts the main_loop
-function initializeAudio() {
-  Tone.start().then(()=>{
-    Tone.Transport.bpm.value = main_bpm;
-    Tone.Transport.start();
-    main_loop.start();
-    print_loop.start();
-  });
-}
-
-
-
-function playNotes() {
-  finalMidiObject.tracks.forEach(track => {
-    //create a synth for each track
-    const synth = new Tone.PolySynth(Tone.Synth, {
-      envelope: {
-        attack: 0.02,
-        decay: 0.1,
-        sustain: 0.3,
-        release: 1
-      }
-    }).toMaster()
-
-    synths.push(synth)
-    //schedule the events
-
-    track.notes.forEach(note => {
-      synth.triggerAttackRelease(note.name, note.duration, note.time + Tone.now(), note.velocity)
-    })
-
-  })
-}
 
 
 
