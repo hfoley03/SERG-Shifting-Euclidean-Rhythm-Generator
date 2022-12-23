@@ -3,12 +3,12 @@
 let onsetsA = 3                             // How many hits
 let pulsesA = 8                             // How many steps, 4,8 or 16
 let onsetsB = 3
-let pulsesB = 3
+let pulsesB = 16
 
 let phaseShiftAmount = 1;                   // How many pulses is each shift
 let phaseShiftPeriod = 1;                   // After how many bars does a shift occur
 let length = 8;                            // Length of total piece
-let numberOfTracks = 2;                     // Number of tracks/players
+let numberOfTracks = 1;                     // Number of tracks/players
 let mode = 1;                               // Play mode (not used)
 let scale = ['F', 'G']                      // Used to add 4th and 5th note of C (see function pitch())
 let midiInProgress = new Midi()        // Midi object
@@ -193,10 +193,11 @@ function phaseAndCompose(midiInProgress,phaseShiftAmount, phaseShiftPeriod,lengt
 
 
 function pitch(){
-  if (Math.random() > 0.1){
+  /*if (Math.random() > 0.1){
     return get_random(scale)
-  }
-  else {return 'C'}
+  }*/
+  //else {
+  return 'C'//  }
 }
 
 function get_random (list) {
