@@ -13,45 +13,43 @@ let play_button;
 let stop_button;
 
 function setup() {
-  frameRate(5)
+  frameRate(100)
   createCanvas(w,h);
-  background('#141430')
-  textSize(20);
-  fill('#0');
-  text('1st Track', 5, 18);
+
   sel1 = createSelect();
   sel1.position(110, 10);
   sel1.option('Membrane');
   sel1.option('Pluck');
   sel1.selected('Membrane');
 
-  textSize(20);
-  text('2nd Track', 5, 38);
   sel2 = createSelect();
   sel2.position(110, 30);
   sel2.option('Membrane');
   sel2.option('Pluck');
   sel2.selected('Pluck');
 
-  textSize(20);
-  text('3rd Track', 5, 58);
+
   sel3 = createSelect();
   sel3.position(110, 50);
   sel3.option('Membrane');
   sel3.option('Pluck');
   sel3.selected('Membrane');
 
-  textSize(20);
-  text('4th Track', 5, 78);
   sel4 = createSelect();
   sel4.position(110, 70);
   sel4.option('Membrane');
   sel4.option('Pluck');
   sel4.selected('Pluck');
 
+
   gen_button = createButton('Generate');
-  gen_button.position(100, 100);
+  gen_button.position(1000, 100);
+  gen_button.style('background-color', '#02c39a');
+  gen_button.style('border-radius' , 50 + '%');
+  gen_button.style('z-index',  100);
   gen_button.mousePressed(function() {
+    clear()
+
     stop_aud();
     onsetsA = parseInt(inp.value());
     onsetsB = parseInt(inp3.value());
@@ -65,38 +63,33 @@ function setup() {
     onset_3 = binaryRhythmA;
 
 
-
   });
 
   play_button= createButton('Play');
   play_button.position(100, 150);
   play_button.mousePressed(start_aud_gui);
 
-  stop_button= createButton('Stop/Reset');
+  stop_button= createButton('Stop');
   stop_button.position(100, 200);
   stop_button.mousePressed(stop_aud);
 
 
   textSize(20);
-  text('Onsets 1st Track', 800, 18);
   let inp = createInput(onsetsA.toString());
   inp.position(1000, 10);
   inp.size(100);
 
   textSize(20);
-  text('Pulses 2nd Track', 800, 38);
   let inp2 = createInput(pulsesA.toString());
   inp2.position(1000, 30);
   inp2.size(100);
 
   textSize(20);
-  text('Onsets 2nd Track', 800, 58);
   let inp3 = createInput(onsetsB.toString());
   inp3.position(1000, 50);
   inp3.size(100);
 
   textSize(20);
-  text('Pulses 2nd Track', 800, 78);
   let inp4 = createInput(pulsesB.toString());
   inp4.position(1000, 70);
   inp4.size(100);
@@ -104,9 +97,32 @@ function setup() {
 }
 
 function draw() {
+  background('#141430')
+  textSize(20);
+  fill('#0');
+  text('1st Track', 5, 18);
+
+
+  textSize(20);
+  text('2nd Track', 5, 38);
+
+  textSize(20);
+  text('3rd Track', 5, 58);
+
+  text('4th Track', 5, 78);
+
+  text('Onsets 1st Track', 800, 18);
+
+  text('Pulses 1st Track', 800, 38);
+
+  text('Onsets 2nd Track', 800, 58);
+
+  text('Pulses 2nd Track', 800, 78);
+
+
   //background(220);
   let c = w/4; //center
-  let r = w/6; // radious main circle
+  let r = w/8; // radious main circle
   // main circle
   fill('#003459');
   circle(c, c, 2*r);
@@ -127,9 +143,9 @@ function draw() {
   fill('#028090');
   circle(c, c, 2*r*0.7);
 
-  for (let i = 0; i < pulses; i ++){
-    let n_x = c+(r*0.7*cos(i*2*PI/pulses));
-    let n_y = c+(r*0.7*sin(i*2*PI/pulses));
+  for (let i = 0; i < pulses_2; i ++){
+    let n_x = c+(r*0.7*cos(i*2*PI/pulses_2));
+    let n_y = c+(r*0.7*sin(i*2*PI/pulses_2));
 
     fill(255,255,255);
     circle(n_x,n_y, c/10);
@@ -140,7 +156,7 @@ function draw() {
   }
 
   // third circle
-
+/*
   fill('#003459');
   circle(c, c, 2*r*0.4);
 
@@ -154,7 +170,7 @@ function draw() {
       fill('#02c39a');
       circle(n_x,n_y, c/10);
     }
-  }
+  }*/
 }
 
 function start_aud_gui(){

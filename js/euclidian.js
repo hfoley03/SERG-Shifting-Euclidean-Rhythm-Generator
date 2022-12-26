@@ -41,7 +41,7 @@ function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB){
   phaseShiftAmount = 1;                   // How many pulses is each shift
   phaseShiftPeriod = 1;                   // After how many bars does a shift occur
   length = 8;                            // Length of total piece
-  numberOfTracks = 2;                     // Number of tracks/players
+  numberOfTracks = 4;                     // Number of tracks/players
   mode = 1;                               // Play mode (not used)
   scale = ['F', 'G']                      // Used to add 4th and 5th note of C (see function pitch())
   midiInProgress = new Midi();
