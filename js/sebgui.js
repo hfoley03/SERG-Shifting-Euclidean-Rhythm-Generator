@@ -4,102 +4,131 @@ let w = window.innerWidth;
 let h = window.innerHeight;
 let pulses = pulsesA;
 let pulses_2 = pulsesB;
-let onset_1 = binaryRhythmA
-let onset_2 = binaryRhythmB
+let onset_1 = binaryRhythmA;
+let onset_2 = binaryRhythmB;
 let onset_3 = binaryRhythmA;
-let button1;
-let button2;
+
+let gen_button;
+let play_button;
+let stop_button;
 
 function setup() {
-  frameRate(5)
+  frameRate(100)
   createCanvas(w,h);
-  background('#141430')
-  textSize(20);
-  push();
-  fill('#0');
-  text('1st Track', 5, 18);
+
   sel1 = createSelect();
   sel1.position(110, 10);
   sel1.option('Membrane');
   sel1.option('Pluck');
   sel1.selected('Membrane');
 
-  textSize(20);
-  text('2nd Track', 5, 38);
   sel2 = createSelect();
   sel2.position(110, 30);
   sel2.option('Membrane');
   sel2.option('Pluck');
   sel2.selected('Pluck');
 
-  textSize(20);
-  text('3rd Track', 5, 58);
+
   sel3 = createSelect();
   sel3.position(110, 50);
   sel3.option('Membrane');
   sel3.option('Pluck');
   sel3.selected('Membrane');
 
-  textSize(20);
-  text('4th Track', 5, 78);
   sel4 = createSelect();
   sel4.position(110, 70);
   sel4.option('Membrane');
   sel4.option('Pluck');
   sel4.selected('Pluck');
 
-  button1 = createButton('Start/Reset me');
-  button1.position(100, 100);
-  button1.mousePressed(start_stop);
 
-  button2= createButton('Pause/Cont');
-  button2.position(300, 50);
-  button2.mousePressed(pause_cont);
+  gen_button = createButton('Generate');
+  gen_button.position(1000, 100);
+  gen_button.style('background-color', '#02c39a');
+  gen_button.style('border-radius' , 50 + '%');
+  gen_button.style('z-index',  100);
+  gen_button.mousePressed(function() {
+    clear()
+
+    stop_aud();
+    onsetsA = parseInt(inp.value());
+    onsetsB = parseInt(inp3.value());
+    pulsesA = parseInt(inp2.value());
+    pulsesB = parseInt(inp4.value());
+    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB);
+    pulses = pulsesA;
+    pulses_2 = pulsesB;
+    onset_1 = binaryRhythmA;
+    onset_2 = binaryRhythmB;
+    onset_3 = binaryRhythmA;
+
+
+  });
+
+  play_button= createButton('Play');
+  play_button.position(100, 150);
+  play_button.mousePressed(start_aud_gui);
+
+  stop_button= createButton('Stop');
+  stop_button.position(100, 200);
+  stop_button.mousePressed(stop_aud);
+
 
   textSize(20);
-  text('Onsets 1st Track', 800, 18);
-  let inp = createInput(onsetsA);
+  let inp = createInput(onsetsA.toString());
   inp.position(1000, 10);
   inp.size(100);
-  inp.input(function (){  clear();
-    onsetsA = this.value()});
 
   textSize(20);
-  text('Pulses 2nd Track', 800, 38);
-  let inp2 = createInput(pulsesA);
+  let inp2 = createInput(pulsesA.toString());
   inp2.position(1000, 30);
   inp2.size(100);
-  inp2.input(function (){  clear();
-    pulsesA = this.value()});
 
   textSize(20);
-  text('Onsets 2nd Track', 800, 58);
-  let inp3 = createInput(onsetsB);
+  let inp3 = createInput(onsetsB.toString());
   inp3.position(1000, 50);
   inp3.size(100);
-  inp3.input(function (){  clear();
-    onsetsB = this.value()});
 
   textSize(20);
-  text('Pulses 2nd Track', 800, 78);
-  let inp4 = createInput(pulsesB);
+  let inp4 = createInput(pulsesB.toString());
   inp4.position(1000, 70);
   inp4.size(100);
-  inp4.input(function (){  clear();
-    pulsesB = this.value()});
 
-  pop();
 }
 
 function draw() {
+  background('#141430')
+  textSize(20);
+  fill('#0');
+  text('1st Track', 5, 18);
+
+
+  textSize(20);
+  text('2nd Track', 5, 38);
+
+  textSize(20);
+  text('3rd Track', 5, 58);
+
+  text('4th Track', 5, 78);
+
+  text('Onsets 1st Track', 800, 18);
+
+  text('Pulses 1st Track', 800, 38);
+
+  text('Onsets 2nd Track', 800, 58);
+
+  text('Pulses 2nd Track', 800, 78);
+
+
   //background(220);
   let c = w/4; //center
-  let r = w/6; // radious main circle
+  let r = w/8; // radious main circle
   // main circle
   fill('#003459');
   circle(c, c, 2*r);
 
   for (let i = 0; i < pulses; i ++){
+    //console.log(i)
     let n_x = c+(r*cos(i*2*PI/pulses));
     let n_y = c+(r*sin(i*2*PI/pulses));
     fill(255,255,255);
@@ -114,9 +143,9 @@ function draw() {
   fill('#028090');
   circle(c, c, 2*r*0.7);
 
-  for (let i = 0; i < pulses; i ++){
-    let n_x = c+(r*0.7*cos(i*2*PI/pulses));
-    let n_y = c+(r*0.7*sin(i*2*PI/pulses));
+  for (let i = 0; i < pulses_2; i ++){
+    let n_x = c+(r*0.7*cos(i*2*PI/pulses_2));
+    let n_y = c+(r*0.7*sin(i*2*PI/pulses_2));
 
     fill(255,255,255);
     circle(n_x,n_y, c/10);
@@ -127,7 +156,7 @@ function draw() {
   }
 
   // third circle
-
+/*
   fill('#003459');
   circle(c, c, 2*r*0.4);
 
@@ -141,10 +170,11 @@ function draw() {
       fill('#02c39a');
       circle(n_x,n_y, c/10);
     }
-  }
+  }*/
 }
 
-function start_stop(){
+function start_aud_gui(){
   SynthTypes = [sel1.value(),sel2.value(),sel3.value(),sel4.value()];
+  console.log('audio started');
   start_aud();
 }
