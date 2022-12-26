@@ -33,9 +33,9 @@ let midiObject;
 // Creates full composition, with phase shifts
 let finalMidiObject;
 
-generateMidi(onsetsA = 3, pulsesA = 8, onsetsB = 3, pulsesB = 8);
+generateMidi(onsetsA = 3, pulsesA = 4, onsetsB = 3, pulsesB = 4);
 
-function generateMidi(onsetsA, pulses, onsetsB, pulsesB){
+function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB){
   // Variables that could change by user
 
   phaseShiftAmount = 1;                   // How many pulses is each shift
@@ -63,8 +63,10 @@ function generateMidi(onsetsA, pulses, onsetsB, pulsesB){
 
 // Create binary euclidean rhythm
   binaryRhythmA = euclidianPattern(onsetsA, pulsesA)
+  console.log('BR a onsets pulses', onsetsA, pulsesA)
+
   binaryRhythmB = euclidianPattern(onsetsB, pulsesB)
-//console.log(binaryRhythmB)
+  console.log('BR b onsets pulses ', onsetsB, pulsesB)
 
 
 // Convert into Midi object
@@ -80,92 +82,10 @@ function generateMidi(onsetsA, pulses, onsetsB, pulsesB){
 // Creates full composition, with phase shifts
   finalMidiObject = phaseAndCompose(midiObject, phaseShiftAmount, phaseShiftPeriod, length, numberOfTracks, mode)
   console.log(finalMidiObject)
+  howManyTracks(finalMidiObject, numberOfTracks)
 
   return;
 }
-
-/*
-let midiInProgress = new Midi()        // Midi object
-midiInProgress.name = "My Bloody Nightmare"
-
-// Pair 1
-let track1 = midiInProgress.addTrack()      // track/player 1, no shifting, base rhythm
-track1.name = "track1"
-let track2 = midiInProgress.addTrack()      // track/player 2, shifting occurs
-track2.name = "track2"
-
-// Pair 2
-let track3 = midiInProgress.addTrack()      // track/player 1, no shifting, base rhythm
-track3.name = "track3"
-let track4 = midiInProgress.addTrack()      // track/player 2, shifting occurs
-track4.name = "track4"
-
-let oneBarInTicks =midiInProgress.header.ppq*4 //length of a bar in ticks, normally 1920
-let pulseInTicksA = (oneBarInTicks)/pulsesA     //length of one pulse in ticks,normally for a 1/16th note = 120
-let pulseInTicksB = (oneBarInTicks)/pulsesB
-
-// Create binary euclidean rhythm
-let binaryRhythmA = euclidianPattern(onsetsA, pulsesA)
-let binaryRhythmB = euclidianPattern(onsetsB, pulsesB)
-//console.log(binaryRhythmB)
-
-
-// Convert into Midi object
-let midiObject = binaryRhythmToMidi(binaryRhythmA, midiInProgress, pulseInTicksA, 0)
-midiObject = binaryRhythmToMidi(binaryRhythmB, midiObject, pulseInTicksB, 2)
-
-
-//
-//for( let j = 0; j < 4; j++){
- // console.log(midiObject.tracks[j].notes.length)
-//}
-
-// Creates full composition, with phase shifts
-let finalMidiObject = phaseAndCompose(midiObject, phaseShiftAmount, phaseShiftPeriod, length, numberOfTracks, mode)
-console.log(finalMidiObject)
-
-*/
-
-
-
-howManyTracks(finalMidiObject, numberOfTracks)
-
-//for( let j = 0; j < 4; j++){
-//  console.log(finalMidiObject.tracks[j].notes.length)
-//}
-// Write midi object to a midi file
-//fs.writeFileSync("temp5.mid", new Buffer(finalMidiObject.toArray()))
-
-/*
-function start_stop(){
-  console.log("pressed")
-  if (!ready) {
-    initializeAudio();
-    ready = true;
-  } else {
-    // click again to play-button...
-    if (Tone.Transport.state === "stopped") Tone.Transport.start();
-    else if (Tone.Transport.state === "started") {
-      Tone.Transport.stop()
-
-      for(var i=0;i<synths.length;i++){
-        synths[i].context._timeouts.cancel(0);
-        synths[i].dispose();
-      }
-    }
-
-  }
-
-}
-
- */
-
-
-
-
-
-
-
 
 
 /////////////////////
@@ -175,6 +95,12 @@ function start_stop(){
 // takes onsets (hits) pulses (tatum/steps)
 // returns a string version of the rhythm eg 10010010
 function euclidianPattern(onsets, pulses) {
+  console.log('\n')
+  console.log(pulses - onsets)
+  console.log(pulses)
+  console.log(onsets)
+  console.log('\n')
+
   let U = new Array(pulses - onsets).fill([0]);
   let A = new Array(onsets).fill([1]);
   let B = [];
