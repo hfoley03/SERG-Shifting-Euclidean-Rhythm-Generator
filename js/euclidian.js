@@ -1,16 +1,90 @@
+let onsetsA;                             // How many hits
+let pulsesA;                             // How many steps, 4,8 or 16
+let onsetsB;
+let pulsesB;
 
-// Variables that could change by user
-let onsetsA = 3                             // How many hits
-let pulsesA = 8                             // How many steps, 4,8 or 16
-let onsetsB = 3
-let pulsesB = 8
+let phaseShiftAmount;                   // How many pulses is each shift
+let phaseShiftPeriod;                   // After how many bars does a shift occur
+let length;                            // Length of total piece
+let numberOfTracks;                     // Number of tracks/players
+let mode;                               // Play mode (not used)
+let scale;                      // Used to add 4th and 5th note of C (see function pitch())
+let midiInProgress;
+let track1;      // track/player 1, no shifting, base rhythm
+let track2;     // track/player 2, shifting occurs
 
-let phaseShiftAmount = 1;                   // How many pulses is each shift
-let phaseShiftPeriod = 1;                   // After how many bars does a shift occur
-let length = 8;                            // Length of total piece
-let numberOfTracks = 2;                     // Number of tracks/players
-let mode = 1;                               // Play mode (not used)
-let scale = ['F', 'G']                      // Used to add 4th and 5th note of C (see function pitch())
+// Pair 2
+let track3;     // track/player 1, no shifting, base rhythm
+let track4;      // track/player 2, shifting occurs
+
+let oneBarInTicks; //length of a bar in ticks, normally 1920
+let pulseInTicksA;     //length of one pulse in ticks,normally for a 1/16th note = 120
+let pulseInTicksB;
+
+// Create binary euclidean rhythm
+let binaryRhythmA;
+let binaryRhythmB;
+//console.log(binaryRhythmB)
+
+
+// Convert into Midi object
+let midiObject;
+
+// Creates full composition, with phase shifts
+let finalMidiObject;
+
+generateMidi(onsetsA = 3, pulsesA = 8, onsetsB = 3, pulsesB = 8);
+
+function generateMidi(onsetsA, pulses, onsetsB, pulsesB){
+  // Variables that could change by user
+
+  phaseShiftAmount = 1;                   // How many pulses is each shift
+  phaseShiftPeriod = 1;                   // After how many bars does a shift occur
+  length = 8;                            // Length of total piece
+  numberOfTracks = 2;                     // Number of tracks/players
+  mode = 1;                               // Play mode (not used)
+  scale = ['F', 'G']                      // Used to add 4th and 5th note of C (see function pitch())
+  midiInProgress = new Midi();
+  midiInProgress.name = "My Bloody Nightmare"
+  track1 = midiInProgress.addTrack()      // track/player 1, no shifting, base rhythm
+  track1.name = "track1"
+  track2 = midiInProgress.addTrack()      // track/player 2, shifting occurs
+  track2.name = "track2"
+
+// Pair 2
+  track3 = midiInProgress.addTrack()      // track/player 1, no shifting, base rhythm
+  track3.name = "track3"
+  track4 = midiInProgress.addTrack()      // track/player 2, shifting occurs
+  track4.name = "track4"
+
+  oneBarInTicks =midiInProgress.header.ppq*4 //length of a bar in ticks, normally 1920
+  pulseInTicksA = (oneBarInTicks)/pulsesA     //length of one pulse in ticks,normally for a 1/16th note = 120
+  pulseInTicksB = (oneBarInTicks)/pulsesB
+
+// Create binary euclidean rhythm
+  binaryRhythmA = euclidianPattern(onsetsA, pulsesA)
+  binaryRhythmB = euclidianPattern(onsetsB, pulsesB)
+//console.log(binaryRhythmB)
+
+
+// Convert into Midi object
+  midiObject = binaryRhythmToMidi(binaryRhythmA, midiInProgress, pulseInTicksA, 0)
+  midiObject = binaryRhythmToMidi(binaryRhythmB, midiObject, pulseInTicksB, 2)
+
+
+  /*
+  for(  j = 0; j < 4; j++){
+    console.log(midiObject.tracks[j].notes.length)
+  }*/
+
+// Creates full composition, with phase shifts
+  finalMidiObject = phaseAndCompose(midiObject, phaseShiftAmount, phaseShiftPeriod, length, numberOfTracks, mode)
+  console.log(finalMidiObject)
+
+  return;
+}
+
+/*
 let midiInProgress = new Midi()        // Midi object
 midiInProgress.name = "My Bloody Nightmare"
 
@@ -41,14 +115,18 @@ let midiObject = binaryRhythmToMidi(binaryRhythmA, midiInProgress, pulseInTicksA
 midiObject = binaryRhythmToMidi(binaryRhythmB, midiObject, pulseInTicksB, 2)
 
 
-/*
-for( let j = 0; j < 4; j++){
-  console.log(midiObject.tracks[j].notes.length)
-}*/
+//
+//for( let j = 0; j < 4; j++){
+ // console.log(midiObject.tracks[j].notes.length)
+//}
 
 // Creates full composition, with phase shifts
 let finalMidiObject = phaseAndCompose(midiObject, phaseShiftAmount, phaseShiftPeriod, length, numberOfTracks, mode)
 console.log(finalMidiObject)
+
+*/
+
+
 //for( let j = 0; j < 4; j++){
 //  console.log(finalMidiObject.tracks[j].notes.length)
 //}

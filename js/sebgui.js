@@ -4,11 +4,17 @@ let w = window.innerWidth;
 let h = window.innerHeight;
 let pulses = pulsesA;
 let pulses_2 = pulsesB;
-let onset_1 = binaryRhythmA
-let onset_2 = binaryRhythmB
+let onset_1 = binaryRhythmA;
+let onset_2 = binaryRhythmB;
 let onset_3 = binaryRhythmA;
-let button1;
-let button2;
+let onsetsA_buf;
+let onsetsB_buf;
+let pulsesA_buf;
+let pulsesB_buf;
+
+let gen_button;
+let play_button;
+let stop_button;
 
 function setup() {
   frameRate(5)
@@ -48,13 +54,26 @@ function setup() {
   sel4.option('Pluck');
   sel4.selected('Pluck');
 
-  button1 = createButton('Start/Reset me');
-  button1.position(100, 100);
-  button1.mousePressed(start_stop);
+  gen_button = createButton('Generate');
+  gen_button.position(100, 100);
+  gen_button.mousePressed(function() {
+    stop_aud();
+    onsetsA = onsetsA_buf;
+    onsetsB = onsetsB_buf;
+    pulsesA = pulsesA_buf;
+    pulsesB = pulsesB_buf;
+    generateMidi(onsetsA, pulses, onsetsB, pulsesB);
 
-  button2= createButton('Pause/Cont');
-  button2.position(300, 50);
-  button2.mousePressed(pause_cont);
+  });
+
+  play_button= createButton('Play');
+  play_button.position(100, 150);
+  play_button.mousePressed(start_aud_gui);
+
+  stop_button= createButton('Stop/Reset');
+  stop_button.position(100, 200);
+  stop_button.mousePressed(stop_aud);
+
 
   textSize(20);
   text('Onsets 1st Track', 800, 18);
@@ -62,7 +81,7 @@ function setup() {
   inp.position(1000, 10);
   inp.size(100);
   inp.input(function (){  clear();
-    onsetsA = this.value()});
+    onsetsA_buf = this.value()});
 
   textSize(20);
   text('Pulses 2nd Track', 800, 38);
@@ -70,7 +89,7 @@ function setup() {
   inp2.position(1000, 30);
   inp2.size(100);
   inp2.input(function (){  clear();
-    pulsesA = this.value()});
+    pulsesA_buf = this.value()});
 
   textSize(20);
   text('Onsets 2nd Track', 800, 58);
@@ -78,7 +97,7 @@ function setup() {
   inp3.position(1000, 50);
   inp3.size(100);
   inp3.input(function (){  clear();
-    onsetsB = this.value()});
+    onsetsB_buf = this.value()});
 
   textSize(20);
   text('Pulses 2nd Track', 800, 78);
@@ -86,7 +105,7 @@ function setup() {
   inp4.position(1000, 70);
   inp4.size(100);
   inp4.input(function (){  clear();
-    pulsesB = this.value()});
+    pulsesB_buf = this.value()});
 
   pop();
 }
@@ -144,7 +163,8 @@ function draw() {
   }
 }
 
-function start_stop(){
+function start_aud_gui(){
   SynthTypes = [sel1.value(),sel2.value(),sel3.value(),sel4.value()];
+  console.log('audio started');
   start_aud();
 }

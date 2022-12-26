@@ -57,26 +57,22 @@ function start_aud() {
   } else {
     // click again to play-button...
     pause_flag = false;
-    if (Tone.Transport.state === "stopped") Tone.Transport.start();
-    else if (Tone.Transport.state === "started") {
-      Tone.Transport.stop()
+    Tone.Transport.start();
+  }
+}
 
+function stop_aud(){
+  Tone.Transport.stop();
 
-      for (var i = 0; i < synths.length; i++) {
-        synths[i].context._timeouts.cancel(0);
-        console.log('synths')
+  for (var i = 0; i < synths.length; i++) {
+    synths[i].context._timeouts.cancel(0);
+    console.log('synths')
 
-        console.log(synths)
-        synths[i].dispose();
-        console.log('\n\n')
+    console.log(synths)
+    synths[i].dispose();
+    console.log('\n\n')
 
-        console.log(synths)
-
-      }
-
-
-
-    }
+    console.log(synths)
 
   }
 }
