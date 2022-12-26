@@ -127,6 +127,9 @@ console.log(finalMidiObject)
 */
 
 
+
+howManyTracks(finalMidiObject, numberOfTracks)
+
 //for( let j = 0; j < 4; j++){
 //  console.log(finalMidiObject.tracks[j].notes.length)
 //}
@@ -223,6 +226,7 @@ function binaryRhythmToMidi(binaryRhythm, midiInProgress, pulseInTicks, offSet=0
 // creates full "composition" by extending these tracks, track 1 with no shifting (base rhythm), track 2 with shifting
 function phaseAndCompose(midiInProgress,phaseShiftAmount, phaseShiftPeriod,length, numberOfTracks, mode){
   console.log("Phase and Compose")
+  let newTicks;
   let track1_ = midiInProgress.tracks[0]
   let track2_ = midiInProgress.tracks[1]
   let track3_ = midiInProgress.tracks[2]
@@ -248,9 +252,9 @@ function phaseAndCompose(midiInProgress,phaseShiftAmount, phaseShiftPeriod,lengt
           previousBarTicks.push(previousBar[x].ticks)
         }
         //console.log(previousBarTicks)
-        if ( (barNumber % phaseShiftPeriod == 0) && (players[t].name == ("track2") || players[t].name == ("track3")) ) { // Shift notes in next bar
+        if ( (barNumber % phaseShiftPeriod == 0) && (players[t].name == ("track2") || players[t].name == ("track4")) ) { // Shift notes in next bar
           for (let noteIndex = 0; noteIndex < previousBarTicks.length; noteIndex++) {
-            var newTicks = previousBarTicks[noteIndex] + oneBarInTicks + phaseShiftAmount * trackSpecificPulseInTicks
+            newTicks = previousBarTicks[noteIndex] + oneBarInTicks + phaseShiftAmount * trackSpecificPulseInTicks
             //console.log("new ticks: " + newTicks + " limit " + (oneBarInTicks + oneBarInTicks * barNumber))
             if (newTicks >= (oneBarInTicks + oneBarInTicks * barNumber)) { // New position of onset is beyond the limits of this bar
               newTicks = newTicks - oneBarInTicks            // Circshift
@@ -259,7 +263,7 @@ function phaseAndCompose(midiInProgress,phaseShiftAmount, phaseShiftPeriod,lengt
           }
         } else { //no shift, just copy previous bar
           for (let noteIndex = 0; noteIndex < previousBarTicks.length; noteIndex++) {
-            var newTicks = previousBar[noteIndex].ticks + oneBarInTicks
+            newTicks = previousBar[noteIndex].ticks + oneBarInTicks
             createNote(players[t], newTicks, trackSpecificPulseInTicks)
           }
         }
@@ -295,13 +299,23 @@ function createNote(track_, timeTicks, pulseInTicks_){
 
 // creates random velocity,
 function vel(){
-  var vel_ = Math.random()
-  if (vel < 0.5){ // needed as a velocity of zero means no note
+  let vel_ = Math.random();
+  if (vel_ < 0.5){ // needed as a velocity of zero means no note
     vel_ = vel_ + 0.4
   }
   return vel_
 }
 
+// deletes tracks if number of tracks wanted is less than 4
+// will delete all tracks if numberOfTracks is 0
+function howManyTracks(midiObject, num){
+  if( num < 4){
+    num = 4 - num
+    for(let i = 0; i < num; i++ ){
+      midiObject.tracks.pop();
+    }
+  }
+}
 
 
 
