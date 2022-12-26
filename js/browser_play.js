@@ -28,7 +28,7 @@ function initializeAudio() {
 
 //This function creates the synths and sends them to the master, added by Eray
 function playNotes() {
-  synths = [];
+  //synths = [];
   finalMidiObject.tracks.forEach((track, index) => {
 
     synth_type = SynthTypes[index];
