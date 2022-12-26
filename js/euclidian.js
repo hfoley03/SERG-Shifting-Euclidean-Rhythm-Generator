@@ -33,15 +33,15 @@ let midiObject;
 // Creates full composition, with phase shifts
 let finalMidiObject;
 
-generateMidi(onsetsA = 3, pulsesA = 4, onsetsB = 3, pulsesB = 4);
+generateMidi(onsetsA = 4, pulsesA = 4, onsetsB = 3, pulsesB = 4);
 
 function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB){
   // Variables that could change by user
 
   phaseShiftAmount = 1;                   // How many pulses is each shift
   phaseShiftPeriod = 1;                   // After how many bars does a shift occur
-  length = 8;                            // Length of total piece
-  numberOfTracks = 4;                     // Number of tracks/players
+  length = 4;                            // Length of total piece
+  numberOfTracks = 1;                     // Number of tracks/players
   mode = 1;                               // Play mode (not used)
   scale = ['F', 'G']                      // Used to add 4th and 5th note of C (see function pitch())
   midiInProgress = new Midi();
@@ -63,10 +63,10 @@ function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB){
 
 // Create binary euclidean rhythm
   binaryRhythmA = euclidianPattern(onsetsA, pulsesA)
-  console.log('BR a onsets pulses', onsetsA, pulsesA)
+//  console.log('BR a onsets pulses', onsetsA, pulsesA)
 
   binaryRhythmB = euclidianPattern(onsetsB, pulsesB)
-  console.log('BR b onsets pulses ', onsetsB, pulsesB)
+//  console.log('BR b onsets pulses ', onsetsB, pulsesB)
 
 
 // Convert into Midi object
@@ -81,7 +81,7 @@ function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB){
 
 // Creates full composition, with phase shifts
   finalMidiObject = phaseAndCompose(midiObject, phaseShiftAmount, phaseShiftPeriod, length, numberOfTracks, mode)
-  console.log(finalMidiObject)
+//  console.log(finalMidiObject)
   howManyTracks(finalMidiObject, numberOfTracks)
 
   return;
@@ -120,8 +120,9 @@ function euclidianPattern(onsets, pulses) {
   if (U[0]) {
     output = (A.join() + U[0].toString()).replaceAll(',', '');
   }
-  console.log("Binary Rhthtm: " + output)
+  //console.log("Binary Rhthtm: " + output)
   return output
+
 }
 
 
@@ -135,7 +136,7 @@ function binaryRhythmToMidi(binaryRhythm, midiInProgress, pulseInTicks, offSet=0
     if (binaryRhythm[i]==1){
       createNote(tracka, (i * pulseInTicks), pulseInTicks)
       createNote(trackb, (i * pulseInTicks), pulseInTicks)
-      console.log("notes added to tracks: " + tracka.name + "  & " +trackb.name )
+      //console.log("notes added to tracks: " + tracka.name + "  & " +trackb.name )
     }
   }
   //console.log(midiInProgress.tracks[0].notes)
@@ -145,7 +146,7 @@ function binaryRhythmToMidi(binaryRhythm, midiInProgress, pulseInTicks, offSet=0
 // function takes a midi object containing two tracks with each track of length 1 bar
 // creates full "composition" by extending these tracks, track 1 with no shifting (base rhythm), track 2 with shifting
 function phaseAndCompose(midiInProgress,phaseShiftAmount, phaseShiftPeriod,length, numberOfTracks, mode){
-  console.log("Phase and Compose")
+//  console.log("Phase and Compose")
   let newTicks;
   let track1_ = midiInProgress.tracks[0]
   let track2_ = midiInProgress.tracks[1]
@@ -158,7 +159,7 @@ function phaseAndCompose(midiInProgress,phaseShiftAmount, phaseShiftPeriod,lengt
     var trackSpecificOnsets = players[t].notes.length
     var trackSpecificPulses = oneBarInTicks/trackSpecificPulseInTicks
 
-    console.log("player " + players[t].name + " onsets: " + trackSpecificOnsets + " pulses: " + trackSpecificPulses +" values of pulse: " + trackSpecificPulseInTicks)
+//    console.log("player " + players[t].name + " onsets: " + trackSpecificOnsets + " pulses: " + trackSpecificPulses +" values of pulse: " + trackSpecificPulseInTicks)
 
     for (let barNumber = 0; barNumber < length; barNumber++) {   // For each bar in the total length of composition
       //console.log("bar no.: " + barNumber)
@@ -167,11 +168,12 @@ function phaseAndCompose(midiInProgress,phaseShiftAmount, phaseShiftPeriod,lengt
         //Create an array of the ticks of the previous bar
         //REFACTOR?
         var previousBar = players[t].notes.slice(((barNumber - 1) * trackSpecificOnsets), ((barNumber - 1) * trackSpecificOnsets) + (trackSpecificOnsets))
+        //console.log(previousBar)
         const previousBarTicks = Array()
         for (let x = 0; x < previousBar.length; x++) {
           previousBarTicks.push(previousBar[x].ticks)
         }
-        //console.log(previousBarTicks)
+        console.log(previousBarTicks)
         if ( (barNumber % phaseShiftPeriod == 0) && (players[t].name == ("track2") || players[t].name == ("track4")) ) { // Shift notes in next bar
           for (let noteIndex = 0; noteIndex < previousBarTicks.length; noteIndex++) {
             newTicks = previousBarTicks[noteIndex] + oneBarInTicks + phaseShiftAmount * trackSpecificPulseInTicks
@@ -195,11 +197,11 @@ function phaseAndCompose(midiInProgress,phaseShiftAmount, phaseShiftPeriod,lengt
 
 
 function pitch(){
-  /*if (Math.random() > 0.1){
+  if (Math.random() > 0.1){
     return get_random(scale)
-  }*/
-  //else {
-  return 'C'//  }
+  }
+  else {
+  return 'C'  }
 }
 
 function get_random (list) {

@@ -9,7 +9,7 @@ let ready = false; // if ready to play or not
 
 let main_loop = new Tone.Loop(playNotes , main_loop_interval);
 let print_loop = new Tone.Loop(() => {
-  console.log("Loop")
+  //console.log("Loop")
 } , main_loop_interval);
 
 let pause_flag = false;
@@ -28,7 +28,9 @@ function initializeAudio() {
 
 //This function creates the synths and sends them to the master, added by Eray
 function playNotes() {
+
   //synths = [];
+  time_common_track = Tone.now();
   finalMidiObject.tracks.forEach((track, index) => {
 
     synth_type = SynthTypes[index];
@@ -36,13 +38,12 @@ function playNotes() {
     if (synth_type == "Membrane") var synth = new Tone.MembraneSynth().toMaster()
     else if (synth_type == "Pluck") var synth = new Tone.PluckSynth().toMaster()
     //create a synth for each track
-    if (pause_flag == true) synth.volume.value = -100;
 
     synths.push(synth)
 
     //schedule the events
     track.notes.forEach(note => {
-      synth.triggerAttackRelease(note.name, note.duration, note.time + Tone.now(), note.velocity)
+      synth.triggerAttackRelease(note.name, note.duration, time_common_track + note.time + 0.5, note.velocity)
     })
 
   })
@@ -50,7 +51,7 @@ function playNotes() {
 
 // Initializes and starts and stops the audio, called from gui.js
 function start_aud() {
-  console.log("pressed")
+  //console.log("pressed")
   if (!ready) {
     initializeAudio();
     ready = true;
@@ -66,32 +67,15 @@ function stop_aud(){
 
   for (var i = 0; i < synths.length; i++) {
     synths[i].context._timeouts.cancel(0);
-    console.log('synths')
+    //console.log('synths')
 
-    console.log(synths)
+    //console.log(synths)
     synths[i].dispose();
-    console.log('\n\n')
-
-    console.log(synths)
 
   }
 }
 
 function pause_cont(){
-
-  /*if (pause_flag == false){
-
-    for (var i = 0; i < synths.length; i++) {
-      synths[i].volume.value = -100;
-      pause_flag = true;
-    }
-  }
-  else {
-    for (var i = 0; i < synths.length; i++) {
-      synths[i].volume.value = -9;
-      pause_flag = false;
-    }
-  }*/
 
   if (synths.some((x) => x.volume.value > -79)){
     for (var i = 0; i < synths.length; i++) {
