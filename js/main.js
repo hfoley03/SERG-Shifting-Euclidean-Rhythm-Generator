@@ -2,15 +2,15 @@ import Midi from "@tonejs/midi";
 import fs from 'fs';
 
 // Variables that could change by user
-let onsetsA = 3                             // How many hits
+let onsetsA = 4                             // How many hits
 let pulsesA = 4                              // How many steps, 4,8 or 16
 let onsetsB = 5
 let pulsesB = 8
 
-let phaseShiftAmount = 1;                   // How many pulses is each shift
-let phaseShiftPeriod = 1;                   // After how many bars does a shift occur
+let phaseShiftAmount = 0;                   // How many pulses is each shift
+let phaseShiftPeriod = 0;                   // After how many bars does a shift occur
 let length = 64;                            // Length of total piece
-let numberOfTracks = 5;                     // Number of tracks/players
+let numberOfTracks = 2;                     // Number of tracks/players
 let mode = 1;                               // Play mode (not used)
 let scale = ['F', 'G']                      // Used to add 4th and 5th note of C (see function pitch())
 let midiInProgress = new Midi.Midi()        // Midi object

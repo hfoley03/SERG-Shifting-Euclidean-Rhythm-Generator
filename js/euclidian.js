@@ -1,7 +1,7 @@
 
 // Variables that could change by user
-let onsetsA = 3                             // How many hits
-let pulsesA = 8                             // How many steps, 4,8 or 16
+let onsetsA = 4                             // How many hits
+let pulsesA = 4                             // How many steps, 4,8 or 16
 let onsetsB = 4
 let pulsesB = 8
 
