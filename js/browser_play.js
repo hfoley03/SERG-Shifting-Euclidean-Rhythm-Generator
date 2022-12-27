@@ -4,7 +4,7 @@ let synths = []
 Tone.Destination.volume.value = -9; // this value is in dB
 
 let main_bpm = 120;
-let main_loop_interval = length; // duration of looping
+let main_loop_interval = length*2; // duration of looping
 let ready = false; // if ready to play or not
 
 let main_loop = new Tone.Loop(playNotes , main_loop_interval);
@@ -26,7 +26,7 @@ function initializeAudio() {
 }
 
 
-//This function creates the synths and sends them to the master, added by Eray
+//This function creates the synths and sends them to the master
 function playNotes() {
 
   //synths = [];
@@ -40,7 +40,7 @@ function playNotes() {
     //create a synth for each track
 
     synths.push(synth)
-
+    console.log(synth)
     //schedule the events
     track.notes.forEach(note => {
       synth.triggerAttackRelease(note.name, note.duration, time_common_track + note.time + 0.5, note.velocity)
