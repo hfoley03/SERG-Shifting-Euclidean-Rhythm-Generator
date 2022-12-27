@@ -43,7 +43,7 @@ function setup() {
 
 
   gen_button = createButton('Generate');
-  gen_button.position(1000, 100);
+  gen_button.position(1000, 180);
   gen_button.style('background-color', '#02c39a');
   gen_button.style('border-radius' , 50 + '%');
   gen_button.style('z-index',  100);
@@ -51,6 +51,10 @@ function setup() {
     clear()
 
     stop_aud();
+    phaseShiftAmount = parseInt(phaseShiftAmountInp.value());                   // How many pulses is each shift
+    phaseShiftPeriod = parseInt(phaseShiftAmountInp.value());                   // After how many bars does a shift occur
+    length = parseInt(lengthInp.value());                            // Length of total piece
+    numberOfTracks = parseInt(numberOfTracksInp.value());
     onsetsA = parseInt(inp.value());
     onsetsB = parseInt(inp3.value());
     pulsesA = parseInt(inp2.value());
@@ -74,25 +78,37 @@ function setup() {
   stop_button.mousePressed(stop_aud);
 
 
-  textSize(20);
   let inp = createInput(onsetsA.toString());
   inp.position(1000, 10);
   inp.size(100);
 
-  textSize(20);
   let inp2 = createInput(pulsesA.toString());
   inp2.position(1000, 30);
   inp2.size(100);
 
-  textSize(20);
   let inp3 = createInput(onsetsB.toString());
   inp3.position(1000, 50);
   inp3.size(100);
 
-  textSize(20);
   let inp4 = createInput(pulsesB.toString());
   inp4.position(1000, 70);
   inp4.size(100);
+
+  let phaseShiftAmountInp = createInput(phaseShiftAmount.toString());
+  phaseShiftAmountInp.position(1000, 90);
+  phaseShiftAmountInp.size(100);
+
+  let phaseShiftPeriodInp = createInput(phaseShiftPeriod.toString());
+  phaseShiftPeriodInp.position(1000, 110);
+  phaseShiftPeriodInp.size(100);
+
+  let lengthInp = createInput(length.toString());
+  lengthInp.position(1000, 130);
+  lengthInp.size(100);
+
+  let numberOfTracksInp = createInput(numberOfTracks.toString());
+  numberOfTracksInp.position(1000, 150);
+  numberOfTracksInp.size(100);
 
 }
 
@@ -118,6 +134,12 @@ function draw() {
   text('Onsets 2nd Track', 800, 58);
 
   text('Pulses 2nd Track', 800, 78);
+
+  text('Phase Shift Amount', 800, 98)
+  text('Phase Shift Period', 800, 118)
+  text('Piece length', 800, 138)
+  text('Number of Tracks', 800, 158)
+
 
 
   //background(220);
