@@ -24,6 +24,12 @@ let All_Synths = ['AMSynth',
   'Sampler',
   'Synth']
 
+var bg;
+
+function preload(){
+  bg = loadImage("https://raw.githubusercontent.com/Rabbid76/graphics-snippets/master/resource/texture/background.jpg")
+  bg = loadImage("https://cdn.videoplasty.com/animation/merry-christmas-background-and-giftcard-stock-animation-16874-1280x720.jpg")
+}
 function setup() {
   frameRate(100)
   createCanvas(w,h);
@@ -119,7 +125,8 @@ function setup() {
 }
 
 function draw() {
-  background('#141430')
+  //background('#141430')
+  background(bg)
   textSize(20);
   fill('#0');
   text('1st Track', 5, 18);
