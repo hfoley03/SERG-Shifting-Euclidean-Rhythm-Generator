@@ -12,34 +12,40 @@ let gen_button;
 let play_button;
 let stop_button;
 
+let All_Synths = ['AMSynth',
+  'DuoSynth',
+  'FMSynth',
+  'MembraneSynth',
+  'MetalSynth',
+  'MonoSynth',
+  'NoiseSynth',
+  'PluckSynth',
+  'PolySynth',
+  'Sampler',
+  'Synth']
+
 function setup() {
   frameRate(100)
   createCanvas(w,h);
 
-  sel1 = createSelect();
-  sel1.position(110, 10);
-  sel1.option('Membrane');
-  sel1.option('Pluck');
-  sel1.selected('Membrane');
-
-  sel2 = createSelect();
-  sel2.position(110, 30);
-  sel2.option('Membrane');
-  sel2.option('Pluck');
-  sel2.selected('Pluck');
-
-
-  sel3 = createSelect();
-  sel3.position(110, 50);
-  sel3.option('Membrane');
-  sel3.option('Pluck');
-  sel3.selected('Membrane');
-
-  sel4 = createSelect();
-  sel4.position(110, 70);
-  sel4.option('Membrane');
-  sel4.option('Pluck');
-  sel4.selected('Pluck');
+  tr1 = createSelect();
+  tr1.position(110, 10);
+  tr2 = createSelect();
+  tr2.position(110, 30);
+  tr3 = createSelect();
+  tr3.position(110, 50);
+  tr4 = createSelect();
+  tr4.position(110, 70);
+  for( i = 0; i<All_Synths.length;i++){
+    tr1.option(All_Synths[i]);
+    tr2.option(All_Synths[i]);
+    tr3.option(All_Synths[i]);
+    tr4.option(All_Synths[i]);
+  }
+  tr1.selected('MembraneSynth');
+  tr2.selected('PluckSynth');
+  tr3.selected('MembraneSynth');
+  tr4.selected('PluckSynth');
 
 
   gen_button = createButton('Generate');
@@ -196,7 +202,7 @@ function draw() {
 }
 
 function start_aud_gui(){
-  SynthTypes = [sel1.value(),sel2.value(),sel3.value(),sel4.value()];
+  SynthTypes = [tr1.value(),tr2.value(),tr3.value(),tr4.value()];
   console.log('audio started');
   start_aud();
 }

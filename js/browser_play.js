@@ -35,8 +35,16 @@ function playNotes() {
 
     synth_type = SynthTypes[index];
 
-    if (synth_type == "Membrane") var synth = new Tone.MembraneSynth().toMaster()
-    else if (synth_type == "Pluck") var synth = new Tone.PluckSynth().toMaster()
+    if (synth_type == "MembraneSynth") var synth = new Tone.MembraneSynth().toMaster()
+    else if (synth_type == "PluckSynth") var synth = new Tone.PluckSynth().toMaster()
+    else if (synth_type == "AMSynth") var synth = new Tone.AMSynth().toMaster()
+    else if (synth_type == "DuoSynth") var synth = new Tone.DuoSynth().toMaster()
+    else if (synth_type == "FMSynth") var synth = new Tone.FMSynth().toMaster()
+    else if (synth_type == "MetalSynth") var synth = new Tone.MetalSynth().toMaster()
+    else if (synth_type == "MonoSynth") var synth = new Tone.MonoSynth().toMaster()
+    else if (synth_type == "NoiseSynth") var synth = new Tone.NoiseSynth().toMaster()
+    else if (synth_type == "PolySynth") var synth = new Tone.PolySynth().toMaster()
+    //else if (synth_type == "Sampler") var synth = new Tone.PluckSynth().toMaster()
     //create a synth for each track
 
     synths.push(synth)
