@@ -19,8 +19,8 @@ function setup() {
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
   gen_button = createButton('Generate');
   gen_button.position(3.5*w/12, h/3);
-  gen_button.style('background-color', '#89a194');
-  gen_button.style('border-color', '#89a194');
+  gen_button.style('background-color', '#878F9B');
+  gen_button.style('border-color', '#878F9B');
   gen_button.style('border-radius' , 10 + '%');
   gen_button.style('z-index',  100);
   gen_button.mousePressed(function() {
@@ -67,16 +67,16 @@ function setup() {
   // ---- Play button
   play_button = createButton('Play');
   play_button.position(6*w/12, h/3);
-  play_button.style('background-color', '#89a194');
-  play_button.style('border-color', '#89a194');
+  play_button.style('background-color', '#878F9B');
+  play_button.style('border-color', '#878F9B');
   play_button.style('border-radius' , 10 + '%');
   play_button.mousePressed(start_aud_gui);
 
   // ---- Stop button
   stop_button = createButton('Stop');
   stop_button.position(8*w/12, h/3);
-  stop_button.style('background-color', '#89a194');
-  stop_button.style('border-color', '#89a194');
+  stop_button.style('background-color', '#878F9B');
+  stop_button.style('border-color', '#878F9B');
   stop_button.style('border-radius' , 10 + '%');
   stop_button.mousePressed(stop_aud);
 
@@ -101,9 +101,9 @@ function setup() {
 
 function draw() {
 
-  background('#4e5c69');
+  background('#4F5D75');
 
-  fill('#a6c288');
+  fill('#FFFFFF');
   textSize(40);
   text('1st Track', w/12, h/10);
   textSize(20);
@@ -123,7 +123,7 @@ function draw() {
 
   // ------- Generation of Concentric Circles
 
-  let c = 2*w/8 + 30; // center
+  let c = w/4; // center
   let r = w/8; // radius main circle
 
   let proportion = 1;                // Relation between concentric circles
@@ -159,6 +159,33 @@ function draw() {
     }
   }
 
+  proportion = 1;
+  ShuffleCircle(onset_1,pulses_1,proportion,cl1,cl2)
+
+  proportion = 0.7;
+  ShuffleCircle(onset_2,pulses_2,proportion,cl3,cl4)
+
+  function ShuffleCircle(onset,pulses,prt,color1,color2){
+    noStroke();
+
+    let x = 6*h/4;
+    let y = w/4;
+    let r2 = w/4;
+
+    for(let i = 0; i < pulses; i++) {
+      if(onset[i] == 1){
+        fill(color1)
+        arc(x,y,prt*r2,prt*r2,2*PI*(1-(i+1)/pulses),2*PI*(1-i/pulses),PIE);
+        fill('#4F5D75')
+        arc(x,y,prt*r2-15,prt*r2-15,0,2*PI,PIE);
+      }else{
+        fill(color2)
+        arc(x,y,r2*prt,r2*prt,2*PI*(1-(i+1)/pulses),2*PI*(1-i/pulses),PIE);
+        fill('#4F5D75')
+        arc(x,y,prt*r2-15,prt*r2-15,0,2*PI,PIE)
+      }
+    }
+  }
 }
 function start_aud_gui() {
   SynthTypes = [sel1.value(), sel2.value(), sel3.value(), sel4.value()];
