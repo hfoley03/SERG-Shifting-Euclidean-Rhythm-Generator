@@ -2,15 +2,12 @@
 
 let w = window.innerWidth;
 let h = window.innerHeight;
-let pulses = pulsesA;
-let pulses_2 = pulsesB;
-let onset_1 = binaryRhythmA;
-let onset_2 = binaryRhythmB;
-let onset_3 = binaryRhythmA;
 
 let gen_button;
 let play_button;
 let stop_button;
+
+var x=0;
 
 let All_Synths = ['AMSynth',
   'DuoSynth',
@@ -27,17 +24,21 @@ let All_Synths = ['AMSynth',
 var bg;
 
 function preload(){
-  bg = loadImage("https://raw.githubusercontent.com/Rabbid76/graphics-snippets/master/resource/texture/background.jpg")
+  //bg = loadImage("https://raw.githubusercontent.com/Rabbid76/graphics-snippets/master/resource/texture/background.jpg")
   bg = loadImage("https://cdn.videoplasty.com/animation/merry-christmas-background-and-giftcard-stock-animation-16874-1280x720.jpg")
 }
 function setup() {
   frameRate(100)
   createCanvas(w,h);
+  rectMode(CENTER);
 
+
+  // Synth Inputs
   tr1 = createSelect();
   tr1.position(110, 10);
   tr2 = createSelect();
   tr2.position(110, 30);
+
   tr3 = createSelect();
   tr3.position(110, 50);
   tr4 = createSelect();
@@ -54,12 +55,13 @@ function setup() {
   tr4.selected('PluckSynth');
 
 
-  gen_button = createButton('Generate');
-  gen_button.position(1000, 180);
+  gen_button = createButton('⚡');
+  gen_button.position(996, 180);
   gen_button.style('background-color', '#02c39a');
-  gen_button.style('border-radius' , 50 + '%');
+  gen_button.style('border-radius' , 18 + '%');
   gen_button.style('z-index',  100);
-  gen_button.mousePressed(function() {
+  gen_button.style('height', 30 + 'px');
+  gen_button.mousePressed (function() {
     clear()
 
     stop_aud();
@@ -72,62 +74,74 @@ function setup() {
     pulsesA = parseInt(inp2.value());
     pulsesB = parseInt(inp4.value());
     generateMidi(onsetsA, pulsesA, onsetsB, pulsesB);
-    pulses = pulsesA;
-    pulses_2 = pulsesB;
-    onset_1 = binaryRhythmA;
-    onset_2 = binaryRhythmB;
-    onset_3 = binaryRhythmA;
 
-
+    gen_button.style('background-color', '#02139b')
   });
 
-  play_button= createButton('Play');
+  gen_button.mouseReleased(function () {gen_button.style('background-color', '#02c39a')});
+
+  play_button= createButton('&#9654');
+  play_button.style('width', 30 + 'px')
+  play_button.style('height', 30 + 'px')
+
   play_button.position(100, 150);
   play_button.mousePressed(start_aud_gui);
+  /*
+  play_button.style('width', 0);
+  play_button.style('height', 0);
+  play_button.style('border-top', 25 +"px solid #141430");
+  play_button.style('border-left', 10+"px solid #555");
+  play_button.style('border-bottom', 25+"px solid #141430");
+   */
 
-  stop_button= createButton('Stop');
-  stop_button.position(100, 200);
+  stop_button= createButton('&#9982');
+  stop_button.position(130, 150);
   stop_button.mousePressed(stop_aud);
+
+  stop_button.style('width', 30 + 'px')
+  stop_button.style('height', 30 + 'px')
 
 
   let inp = createInput(onsetsA.toString());
   inp.position(1000, 10);
-  inp.size(100);
+  inp.size(20);
+
 
   let inp2 = createInput(pulsesA.toString());
   inp2.position(1000, 30);
-  inp2.size(100);
+  inp2.size(20);
 
   let inp3 = createInput(onsetsB.toString());
   inp3.position(1000, 50);
-  inp3.size(100);
+  inp3.size(20);
 
   let inp4 = createInput(pulsesB.toString());
   inp4.position(1000, 70);
-  inp4.size(100);
+  inp4.size(20);
 
   let phaseShiftAmountInp = createInput(phaseShiftAmount.toString());
   phaseShiftAmountInp.position(1000, 90);
-  phaseShiftAmountInp.size(100);
+  phaseShiftAmountInp.size(20);
 
   let phaseShiftPeriodInp = createInput(phaseShiftPeriod.toString());
   phaseShiftPeriodInp.position(1000, 110);
-  phaseShiftPeriodInp.size(100);
+  phaseShiftPeriodInp.size(20);
 
   let lengthInp = createInput(length.toString());
   lengthInp.position(1000, 130);
-  lengthInp.size(100);
+  lengthInp.size(20);
 
   let numberOfTracksInp = createInput(numberOfTracks.toString());
   numberOfTracksInp.position(1000, 150);
-  numberOfTracksInp.size(100);
+  numberOfTracksInp.size(20);
 
 }
 
 function draw() {
-  //background('#141430')
-  background(bg)
+  background('#141430')
+  //background(bg)
   textSize(20);
+  textFont('Papyrus')
   fill('#0');
   text('1st Track', 5, 18);
 
@@ -156,19 +170,20 @@ function draw() {
 
 
   //background(220);
-  let c = w/4; //center
+  let c = h/2; //center
   let r = w/8; // radious main circle
   // main circle
   fill('#003459');
   circle(c, c, 2*r);
 
-  for (let i = 0; i < pulses; i ++){
+  for (let i = 0; i < pulsesA; i ++){
     //console.log(i)
-    let n_x = c+(r*cos(i*2*PI/pulses));
-    let n_y = c+(r*sin(i*2*PI/pulses));
+    let n_x = c+(r*cos(i*2*PI/pulsesA));
+    let n_y = c+(r*sin(i*2*PI/pulsesA));
     fill(255,255,255);
+
     circle(n_x,n_y, c/10);
-    if (onset_1[i]==1){
+    if (binaryRhythmA[i]==1){
       fill('#02c39a');
       circle(n_x,n_y, c/10);
     }
@@ -178,13 +193,13 @@ function draw() {
   fill('#028090');
   circle(c, c, 2*r*0.7);
 
-  for (let i = 0; i < pulses_2; i ++){
-    let n_x = c+(r*0.7*cos(i*2*PI/pulses_2));
-    let n_y = c+(r*0.7*sin(i*2*PI/pulses_2));
+  for (let i = 0; i < pulsesB; i ++){
+    let n_x = c+(r*0.7*cos(i*2*PI/pulsesB));
+    let n_y = c+(r*0.7*sin(i*2*PI/pulsesB));
 
     fill(255,255,255);
     circle(n_x,n_y, c/10);
-    if (onset_2[i]==1){
+    if (binaryRhythmB[i]==1){
       fill('#fce38a');
       circle(n_x,n_y, c/10);
     }
