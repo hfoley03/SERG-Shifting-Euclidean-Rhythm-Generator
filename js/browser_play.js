@@ -14,6 +14,8 @@ let print_loop = new Tone.Loop(() => {
 
 let pause_flag = false;
 
+let time_instants_to_play = [];
+
 //Functions for playing on the browser
 //This fnc initializes the Tone Transport and starts the main_loop, added by Eray
 function initializeAudio() {
@@ -51,7 +53,8 @@ function playNotes() {
     console.log(synth)
     //schedule the events
     track.notes.forEach(note => {
-      synth.triggerAttackRelease(note.name, note.duration, time_common_track + note.time + 0.5, note.velocity)
+      time_instants_to_play.push(time_common_track + note.time + 0.5);
+      synth.triggerAttackRelease(note.name, note.duration, time_inst_to_play, note.velocity)
     })
 
   })

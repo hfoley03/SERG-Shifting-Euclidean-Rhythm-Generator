@@ -172,6 +172,8 @@ function draw() {
   let cl3 = 'rgba(170, 52, 89,1)';   // color onsets Track 2
   let cl4 = 'rgba(170, 52, 89,0.3)'; // color pulses Track 2
 
+
+
   // main circle
   proportion = 1;
   TrackCircle(binaryRhythmA,pulsesA,proportion, cl1, cl2);
