@@ -1,7 +1,7 @@
 // ------- P5 JS -----
 
 let w = window.innerWidth;
-let h = window.innerHeight;
+let h = 1000;
 
 let gen_button;
 let play_button;
@@ -10,12 +10,13 @@ let stop_button;
 let All_Synths = ['AMSynth','DuoSynth','FMSynth','MembraneSynth', 'MetalSynth',
   'MonoSynth', 'NoiseSynth', 'PluckSynth', 'PolySynth', 'Sampler', 'Synth']
 
-var x=0;
-var bg;
+let x=0;
+let cl_bg = '#4F5D75';
+
 
 function preload(){
   //bg = loadImage("https://raw.githubusercontent.com/Rabbid76/graphics-snippets/master/resource/texture/background.jpg")
-  bg = loadImage("https://cdn.videoplasty.com/animation/merry-christmas-background-and-giftcard-stock-animation-16874-1280x720.jpg")
+  let bg = loadImage("https://cdn.videoplasty.com/animation/merry-christmas-background-and-giftcard-stock-animation-16874-1280x720.jpg")
 }
 
 function setup() {
@@ -23,9 +24,11 @@ function setup() {
   createCanvas(w,h);
 
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
-  gen_button = createButton('⚡');
-  gen_button.position(3.5*w/12, h/3);
+  gen_button = createButton('GENERATE');
+  gen_button.position(3.5*w/12, 3.5*h/12);
   gen_button.style('background-color', '#878F9B');
+  gen_button.style('color','#FFFFFF');
+  gen_button.style('font-family: Bahnschrift');
   gen_button.style('border-color', '#878F9B');
   gen_button.style('border-radius' , 10 + '%');
   gen_button.style('z-index',  100);
@@ -38,27 +41,27 @@ function setup() {
     length = parseInt(lengthInp.value());                               // Length of total piece
     numberOfTracks = parseInt(numberOfTracksInp.value());
     onsetsA = parseInt(inp1.value());
-    pulsesA = parseInt(inp2.value());
     onsetsB = parseInt(inp3.value());
+    pulsesA = parseInt(inp2.value());
     pulsesB = parseInt(inp4.value());
     generateMidi(onsetsA, pulsesA, onsetsB, pulsesB);
 
-    gen_button.style('background-color', '#02139b')
+    //gen_button.style('background-color', '#02139b')
   });
 
   // ---- Selection of the type of Synth according to the user
 
   tr1 = createSelect();
-  tr1.position(11*w/12,h/10);
+  tr1.position(9.6*w/12,h/11);
 
   tr2 = createSelect();
-  tr2.position(11*w/12,h/10+20);
+  tr2.position(9.6*w/12,h/11+20);
 
   tr3 = createSelect();
-  tr3.position(11*w/12,h/10+40);
+  tr3.position(9.6*w/12,h/11+40);
 
   tr4 = createSelect();
-  tr4.position(11*w/12,h/10+60);
+  tr4.position(9.6*w/12,h/11+60);
 
   for( i = 0; i<All_Synths.length;i++){
     tr1.option(All_Synths[i]);
@@ -72,63 +75,71 @@ function setup() {
   tr4.selected('PluckSynth');
 
   // ---- Play button
-  play_button = createButton('&#9654');
-  play_button.position(6*w/12, h/3);
+  play_button = createButton('&#9658');
+  play_button.position(6*w/12, 3.5*h/12);
   play_button.style('background-color', '#878F9B');
+  play_button.style('color','#FFFFFF');
+  play_button.style('font-family', 'Bahnschrift');
   play_button.style('border-color', '#878F9B');
-  play_button.style('border-radius' , 10 + '%');
+  play_button.style('border-radius' , 10+'%');
   play_button.mousePressed(start_aud_gui);
 
   // ---- Stop button
-  stop_button = createButton('&#9982');
-  stop_button.position(8*w/12, h/3);
-  stop_button.style('background-color', '#878F9B');
-  stop_button.style('border-color', '#878F9B');
-  stop_button.style('border-radius' , 10 + '%');
+  stop_button = createButton('&#9208');
+  stop_button.position(8*w/12, 3.5*h/12);
+  stop_button.style('background-color','#878F9B');
+  stop_button.style('color','#FFFFFF');
+  stop_button.style('font-family','Noto Emoji Regular');
+  stop_button.style('border-color','#878F9B');
+  stop_button.style('border-radius' , 10+'%');
   stop_button.mousePressed(stop_aud);
 
 // ----- Inputs of the Onsets and Pulses of the Euclidean Rhythm
   let inp1 = createInput(onsetsA.toString());
-  inp1.position(2.6*w/12, 2*h/10+30);
+  inp1.position(2.6*w/12, h/10+35);
   inp1.size(100);
 
   let inp2 = createInput(pulsesA.toString());
-  inp2.position(2.6*w/12, 2*h/10+50);
+  inp2.position(2.6*w/12, h/10+55);
   inp2.size(100);
 
   let inp3 = createInput(onsetsB.toString());
-  inp3.position(5.7*w/12, 2*h/10+30);
+  inp3.position(5.7*w/12, h/10+35);
   inp3.size(100);
 
   let inp4 = createInput(pulsesB.toString());
-  inp4.position(5.7*w/12, 2*h/10+50);
+  inp4.position(5.7*w/12, h/10+55);
   inp4.size(100);
 
   let phaseShiftAmountInp = createInput(phaseShiftAmount.toString());
-  phaseShiftAmountInp.position(5.7*w/12, 90);
+  phaseShiftAmountInp.position(9.6*w/12, h/11+80);
   phaseShiftAmountInp.size(20);
 
   let phaseShiftPeriodInp = createInput(phaseShiftPeriod.toString());
-  phaseShiftPeriodInp.position(5.7*w/12, 110);
+  phaseShiftPeriodInp.position(9.6*w/12, h/11+100);
   phaseShiftPeriodInp.size(20);
 
   let lengthInp = createInput(length.toString());
-  lengthInp.position(5.7*w/12, 130);
+  lengthInp.position(9.6*w/12, h/11+120);
   lengthInp.size(20);
 
   let numberOfTracksInp = createInput(numberOfTracks.toString());
-  numberOfTracksInp.position(1000, 150);
+  numberOfTracksInp.position(9.6*w/12, h/11+140);
   numberOfTracksInp.size(20);
 }
 
 function draw() {
 
-  background('#4F5D75');
-  //background(bg)
+  background(cl_bg);
+
   fill('#FFFFFF');
   textSize(40);
-  textFont('Papyrus')
+  textFont('Bahnschrift');
 
+  textAlign(CENTER,BASELINE);
+  text('MIDI EUCLIDEAN RHYTHM GENERATOR', w/2, h/20);
+
+  textAlign(LEFT,CENTER);
   text('1st Track', w/12, h/10);
   textSize(20);
   text('Onsets 1st Track', w/12, h/10+40);
@@ -139,18 +150,19 @@ function draw() {
   text('Onsets 2nd Track', 4*w/12, h/10+40);
   text('Pulses 2nd Track', 4*w/12, h/10+60);
 
-  text('1st Track', 8.3*w/10, h/10);
-  text('2nd Track', 8.3*w/10, h/10+20);
-  text('3rd Track', 8.3*w/10, h/10+40);
-  text('4th Track', 8.3*w/10, h/10+60);
-  text('Phase Shift Amount', 6.5*w/10, h/10+80);
-  text('Phase Shift Period', 6.5*w/10, h/10+100);
-  text('Piece length', 6.5*w/10, h/10+120);
-  text('Number of Tracks', 6.5*w/10, h/10+140);
+  text('1st Track', 6.5*w/10, h/11);
+  text('2nd Track', 6.5*w/10, h/11+20);
+  text('3rd Track', 6.5*w/10, h/11+40);
+  text('4th Track', 6.5*w/10, h/11+60);
+  text('Phase Shift Amount', 6.5*w/10, h/11+80);
+  text('Phase Shift Period', 6.5*w/10, h/11+100);
+  text('Piece length', 6.5*w/10, h/11+120);
+  text('Number of Tracks', 6.5*w/10, h/11+140);
 
   // ------- Generation of Concentric Circles
 
-  let c = w/4; // center
+  let c_x = w/4; // center
+  let c_y = 2*h/4; // center
   let r = w/8; // radius main circle
 
   let proportion = 1;                // Relation between concentric circles
@@ -169,47 +181,49 @@ function draw() {
   function TrackCircle(onset,pulses,proportion,color1,color2) {
     stroke(color1);
     noFill();
-    circle(c, c, 2 * r * proportion);
+    circle(c_x,c_y, 2 * r * proportion);
     for (let i = 0; i < pulses; i++) {
-      let n_x = c + (proportion * r * cos(i * 2 * PI / pulses));
-      let n_y = c + (proportion * r * sin(i * 2 * PI / pulses));
+      let n_x = c_x + (proportion * r * cos(i * 2 * PI / pulses));
+      let n_y = c_y + (proportion * r * sin(i * 2 * PI / pulses));
 
       if (onset[i] == 1) {
         stroke(color1);
         fill(color1);
-        circle(n_x, n_y, c / 10);
+        circle(n_x, n_y, c_x/10);
       } else {
         stroke(color2);
         fill(color2);
-        circle(n_x, n_y, c / 10);
+        circle(n_x, n_y, c_x/10);
       }
     }
   }
 
   proportion = 1;
-  ShuffleCircle(binaryRhythmA,pulsesA,proportion,cl1,cl2)
+  ShuffleCircle(binaryRhythmA,pulsesA,proportion,cl1,cl2);
 
   proportion = 0.7;
-  ShuffleCircle(binaryRhythmB,pulsesB,proportion,cl3,cl4)
+  ShuffleCircle(binaryRhythmB,pulsesB,proportion,cl3,cl4);
 
   function ShuffleCircle(onset,pulses,prt,color1,color2){
     noStroke();
 
-    let x = 6*h/4;
-    let y = w/4;
+    let x = 3*w/4;
+    let y = 2*h/4;
     let r2 = w/4;
 
     for(let i = 0; i < pulses; i++) {
       if(onset[i] == 1){
-        fill(color1)
+        stroke(cl_bg);
+        fill(color1);
         arc(x,y,prt*r2,prt*r2,2*PI*(1-(i+1)/pulses),2*PI*(1-i/pulses),PIE);
-        fill('#4F5D75')
+        fill(cl_bg);
         arc(x,y,prt*r2-15,prt*r2-15,0,2*PI,PIE);
       }else{
-        fill(color2)
+        stroke(cl_bg);
+        fill(color2);
         arc(x,y,r2*prt,r2*prt,2*PI*(1-(i+1)/pulses),2*PI*(1-i/pulses),PIE);
-        fill('#4F5D75')
-        arc(x,y,prt*r2-15,prt*r2-15,0,2*PI,PIE)
+        fill(cl_bg);
+        arc(x,y,prt*r2-15,prt*r2-15,0,2*PI,PIE);
       }
     }
   }
