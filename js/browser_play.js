@@ -4,12 +4,12 @@ let synths = []
 Tone.Destination.volume.value = -9; // this value is in dB
 
 let main_bpm = 120;
-let main_loop_interval = length; // duration of looping
+let main_loop_interval = length*2; // duration of looping
 let ready = false; // if ready to play or not
 
 let main_loop = new Tone.Loop(playNotes , main_loop_interval);
 let print_loop = new Tone.Loop(() => {
-  console.log("Loop")
+  //console.log("Loop")
 } , main_loop_interval);
 
 let pause_flag = false;
@@ -26,23 +26,32 @@ function initializeAudio() {
 }
 
 
-//This function creates the synths and sends them to the master, added by Eray
+//This function creates the synths and sends them to the master
 function playNotes() {
+
   //synths = [];
+  time_common_track = Tone.now();
   finalMidiObject.tracks.forEach((track, index) => {
 
     synth_type = SynthTypes[index];
 
-    if (synth_type == "Membrane") var synth = new Tone.MembraneSynth().toMaster()
-    else if (synth_type == "Pluck") var synth = new Tone.PluckSynth().toMaster()
+    if (synth_type == "MembraneSynth") var synth = new Tone.MembraneSynth().toMaster()
+    else if (synth_type == "PluckSynth") var synth = new Tone.PluckSynth().toMaster()
+    else if (synth_type == "AMSynth") var synth = new Tone.AMSynth().toMaster()
+    else if (synth_type == "DuoSynth") var synth = new Tone.DuoSynth().toMaster()
+    else if (synth_type == "FMSynth") var synth = new Tone.FMSynth().toMaster()
+    else if (synth_type == "MetalSynth") var synth = new Tone.MetalSynth().toMaster()
+    else if (synth_type == "MonoSynth") var synth = new Tone.MonoSynth().toMaster()
+    else if (synth_type == "NoiseSynth") var synth = new Tone.NoiseSynth().toMaster()
+    else if (synth_type == "PolySynth") var synth = new Tone.PolySynth().toMaster()
+    //else if (synth_type == "Sampler") var synth = new Tone.PluckSynth().toMaster()
     //create a synth for each track
-    if (pause_flag == true) synth.volume.value = -100;
 
     synths.push(synth)
-
+    console.log(synth)
     //schedule the events
     track.notes.forEach(note => {
-      synth.triggerAttackRelease(note.name, note.duration, note.time + Tone.now(), note.velocity)
+      synth.triggerAttackRelease(note.name, note.duration, time_common_track + note.time + 0.5, note.velocity)
     })
 
   })
@@ -50,7 +59,7 @@ function playNotes() {
 
 // Initializes and starts and stops the audio, called from gui.js
 function start_aud() {
-  console.log("pressed")
+  //console.log("pressed")
   if (!ready) {
     initializeAudio();
     ready = true;
@@ -66,32 +75,15 @@ function stop_aud(){
 
   for (var i = 0; i < synths.length; i++) {
     synths[i].context._timeouts.cancel(0);
-    console.log('synths')
+    //console.log('synths')
 
-    console.log(synths)
+    //console.log(synths)
     synths[i].dispose();
-    console.log('\n\n')
-
-    console.log(synths)
 
   }
 }
 
 function pause_cont(){
-
-  /*if (pause_flag == false){
-
-    for (var i = 0; i < synths.length; i++) {
-      synths[i].volume.value = -100;
-      pause_flag = true;
-    }
-  }
-  else {
-    for (var i = 0; i < synths.length; i++) {
-      synths[i].volume.value = -9;
-      pause_flag = false;
-    }
-  }*/
 
   if (synths.some((x) => x.volume.value > -79)){
     for (var i = 0; i < synths.length; i++) {
