@@ -46,6 +46,8 @@ function setup() {
     phaseShiftAmount = parseInt(phaseShiftAmountInp.value());                   // How many pulses is each shift
     phaseShiftPeriod = parseInt(phaseShiftAmountInp.value());                   // After how many bars does a shift occur
     length = parseInt(lengthInp.value());                            // Length of total piece
+    main_loop_interval = length*2;
+    console.log(length)
     numberOfTracks = parseInt(numberOfTracksInp.value());
     onsetsA = parseInt(inp1.value());
     pulsesA = parseInt(inp2.value());

@@ -1,31 +1,17 @@
 //Synths that will play the sound
 let synths = []
 
-Tone.Destination.volume.value = -9; // this value is in dB
+let main_bpm;
+let main_loop_interval;// duration of looping
 
-let main_bpm = 120;
-let main_loop_interval = length*2; // duration of looping
-let ready = false; // if ready to play or not
-
-let main_loop = new Tone.Loop(playNotes , main_loop_interval);
-let print_loop = new Tone.Loop(() => {
-  //console.log("Loop")
-} , main_loop_interval);
+let main_loop;
+let print_loop;
 
 let pause_flag = false;
 
 let time_instants_to_play = [];
 
 //Functions for playing on the browser
-//This fnc initializes the Tone Transport and starts the main_loop, added by Eray
-function initializeAudio() {
-  Tone.start().then(()=>{
-    Tone.Transport.bpm.value = main_bpm;
-    Tone.Transport.start();
-    main_loop.start();
-    print_loop.start();
-  });
-}
 
 
 //This function creates the synths and sends them to the master
@@ -63,15 +49,20 @@ function playNotes() {
 
 // Initializes and starts and stops the audio, called from gui.js
 function start_aud() {
-  //console.log("pressed")
-  if (!ready) {
-    initializeAudio();
-    ready = true;
-  } else {
-    // click again to play-button...
-    pause_flag = false;
+  Tone.Destination.volume.value = -9; // this value is in dB
+  main_bpm = 120;
+  main_loop_interval = length*2; // duration of looping
+
+  main_loop = new Tone.Loop(playNotes , main_loop_interval);
+  print_loop = new Tone.Loop(() => {
+    console.log("Loop")
+  } , main_loop_interval);
+  Tone.start().then(()=>{
+    Tone.Transport.bpm.value = main_bpm;
     Tone.Transport.start();
-  }
+    main_loop.start();
+    print_loop.start();
+  });
 }
 
 function stop_aud(){
