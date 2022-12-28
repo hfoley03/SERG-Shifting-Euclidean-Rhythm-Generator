@@ -7,30 +7,20 @@ let gen_button;
 let play_button;
 let stop_button;
 
+let All_Synths = ['AMSynth','DuoSynth','FMSynth','MembraneSynth', 'MetalSynth',
+  'MonoSynth', 'NoiseSynth', 'PluckSynth', 'PolySynth', 'Sampler', 'Synth']
+
 var x=0;
-
-let All_Synths = ['AMSynth',
-  'DuoSynth',
-  'FMSynth',
-  'MembraneSynth',
-  'MetalSynth',
-  'MonoSynth',
-  'NoiseSynth',
-  'PluckSynth',
-  'PolySynth',
-  'Sampler',
-  'Synth']
-
 var bg;
 
 function preload(){
   //bg = loadImage("https://raw.githubusercontent.com/Rabbid76/graphics-snippets/master/resource/texture/background.jpg")
   bg = loadImage("https://cdn.videoplasty.com/animation/merry-christmas-background-and-giftcard-stock-animation-16874-1280x720.jpg")
 }
+
 function setup() {
   frameRate(100)
   createCanvas(w,h);
-
 
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
   gen_button = createButton('⚡');
@@ -43,9 +33,9 @@ function setup() {
     clear()
 
     stop_aud();
-    phaseShiftAmount = parseInt(phaseShiftAmountInp.value());                   // How many pulses is each shift
-    phaseShiftPeriod = parseInt(phaseShiftAmountInp.value());                   // After how many bars does a shift occur
-    length = parseInt(lengthInp.value());                            // Length of total piece
+    phaseShiftAmount = parseInt(phaseShiftAmountInp.value());           // How many pulses is each shift
+    phaseShiftPeriod = parseInt(phaseShiftAmountInp.value());           // After how many bars does a shift occur
+    length = parseInt(lengthInp.value());                               // Length of total piece
     numberOfTracks = parseInt(numberOfTracksInp.value());
     onsetsA = parseInt(inp1.value());
     pulsesA = parseInt(inp2.value());
@@ -115,27 +105,25 @@ function setup() {
   inp4.size(100);
 
   let phaseShiftAmountInp = createInput(phaseShiftAmount.toString());
-  phaseShiftAmountInp.position(1000, 90);
+  phaseShiftAmountInp.position(5.7*w/12, 90);
   phaseShiftAmountInp.size(20);
 
   let phaseShiftPeriodInp = createInput(phaseShiftPeriod.toString());
-  phaseShiftPeriodInp.position(1000, 110);
+  phaseShiftPeriodInp.position(5.7*w/12, 110);
   phaseShiftPeriodInp.size(20);
 
   let lengthInp = createInput(length.toString());
-  lengthInp.position(1000, 130);
+  lengthInp.position(5.7*w/12, 130);
   lengthInp.size(20);
 
   let numberOfTracksInp = createInput(numberOfTracks.toString());
   numberOfTracksInp.position(1000, 150);
   numberOfTracksInp.size(20);
-
 }
 
 function draw() {
 
   background('#4F5D75');
-  //background('#141430')
   //background(bg)
   fill('#FFFFFF');
   textSize(40);
@@ -155,11 +143,10 @@ function draw() {
   text('2nd Track', 8.3*w/10, h/10+20);
   text('3rd Track', 8.3*w/10, h/10+40);
   text('4th Track', 8.3*w/10, h/10+60);
-
-  text('Phase Shift Amount', 800, 98)
-  text('Phase Shift Period', 800, 118)
-  text('Piece length', 800, 138)
-  text('Number of Tracks', 800, 158)
+  text('Phase Shift Amount', 6.5*w/10, h/10+80);
+  text('Phase Shift Period', 6.5*w/10, h/10+100);
+  text('Piece length', 6.5*w/10, h/10+120);
+  text('Number of Tracks', 6.5*w/10, h/10+140);
 
   // ------- Generation of Concentric Circles
 
