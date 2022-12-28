@@ -53,7 +53,8 @@ function playNotes() {
     console.log(synth)
     //schedule the events
     track.notes.forEach(note => {
-      time_instants_to_play.push(time_common_track + note.time + 0.5);
+      time_inst_to_play = time_common_track + note.time + 0.5
+      time_instants_to_play.push(time_inst_to_play);
       synth.triggerAttackRelease(note.name, note.duration, time_inst_to_play, note.velocity)
     })
 
