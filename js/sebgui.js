@@ -1,7 +1,7 @@
 // ------- P5 JS -----
 
 let w = window.innerWidth;
-let h = window.innerHeight;
+let h = 1000;
 
 let gen_button;
 let play_button;
@@ -13,7 +13,6 @@ let All_Synths = ['AMSynth','DuoSynth','FMSynth','MembraneSynth', 'MetalSynth',
 let x=0;
 let cl_bg = '#4F5D75';
 
-var bg;
 
 function preload(){
   //bg = loadImage("https://raw.githubusercontent.com/Rabbid76/graphics-snippets/master/resource/texture/background.jpg")
@@ -24,10 +23,9 @@ function setup() {
   frameRate(100)
   createCanvas(w,h);
 
-
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
-  gen_button = createButton('Generate ⚡');
-  gen_button.position(3.5*w/12, h/3);
+  gen_button = createButton('GENERATE');
+  gen_button.position(3.5*w/12, 3.5*h/12);
   gen_button.style('background-color', '#878F9B');
   gen_button.style('color','#FFFFFF');
   gen_button.style('font-family: Bahnschrift');
@@ -43,8 +41,8 @@ function setup() {
     length = parseInt(lengthInp.value());                               // Length of total piece
     numberOfTracks = parseInt(numberOfTracksInp.value());
     onsetsA = parseInt(inp1.value());
-    pulsesA = parseInt(inp2.value());
     onsetsB = parseInt(inp3.value());
+    pulsesA = parseInt(inp2.value());
     pulsesB = parseInt(inp4.value());
     generateMidi(onsetsA, pulsesA, onsetsB, pulsesB);
 

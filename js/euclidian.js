@@ -54,7 +54,7 @@ function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB){
   track4 = midiInProgress.addTrack()      // track/player 2, shifting occurs
   track4.name = "track4"
 
-  oneBarInTicks =midiInProgress.header.ppq*4 //length of a bar in ticks, normally 1920
+  oneBarInTicks = midiInProgress.header.ppq*4 //length of a bar in ticks, normally 1920
   pulseInTicksA = (oneBarInTicks)/pulsesA     //length of one pulse in ticks,normally for a 1/16th note = 120
   pulseInTicksB = (oneBarInTicks)/pulsesB
 
@@ -117,9 +117,8 @@ function euclidianPattern(onsets, pulses) {
   if (U[0]) {
     output = (A.join() + U[0].toString()).replaceAll(',', '');
   }
-  //console.log("Binary Rhthtm: " + output)
+  console.log("Binary Rhythm: " + output)
   return output
-
 }
 
 
