@@ -13,6 +13,27 @@ let time_instants_to_play = [];
 
 let synth_counter = 0;
 
+
+const reverb = new Tone.Reverb({
+  decay : 1.5 ,
+  preDelay : 0.01
+}).toDestination();
+
+let limiter = new Tone.Limiter(-6).connect(reverb);
+let channel1 = new Tone.Channel(-6, -0.9).connect(limiter);
+let channel2 = new Tone.Channel(-6, 0.9).connect(limiter);
+let channel3 = new Tone.Channel(-6, 0.75).connect(limiter);
+let channel4 = new Tone.Channel(-6, -0.75).connect(limiter);
+
+channel1.name = "Channel 1"
+channel2.name = "Channel 2"
+channel3.name = "Channel 3"
+channel4.name = "Channel 4"
+
+let channelStrip = [channel1, channel2, channel3, channel4];
+
+
+
 //Functions for playing on the browser
 
 
@@ -23,19 +44,20 @@ function playNotes() {
   time_common_track = Tone.now();
   finalMidiObject.tracks.forEach((track, index) => {
 
-    //console.log('track name: ' + track.name)
-    //console.log('index: ' + index)
+    console.log('track name: ' + track.name)
+    console.log('index: ' + index);
+    console.log(channelStrip[index]);
     synth_type = SynthTypes[index];
 
-    if (synth_type == "MembraneSynth") var synth = new Tone.MembraneSynth().toMaster()
-    else if (synth_type == "PluckSynth") var synth = new Tone.PluckSynth().toMaster()
-    else if (synth_type == "AMSynth") var synth = new Tone.AMSynth().toMaster()
-    else if (synth_type == "DuoSynth") var synth = new Tone.DuoSynth().toMaster()
-    else if (synth_type == "FMSynth") var synth = new Tone.FMSynth().toMaster()
-    else if (synth_type == "MetalSynth") var synth = new Tone.MetalSynth().toMaster()
-    else if (synth_type == "MonoSynth") var synth = new Tone.MonoSynth().toMaster()
-    else if (synth_type == "NoiseSynth") var synth = new Tone.NoiseSynth().toMaster()
-    else if (synth_type == "PolySynth") var synth = new Tone.PolySynth().toMaster()
+    if (synth_type == "MembraneSynth") var synth = new Tone.MembraneSynth().connect(channelStrip[index]);
+    else if (synth_type == "PluckSynth") var synth = new Tone.PluckSynth().connect(channelStrip[index]);
+    else if (synth_type == "AMSynth") var synth = new Tone.AMSynth().connect(channelStrip[index]);
+    else if (synth_type == "DuoSynth") var synth = new Tone.DuoSynth().connect(channelStrip[index]);
+    else if (synth_type == "FMSynth") var synth = new Tone.FMSynth().connect(channelStrip[index]);
+    else if (synth_type == "MetalSynth") var synth = new Tone.MetalSynth().connect(channelStrip[index])
+    else if (synth_type == "MonoSynth") var synth = new Tone.MonoSynth().connect(channelStrip[index]);
+    else if (synth_type == "NoiseSynth") var synth = new Tone.NoiseSynth().connect(channelStrip[index])
+    else if (synth_type == "PolySynth") var synth = new Tone.PolySynth().connect(channelStrip[index]);
     //else if (synth_type == "Sampler") var synth = new Tone.PluckSynth().toMaster()
     //create a synth for each track
 
