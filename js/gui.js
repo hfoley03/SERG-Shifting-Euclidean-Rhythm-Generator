@@ -234,11 +234,10 @@ function draw() {
 
 function start_aud_gui() {
 
-  if(state){
+  if (state) {
     console.log("state: true")
     console.log("already playing")
-  }
-  else if(!state){
+  } else if (!state) {
     console.log("state false")
     SynthTypes = [tr1.value(), tr2.value(), tr3.value(), tr4.value()];
     console.log('Call start_aud');
@@ -246,6 +245,4 @@ function start_aud_gui() {
     start_aud();
   }
 
-
 }
-
