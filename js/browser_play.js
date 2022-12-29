@@ -15,11 +15,19 @@ let synth_counter = 0;
 
 
 const reverb = new Tone.Reverb({
-  decay : 1.5 ,
-  preDelay : 0.01
+  decay : 4 ,
+  preDelay : 0.08,
+  wet: 0.4
 }).toDestination();
 
-let limiter = new Tone.Limiter(-6).connect(reverb);
+let chorus = new Tone.Chorus({
+  frequency : 100.5 ,
+  delayTime : 0.5,
+  depth : 0.9 ,
+  spread : 90}
+).connect(reverb);
+
+let limiter = new Tone.Limiter(-6).connect(chorus);
 let channel1 = new Tone.Channel(-6, -0.9).connect(limiter);
 let channel2 = new Tone.Channel(-6, 0.9).connect(limiter);
 let channel3 = new Tone.Channel(-6, 0.75).connect(limiter);
