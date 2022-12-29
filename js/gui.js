@@ -26,10 +26,10 @@ function setup() {
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
   gen_button = createButton('GENERATE');
   gen_button.position(3.5*w/12, 3.5*h/12);
-  gen_button.style('background-color', '#878F9B');
+  gen_button.style('background-color', 'rgba(135, 143, 155,.5)');
   gen_button.style('color','#FFFFFF');
   gen_button.style('font-family: Bahnschrift');
-  gen_button.style('border-color', '#878F9B');
+  gen_button.style('border-color', 'rgba(135, 143, 155,.25)');
   gen_button.style('border-radius' , 10 + '%');
   gen_button.style('z-index',  100);
   gen_button.mousePressed(function() {
@@ -77,20 +77,20 @@ function setup() {
   // ---- Play button
   play_button = createButton('&#9658');
   play_button.position(6*w/12, 3.5*h/12);
-  play_button.style('background-color', '#878F9B');
+  play_button.style('background-color', 'rgba(135, 143, 155,.5)');
   play_button.style('color','#FFFFFF');
   play_button.style('font-family', 'Bahnschrift');
-  play_button.style('border-color', '#878F9B');
+  play_button.style('border-color', 'rgba(135, 143, 155,.25)');
   play_button.style('border-radius' , 10+'%');
   play_button.mousePressed(start_aud_gui);
 
   // ---- Stop button
-  stop_button = createButton('&#9208');
+  stop_button = createButton('II');
   stop_button.position(8*w/12, 3.5*h/12);
-  stop_button.style('background-color','#878F9B');
+  stop_button.style('background-color','rgba(135, 143, 155,.5)');
   stop_button.style('color','#FFFFFF');
-  stop_button.style('font-family','Noto Emoji Regular');
-  stop_button.style('border-color','#878F9B');
+  stop_button.style('font-family','Bahnschrift');
+  stop_button.style('border-color','rgba(135, 143, 155,.25)');
   stop_button.style('border-radius' , 10+'%');
   stop_button.mousePressed(stop_aud);
 
@@ -171,7 +171,43 @@ function draw() {
   let cl3 = 'rgba(170, 52, 89,1)';   // color onsets Track 2
   let cl4 = 'rgba(170, 52, 89,0.3)'; // color pulses Track 2
 
-  // main circle
+  // Circles of the Right
+
+  ShuffleCircle(binaryRhythmA,pulsesA,1,cl1,cl2,w/4);   // Track 1 Fixed Circle
+  ShuffleCircle(binaryRhythmA,pulsesA,0.7,cl3,cl4,w/4);   // Track 2 Shifting circle
+  ShuffleCircle(binaryRhythmB,pulsesB,1,cl1,cl2,3*w/4);   // Track 3 Fixed Circle
+  ShuffleCircle(binaryRhythmB,pulsesB,0.7,cl3,cl4,3*w/4);   // Track 4 Shifting circle
+
+  function ShuffleCircle(onset,pulses,prt,color1,color2,x){
+
+    let y = 2*h/4;
+    let r2 = w/4;
+
+    noStroke();
+    for(let i = 0; i < pulses; i++) {
+      if(onset[i] == 1){
+        stroke(cl_bg);
+        fill(color1);
+        arc(x,y,prt*r2,prt*r2,2*PI*(1-(i+1)/pulses),2*PI*(1-i/pulses),PIE);
+        fill(cl_bg);
+        arc(x,y,prt*r2-15,prt*r2-15,0,2*PI,PIE);
+      }else{
+        stroke(cl_bg);
+        fill(color2);
+        arc(x,y,r2*prt,r2*prt,2*PI*(1-(i+1)/pulses),2*PI*(1-i/pulses),PIE);
+        fill(cl_bg);
+        arc(x,y,prt*r2-15,prt*r2-15,0,2*PI,PIE);
+      }
+    }
+  }
+}
+function start_aud_gui() {
+  SynthTypes = [tr1.value(), tr2.value(), tr3.value(), tr4.value()];
+  console.log('audio started');
+  start_aud();
+}
+
+/* // main circle
   proportion = 1;
   TrackCircle(binaryRhythmA,pulsesA,proportion, cl1, cl2);
   // second circle
@@ -196,41 +232,4 @@ function draw() {
         circle(n_x, n_y, c_x/10);
       }
     }
-  }
-
-  proportion = 1;
-  ShuffleCircle(binaryRhythmA,pulsesA,proportion,cl1,cl2);
-
-  proportion = 0.7;
-  ShuffleCircle(binaryRhythmB,pulsesB,proportion,cl3,cl4);
-
-  function ShuffleCircle(onset,pulses,prt,color1,color2){
-    noStroke();
-
-    let x = 3*w/4;
-    let y = 2*h/4;
-    let r2 = w/4;
-
-    for(let i = 0; i < pulses; i++) {
-      if(onset[i] == 1){
-        stroke(cl_bg);
-        fill(color1);
-        arc(x,y,prt*r2,prt*r2,2*PI*(1-(i+1)/pulses),2*PI*(1-i/pulses),PIE);
-        fill(cl_bg);
-        arc(x,y,prt*r2-15,prt*r2-15,0,2*PI,PIE);
-      }else{
-        stroke(cl_bg);
-        fill(color2);
-        arc(x,y,r2*prt,r2*prt,2*PI*(1-(i+1)/pulses),2*PI*(1-i/pulses),PIE);
-        fill(cl_bg);
-        arc(x,y,prt*r2-15,prt*r2-15,0,2*PI,PIE);
-      }
-    }
-  }
-}
-function start_aud_gui() {
-  SynthTypes = [tr1.value(), tr2.value(), tr3.value(), tr4.value()];
-  console.log('audio started');
-  start_aud();
-}
-
+  }*/
