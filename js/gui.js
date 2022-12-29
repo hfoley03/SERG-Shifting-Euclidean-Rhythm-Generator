@@ -17,6 +17,8 @@ let cl_bg = '#4F5D75';
 var bg;
 
 let loc_dict = {}
+let loc_dict_txt = {}
+
 let onsetsA_loc;
 let onsetsB_loc;
 let pulsesA_loc;
@@ -29,33 +31,6 @@ function preload(){
 function setup() {
   frameRate(100)
   createCanvas(w,h);
-
-
-  // --- Get as input the values of the Onsets and Pulses of the Tracks.
-  gen_button = createButton('Generate');
-  gen_button.position(3.5*w/12, 3.5*h/12);
-  gen_button.style('background-color', '#878F9B');
-  gen_button.style('color','#FFFFFF');
-  gen_button.style('font-family: Bahnschrift');
-  gen_button.style('border-color', '#878F9B');
-  gen_button.style('border-radius' , 10 + '%');
-  gen_button.style('z-index',  100);
-  gen_button.mousePressed(function() {
-    clear()
-
-    stop_aud();
-    phaseShiftAmount = parseInt(phase_shift_amount_inp.value());           // How many pulses is each shift
-    phaseShiftPeriod = parseInt(phase_shift_amount_inp.value());           // After how many bars does a shift occur
-    length = parseInt(length_inp.value());                               // Length of total piece
-    numberOfTracks = parseInt(number_of_tracks_inp.value());
-    onsetsA = parseInt(onsetsA_loc.value());
-    pulsesA = parseInt(pulsesA_loc.value());
-    onsetsB = parseInt(onsetsB_loc.value());
-    pulsesB = parseInt(pulsesB_loc.value());
-    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB);
-
-    //gen_button.style('background-color', '#02139b')
-  });
 
   // ---- Selection of the type of Synth according to the user
   let synth_x = 9.6*w/12;
@@ -96,6 +71,59 @@ function setup() {
   number_of_tracks_inp.position(number_of_tracks_inp_loc[0],number_of_tracks_inp_loc[1]);
   number_of_tracks_inp.size(20);
 
+
+// ----- Inputs of the Onsets and Pulses of the Euclidean Rhythm
+  let onsetsA_x = 2.6*w/12;
+  let onsetsA_x_txt = onsetsA_x/2.6;
+  let onsetsA_y = h/10+35;
+  let onsetsA_y_txt = onsetsA_y + 5;
+  let onsets_pulses = [onsetsA,pulsesA, onsetsB, pulsesB];
+  let onsets_pulses_str = ["onsetsA","pulsesA", "onsetsB", "pulsesB"];
+  for(let i = 1; i<=4; i++){
+    let tmp_onsets_str = onsets_pulses_str[i-1] + "_loc";
+    let tmp_onsets_txt_str = onsets_pulses_str[i-1] + "_txt_loc";
+    let tmp_onsets = window[tmp_onsets_str];
+    tmp_onsets = createInput(onsets_pulses[i-1]);
+    if(i == 1 || i == 2) {
+      tmp_onsets.position(onsetsA_x, onsetsA_y + 20 * (i - 1));
+      loc_dict[tmp_onsets_str] = [onsetsA_x, onsetsA_y + 20 * (i - 1)];
+      loc_dict_txt[tmp_onsets_txt_str] = [onsetsA_x_txt, onsetsA_y_txt + 20 * (i - 1)];
+    }
+    else{
+      tmp_onsets.position(onsetsA_x+ 330, onsetsA_y + 20 * (i - 3));
+      loc_dict[tmp_onsets_str] = [onsetsA_x + 330, onsetsA_y + 20 * (i - 3)];
+      loc_dict_txt[tmp_onsets_txt_str] = [onsetsA_x_txt+330, onsetsA_y_txt + 20 * (i - 3)];
+
+    }
+    tmp_onsets.size(100);
+  }
+
+  // --- Get as input the values of the Onsets and Pulses of the Tracks.
+  gen_button = createButton('Generate');
+  gen_button.position(3.5*w/12, 3.5*h/12);
+  gen_button.style('background-color', '#878F9B');
+  gen_button.style('color','#FFFFFF');
+  gen_button.style('font-family: Bahnschrift');
+  gen_button.style('border-color', '#878F9B');
+  gen_button.style('border-radius' , 10 + '%');
+  gen_button.style('z-index',  100);
+  gen_button.mousePressed(function() {
+    clear()
+
+    stop_aud();
+    phaseShiftAmount = parseInt(phase_shift_amount_inp.value());           // How many pulses is each shift
+    phaseShiftPeriod = parseInt(phase_shift_amount_inp.value());           // After how many bars does a shift occur
+    length = parseInt(length_inp.value());                               // Length of total piece
+    numberOfTracks = parseInt(number_of_tracks_inp.value());
+    onsetsA = parseInt(onsetsA_loc.value());
+    pulsesA = parseInt(pulsesA_loc.value());
+    onsetsB = parseInt(onsetsB_loc.value());
+    pulsesB = parseInt(pulsesB_loc.value());
+    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB);
+
+    //gen_button.style('background-color', '#02139b')
+  });
+
   // ---- Play button
   play_button = createButton('&#9658');
   play_button.position(6*w/12, 3.5*h/12);
@@ -116,28 +144,6 @@ function setup() {
   stop_button.style('border-radius' , 10+'%');
   stop_button.mousePressed(stop_aud);
 
-// ----- Inputs of the Onsets and Pulses of the Euclidean Rhythm
-  let onsetsA_x = 2.6*w/12;
-  let onsetsA_y = h/10+35;
-  let onsets_pulses = [onsetsA,pulsesA, onsetsB, pulsesB];
-  let onsets_pulses_str = ["onsetsA","pulsesA", "onsetsB", "pulsesB"];
-  for(let i = 1; i<=4; i++){
-    let tmp_onsets_str = onsets_pulses_str[i-1] + "_loc";
-    let tmp_onsets = window[tmp_onsets_str];
-    tmp_onsets = createInput(onsets_pulses[i-1]);
-    if(i == 1 || i == 2) {
-      tmp_onsets.position(onsetsA_x, onsetsA_y + 20 * (i - 1));
-      loc_dict[tmp_onsets_str] = [onsetsA_x, onsetsA_y + 20 * (i - 1)];
-    }
-    else{
-      tmp_onsets.position(onsetsA_x+ 330, onsetsA_y + 20 * (i - 3));
-      loc_dict[tmp_onsets_str] = [onsetsA_x + 330, onsetsA_y + 20 * (i - 3)];
-    }
-    tmp_onsets.size(100);
-  }
-
-
-
 }
 
 function draw() {
@@ -152,25 +158,33 @@ function draw() {
   text('MIDI EUCLIDEAN RHYTHM GENERATOR', w/2, h/20);
 
   textAlign(LEFT,CENTER);
-  text('1st Track', w/12, h/10);
+  text('1st Track', loc_dict_txt['onsetsA_txt_loc'][0], loc_dict_txt['onsetsA_txt_loc'][1] - 40);
   textSize(20);
-  text('Onsets 1st Track', w/12, h/10+40);
-  text('Pulses 1st Track', w/12, h/10+60);
+  text('Onsets 1st Track', loc_dict_txt['onsetsA_txt_loc'][0], loc_dict_txt['onsetsA_txt_loc'][1]);
+  text('Pulses 1st Track', loc_dict_txt['pulsesA_txt_loc'][0], loc_dict_txt['pulsesA_txt_loc'][1]);
   textSize(40);
-  text('2nd Track', 4*w/12, h/10);
+  text('2nd Track', loc_dict_txt['onsetsB_txt_loc'][0], loc_dict_txt['onsetsB_txt_loc'][1]-40);
   textSize(20);
-  text('Onsets 2nd Track', 4*w/12, h/10+40);
-  text('Pulses 2nd Track', 4*w/12, h/10+60);
+  text('Onsets 2nd Track', loc_dict_txt['onsetsB_txt_loc'][0], loc_dict_txt['onsetsB_txt_loc'][1]);
+  text('Pulses 2nd Track', loc_dict_txt['pulsesB_txt_loc'][0], loc_dict_txt['pulsesB_txt_loc'][1]);
 
-  text('1st Track', 6.5*w/10, h/11);
-  text('2nd Track', 6.5*w/10, h/11+20);
-  text('3rd Track', 6.5*w/10, h/11+40);
-  text('4th Track', 6.5*w/10, h/11+60);
+  loc_dict_txt['tr1_synth_txt_loc'] = [loc_dict["tr1_synth_loc"][0] - 100, loc_dict["tr1_synth_loc"][1]];
+  text('1st Track', loc_dict_txt['tr1_synth_txt_loc'][0], loc_dict_txt['tr1_synth_txt_loc'][1]);
+  loc_dict_txt['tr2_synth_txt_loc'] = [loc_dict["tr2_synth_loc"][0] - 100, loc_dict["tr2_synth_loc"][1]];
+  text('2nd Track', loc_dict_txt['tr2_synth_txt_loc'][0], loc_dict_txt['tr2_synth_txt_loc'][1]);
+  loc_dict_txt['tr3_synth_txt_loc'] = [loc_dict["tr3_synth_loc"][0] - 100, loc_dict["tr3_synth_loc"][1]];
+  text('3rd Track', loc_dict_txt['tr3_synth_txt_loc'][0], loc_dict_txt['tr3_synth_txt_loc'][1]);
+  loc_dict_txt['tr4_synth_txt_loc'] = [loc_dict["tr4_synth_loc"][0] - 100, loc_dict["tr4_synth_loc"][1]];
+  text('4th Track', loc_dict_txt['tr4_synth_txt_loc'][0], loc_dict_txt['tr4_synth_txt_loc'][1]);
 
-  text('Phase Shift Amount', 6.5*w/10, h/11+80);
-  text('Phase Shift Period', 6.5*w/10, h/11+100);
-  text('Piece length', 6.5*w/10, h/11+120);
-  text('Number of Tracks', 6.5*w/10, h/11+140);
+  loc_dict_txt["phase_shift_amount_inp_loc"] = [loc_dict["phase_shift_amount_inp_loc"][0]-200, loc_dict["phase_shift_amount_inp_loc"][1]];
+  text('Phase Shift Amount', loc_dict_txt["phase_shift_amount_inp_loc"]);
+  loc_dict_txt["phase_shift_period_inp_loc"] = [loc_dict["phase_shift_period_inp_loc"][0]-200, loc_dict["phase_shift_period_inp_loc"][1]];
+  text('Phase Shift Period', loc_dict_txt["phase_shift_period_inp_loc"]);
+  loc_dict_txt["length_inp_loc"] = [loc_dict["length_inp_loc"][0]-200, loc_dict["length_inp_loc"][1]];
+  text('Piece length', loc_dict_txt["length_inp_loc"]);
+  loc_dict_txt["number_of_tracks_inp_loc"] = [loc_dict["number_of_tracks_inp_loc"][0]-200, loc_dict["number_of_tracks_inp_loc"][1]];
+  text('Number of Tracks', loc_dict["number_of_tracks_inp_loc"][0]-200, loc_dict["number_of_tracks_inp_loc"][1]);
 
   // ------- Generation of Concentric Circles
 
@@ -240,6 +254,11 @@ function draw() {
       }
     }
   }
+}
+
+function mouseHover(){
+
+
 }
 
 function start_aud_gui() {
