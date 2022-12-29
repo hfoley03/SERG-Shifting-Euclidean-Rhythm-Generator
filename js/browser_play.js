@@ -11,16 +11,22 @@ let pause_flag = false;
 
 let time_instants_to_play = [];
 
+let is_audio_playing_flag = false;
+
+let synth_counter = 0;
+
 //Functions for playing on the browser
 
 
 //This function creates the synths and sends them to the master
 function playNotes() {
-
+  console.log("playNotes")
   //synths = [];
   time_common_track = Tone.now();
   finalMidiObject.tracks.forEach((track, index) => {
 
+    //console.log('track name: ' + track.name)
+    //console.log('index: ' + index)
     synth_type = SynthTypes[index];
 
     if (synth_type == "MembraneSynth") var synth = new Tone.MembraneSynth().toMaster()
@@ -36,7 +42,9 @@ function playNotes() {
     //create a synth for each track
 
     synths.push(synth)
-    console.log(synth)
+    //console.log("synth " + synth)
+    synth_counter = synth_counter + 1
+    //console.log("synth counter: " + synth_counter)
     //schedule the events
     track.notes.forEach(note => {
       time_inst_to_play = time_common_track + note.time + 0.5
@@ -49,14 +57,18 @@ function playNotes() {
 
 // Initializes and starts and stops the audio, called from gui.js
 function start_aud() {
+  state = true;
+  Tone.context.resume()
+
   Tone.Destination.volume.value = -9; // this value is in dB
   main_bpm = 120;
   main_loop_interval = length*2; // duration of looping
 
   main_loop = new Tone.Loop(playNotes , main_loop_interval);
   print_loop = new Tone.Loop(() => {
-    console.log("Loop")
+    console.log("loop")
   } , main_loop_interval);
+
   Tone.start().then(()=>{
     Tone.Transport.bpm.value = main_bpm;
     Tone.Transport.start();
@@ -67,15 +79,17 @@ function start_aud() {
 
 function stop_aud(){
   Tone.Transport.stop();
+  console.log("stopAud")
+  console.log(synths)
 
   for (var i = 0; i < synths.length; i++) {
     synths[i].context._timeouts.cancel(0);
-    //console.log('synths')
-
-    //console.log(synths)
     synths[i].dispose();
-
   }
+  synths = []
+  console.log(synths)
+  //Tone.context.close()
+  state = false;
 }
 
 function pause_cont(){

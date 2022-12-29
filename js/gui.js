@@ -6,9 +6,10 @@ let h = window.innerHeight;
 let gen_button;
 let play_button;
 let stop_button;
+let state = false;
 
 let All_Synths = ['AMSynth','DuoSynth','FMSynth','MembraneSynth', 'MetalSynth',
-  'MonoSynth', 'NoiseSynth', 'PluckSynth', 'PolySynth', 'Sampler', 'Synth']
+   'MonoSynth', 'NoiseSynth', 'PluckSynth', 'PolySynth', 'Sampler', 'Synth']
 
 let x=0;
 let cl_bg = '#4F5D75';
@@ -71,9 +72,9 @@ function setup() {
     tr3.option(All_Synths[i]);
     tr4.option(All_Synths[i]);
   }
-  tr1.selected('MembraneSynth');
+  tr1.selected('PluckSynth');
   tr2.selected('PluckSynth');
-  tr3.selected('MembraneSynth');
+  tr3.selected('PluckSynth');
   tr4.selected('PluckSynth');
 
   // ---- Play button
@@ -230,9 +231,20 @@ function draw() {
     }
   }
 }
+
 function start_aud_gui() {
-  SynthTypes = [tr1.value(), tr2.value(), tr3.value(), tr4.value()];
-  console.log('audio started');
-  start_aud();
+
+  if(state){
+    console.log("state: true")
+    console.log("already playing")
+  }
+  else if(!state){
+    console.log("state false")
+    SynthTypes = [tr1.value(), tr2.value(), tr3.value(), tr4.value()];
+    console.log('Call start_aud');
+    start_aud();
+  }
+
+
 }
 
