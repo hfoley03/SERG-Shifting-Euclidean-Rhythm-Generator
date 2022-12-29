@@ -26,6 +26,11 @@ let onsetsA_loc;
 let onsetsB_loc;
 let pulsesA_loc;
 let pulsesB_loc;
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
 function preload(){
   //bg = loadImage("https://raw.githubusercontent.com/Rabbid76/graphics-snippets/master/resource/texture/background.jpg")
   let bg = loadImage("https://cdn.videoplasty.com/animation/merry-christmas-background-and-giftcard-stock-animation-16874-1280x720.jpg")
