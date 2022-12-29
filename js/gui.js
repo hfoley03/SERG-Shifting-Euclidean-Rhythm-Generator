@@ -178,11 +178,11 @@ function draw() {
   text('4th Track', loc_dict_txt['tr4_synth_txt_loc'][0], loc_dict_txt['tr4_synth_txt_loc'][1]);
 
   loc_dict_txt["phase_shift_amount_inp_loc"] = [loc_dict["phase_shift_amount_inp_loc"][0]-200, loc_dict["phase_shift_amount_inp_loc"][1]];
-  text('Phase Shift Amount', loc_dict_txt["phase_shift_amount_inp_loc"]);
+  text('Phase Shift Amount', loc_dict_txt["phase_shift_amount_inp_loc"][0],loc_dict_txt["phase_shift_amount_inp_loc"][1]);
   loc_dict_txt["phase_shift_period_inp_loc"] = [loc_dict["phase_shift_period_inp_loc"][0]-200, loc_dict["phase_shift_period_inp_loc"][1]];
-  text('Phase Shift Period', loc_dict_txt["phase_shift_period_inp_loc"]);
+  text('Phase Shift Period', loc_dict_txt["phase_shift_period_inp_loc"][0],loc_dict_txt["phase_shift_period_inp_loc"][1]);
   loc_dict_txt["length_inp_loc"] = [loc_dict["length_inp_loc"][0]-200, loc_dict["length_inp_loc"][1]];
-  text('Piece length', loc_dict_txt["length_inp_loc"]);
+  text('Piece length', loc_dict_txt["length_inp_loc"][0],loc_dict_txt["length_inp_loc"][1]);
   loc_dict_txt["number_of_tracks_inp_loc"] = [loc_dict["number_of_tracks_inp_loc"][0]-200, loc_dict["number_of_tracks_inp_loc"][1]];
   text('Number of Tracks', loc_dict["number_of_tracks_inp_loc"][0]-200, loc_dict["number_of_tracks_inp_loc"][1]);
 
