@@ -19,6 +19,9 @@ var bg;
 let loc_dict = {}
 let loc_dict_txt = {}
 
+let synthinps = [];
+let onsetsinps = [];
+
 let onsetsA_loc;
 let onsetsB_loc;
 let pulsesA_loc;
@@ -39,12 +42,15 @@ function setup() {
     let tmp_synth_str = "tr" + i + "_synth";
     let tmp_synth = window[tmp_synth_str];
     tmp_synth = createSelect();
+    console.log(tmp_synth)
+
     tmp_synth.position(synth_x,synth_y+ 20 * (i-1));
     loc_dict[tmp_synth_str+ "_loc"] = [synth_x,synth_y+ 20 * (i-1)]
     for( let k = 0; k<All_Synths.length;k++){
       tmp_synth.option(All_Synths[k]);
     }
     tmp_synth.selected(All_Synths[8]);
+    synthinps.push(tmp_synth)
   }
 
   let phase_shift_amount_inp = createInput(phaseShiftAmount.toString());
@@ -96,6 +102,7 @@ function setup() {
 
     }
     tmp_onsets.size(100);
+    onsetsinps.push(tmp_onsets);
   }
 
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
@@ -115,10 +122,10 @@ function setup() {
     phaseShiftPeriod = parseInt(phase_shift_amount_inp.value());           // After how many bars does a shift occur
     length = parseInt(length_inp.value());                               // Length of total piece
     numberOfTracks = parseInt(number_of_tracks_inp.value());
-    onsetsA = parseInt(onsetsA_loc.value());
-    pulsesA = parseInt(pulsesA_loc.value());
-    onsetsB = parseInt(onsetsB_loc.value());
-    pulsesB = parseInt(pulsesB_loc.value());
+    onsetsA = parseInt(onsetsinps[0].value());
+    pulsesA = parseInt(onsetsinps[1].value());
+    onsetsB = parseInt(onsetsinps[2].value());
+    pulsesB = parseInt(onsetsinps[3].value());
     generateMidi(onsetsA, pulsesA, onsetsB, pulsesB);
 
     //gen_button.style('background-color', '#02139b')
@@ -231,6 +238,8 @@ function draw() {
   proportion = 0.7;
   ShuffleCircle(binaryRhythmB,pulsesB,proportion,cl3,cl4);
 
+  mouseHover()
+
   function ShuffleCircle(onset,pulses,prt,color1,color2){
     noStroke();
 
@@ -257,8 +266,10 @@ function draw() {
 }
 
 function mouseHover(){
-
-
+  let keys_txt = Object.keys(loc_dict_txt);
+  for (let i = 0; i<loc_dict_txt.length; i++){
+    console.log(loc_dict_txt[keys_txt[i]]);
+  }
 }
 
 function start_aud_gui() {
@@ -268,7 +279,7 @@ function start_aud_gui() {
     console.log("already playing")
   } else if (!state) {
     console.log("state false")
-    SynthTypes = [tr1_synth.value(), tr2_synth.value(), tr3_synth.value(), tr4_synth.value()];
+    SynthTypes = [synthinps[0].value(), synthinps[1].value(), synthinps[2].value(), synthinps[3].value()];
     console.log('Call start_aud');
     Tone.Transport.toggle()
     start_aud();
