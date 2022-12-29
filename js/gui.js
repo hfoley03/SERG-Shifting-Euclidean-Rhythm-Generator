@@ -16,6 +16,11 @@ let cl_bg = '#4F5D75';
 
 var bg;
 
+let loc_dict = {}
+let onsetsA_loc;
+let onsetsB_loc;
+let pulsesA_loc;
+let pulsesB_loc;
 function preload(){
   //bg = loadImage("https://raw.githubusercontent.com/Rabbid76/graphics-snippets/master/resource/texture/background.jpg")
   let bg = loadImage("https://cdn.videoplasty.com/animation/merry-christmas-background-and-giftcard-stock-animation-16874-1280x720.jpg")
@@ -39,43 +44,57 @@ function setup() {
     clear()
 
     stop_aud();
-    phaseShiftAmount = parseInt(phaseShiftAmountInp.value());           // How many pulses is each shift
-    phaseShiftPeriod = parseInt(phaseShiftAmountInp.value());           // After how many bars does a shift occur
-    length = parseInt(lengthInp.value());                               // Length of total piece
-    numberOfTracks = parseInt(numberOfTracksInp.value());
-    onsetsA = parseInt(inp1.value());
-    pulsesA = parseInt(inp2.value());
-    onsetsB = parseInt(inp3.value());
-    pulsesB = parseInt(inp4.value());
+    phaseShiftAmount = parseInt(phase_shift_amount_inp.value());           // How many pulses is each shift
+    phaseShiftPeriod = parseInt(phase_shift_amount_inp.value());           // After how many bars does a shift occur
+    length = parseInt(length_inp.value());                               // Length of total piece
+    numberOfTracks = parseInt(number_of_tracks_inp.value());
+    onsetsA = parseInt(onsetsA_loc.value());
+    pulsesA = parseInt(pulsesA_loc.value());
+    onsetsB = parseInt(onsetsB_loc.value());
+    pulsesB = parseInt(pulsesB_loc.value());
     generateMidi(onsetsA, pulsesA, onsetsB, pulsesB);
 
     //gen_button.style('background-color', '#02139b')
   });
 
   // ---- Selection of the type of Synth according to the user
-
-  tr1 = createSelect();
-  tr1.position(9.6*w/12,h/11);
-
-  tr2 = createSelect();
-  tr2.position(9.6*w/12,h/11+20);
-
-  tr3 = createSelect();
-  tr3.position(9.6*w/12,h/11+40);
-
-  tr4 = createSelect();
-  tr4.position(9.6*w/12,h/11+60);
-
-  for( i = 0; i<All_Synths.length;i++){
-    tr1.option(All_Synths[i]);
-    tr2.option(All_Synths[i]);
-    tr3.option(All_Synths[i]);
-    tr4.option(All_Synths[i]);
+  let synth_x = 9.6*w/12;
+  let synth_y = h/11;
+  for(let i = 1; i<=4; i++){
+    let tmp_synth_str = "tr" + i + "_synth";
+    let tmp_synth = window[tmp_synth_str];
+    tmp_synth = createSelect();
+    tmp_synth.position(synth_x,synth_y+ 20 * (i-1));
+    loc_dict[tmp_synth_str+ "_loc"] = [synth_x,synth_y+ 20 * (i-1)]
+    for( let k = 0; k<All_Synths.length;k++){
+      tmp_synth.option(All_Synths[k]);
+    }
+    tmp_synth.selected(All_Synths[8]);
   }
-  tr1.selected('PolySynth');
-  tr2.selected('PolySynth');
-  tr3.selected('PolySynth');
-  tr4.selected('PolySynth');
+
+  let phase_shift_amount_inp = createInput(phaseShiftAmount.toString());
+  let phase_shift_amount_inp_loc = [9.6*w/12, h/11+80];
+  loc_dict['phase_shift_amount_inp_loc'] = phase_shift_amount_inp_loc
+  phase_shift_amount_inp.position(phase_shift_amount_inp_loc[0],phase_shift_amount_inp_loc[1]);
+  phase_shift_amount_inp.size(20);
+
+  let phase_shift_period_inp = createInput(phaseShiftPeriod.toString());
+  let phase_shift_period_inp_loc = [phase_shift_amount_inp_loc[0], phase_shift_amount_inp_loc[1]+20];
+  loc_dict['phase_shift_period_inp_loc'] = phase_shift_period_inp_loc
+  phase_shift_period_inp.position(phase_shift_amount_inp_loc[0],phase_shift_amount_inp_loc[1]+20);
+  phase_shift_period_inp.size(20);
+
+  let length_inp = createInput(length.toString());
+  let length_inp_loc = [phase_shift_amount_inp_loc[0], phase_shift_amount_inp_loc[1]+40];
+  loc_dict['length_inp_loc'] = length_inp_loc
+  length_inp.position(length_inp_loc[0],length_inp_loc[1]);
+  length_inp.size(20);
+
+  let number_of_tracks_inp = createInput(numberOfTracks.toString());
+  let number_of_tracks_inp_loc = [phase_shift_amount_inp_loc[0], phase_shift_amount_inp_loc[1]+60];
+  loc_dict['number_of_tracks_inp_loc'] = number_of_tracks_inp_loc
+  number_of_tracks_inp.position(number_of_tracks_inp_loc[0],number_of_tracks_inp_loc[1]);
+  number_of_tracks_inp.size(20);
 
   // ---- Play button
   play_button = createButton('&#9658');
@@ -98,37 +117,27 @@ function setup() {
   stop_button.mousePressed(stop_aud);
 
 // ----- Inputs of the Onsets and Pulses of the Euclidean Rhythm
-  let inp1 = createInput(onsetsA.toString());
-  inp1.position(2.6*w/12, h/10+35);
-  inp1.size(100);
+  let onsetsA_x = 2.6*w/12;
+  let onsetsA_y = h/10+35;
+  let onsets_pulses = [onsetsA,pulsesA, onsetsB, pulsesB];
+  let onsets_pulses_str = ["onsetsA","pulsesA", "onsetsB", "pulsesB"];
+  for(let i = 1; i<=4; i++){
+    let tmp_onsets_str = onsets_pulses_str[i-1] + "_loc";
+    let tmp_onsets = window[tmp_onsets_str];
+    tmp_onsets = createInput(onsets_pulses[i-1]);
+    if(i == 1 || i == 2) {
+      tmp_onsets.position(onsetsA_x, onsetsA_y + 20 * (i - 1));
+      loc_dict[tmp_onsets_str] = [onsetsA_x, onsetsA_y + 20 * (i - 1)];
+    }
+    else{
+      tmp_onsets.position(onsetsA_x+ 330, onsetsA_y + 20 * (i - 3));
+      loc_dict[tmp_onsets_str] = [onsetsA_x + 330, onsetsA_y + 20 * (i - 3)];
+    }
+    tmp_onsets.size(100);
+  }
 
-  let inp2 = createInput(pulsesA.toString());
-  inp2.position(2.6*w/12, h/10+55);
-  inp2.size(100);
 
-  let inp3 = createInput(onsetsB.toString());
-  inp3.position(5.7*w/12, h/10+35);
-  inp3.size(100);
 
-  let inp4 = createInput(pulsesB.toString());
-  inp4.position(5.7*w/12, h/10+55);
-  inp4.size(100);
-
-  let phaseShiftAmountInp = createInput(phaseShiftAmount.toString());
-  phaseShiftAmountInp.position(9.6*w/12, h/11+80);
-  phaseShiftAmountInp.size(20);
-
-  let phaseShiftPeriodInp = createInput(phaseShiftPeriod.toString());
-  phaseShiftPeriodInp.position(9.6*w/12, h/11+100);
-  phaseShiftPeriodInp.size(20);
-
-  let lengthInp = createInput(length.toString());
-  lengthInp.position(9.6*w/12, h/11+120);
-  lengthInp.size(20);
-
-  let numberOfTracksInp = createInput(numberOfTracks.toString());
-  numberOfTracksInp.position(9.6*w/12, h/11+140);
-  numberOfTracksInp.size(20);
 }
 
 function draw() {
@@ -157,6 +166,7 @@ function draw() {
   text('2nd Track', 6.5*w/10, h/11+20);
   text('3rd Track', 6.5*w/10, h/11+40);
   text('4th Track', 6.5*w/10, h/11+60);
+
   text('Phase Shift Amount', 6.5*w/10, h/11+80);
   text('Phase Shift Period', 6.5*w/10, h/11+100);
   text('Piece length', 6.5*w/10, h/11+120);
@@ -239,7 +249,7 @@ function start_aud_gui() {
     console.log("already playing")
   } else if (!state) {
     console.log("state false")
-    SynthTypes = [tr1.value(), tr2.value(), tr3.value(), tr4.value()];
+    SynthTypes = [tr1_synth.value(), tr2_synth.value(), tr3_synth.value(), tr4_synth.value()];
     console.log('Call start_aud');
     Tone.Transport.toggle()
     start_aud();
