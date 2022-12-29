@@ -4,14 +4,12 @@ let synths = []
 let main_bpm;
 let main_loop_interval;// duration of looping
 
-let main_loop;
-let print_loop;
+let main_loop = new Tone.Loop(playNotes , main_loop_interval);
+let print_loop = new Tone.Loop(() => {console.log("loop")});
 
 let pause_flag = false;
 
 let time_instants_to_play = [];
-
-let is_audio_playing_flag = false;
 
 let synth_counter = 0;
 
@@ -42,9 +40,9 @@ function playNotes() {
     //create a synth for each track
 
     synths.push(synth)
-    //console.log("synth " + synth)
+    console.log(synths)
     synth_counter = synth_counter + 1
-    //console.log("synth counter: " + synth_counter)
+    console.log("synth counter: " + synth_counter)
     //schedule the events
     track.notes.forEach(note => {
       time_inst_to_play = time_common_track + note.time + 0.5
@@ -64,10 +62,8 @@ function start_aud() {
   main_bpm = 120;
   main_loop_interval = length*2; // duration of looping
 
-  main_loop = new Tone.Loop(playNotes , main_loop_interval);
-  print_loop = new Tone.Loop(() => {
-    console.log("loop")
-  } , main_loop_interval);
+  main_loop.interval = main_loop_interval
+  print_loop.interval = main_loop_interval
 
   Tone.start().then(()=>{
     Tone.Transport.bpm.value = main_bpm;
@@ -88,7 +84,6 @@ function stop_aud(){
   }
   synths = []
   console.log(synths)
-  //Tone.context.close()
   state = false;
 }
 

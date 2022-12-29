@@ -242,6 +242,7 @@ function start_aud_gui() {
     console.log("state false")
     SynthTypes = [tr1.value(), tr2.value(), tr3.value(), tr4.value()];
     console.log('Call start_aud');
+    Tone.Transport.toggle()
     start_aud();
   }
 
