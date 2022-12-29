@@ -1,7 +1,7 @@
 // ------- P5 JS -----
 
 let w = window.innerWidth;
-let h = window.innerHeight;
+let h = 1000;
 
 let gen_button;
 let play_button;
@@ -27,8 +27,8 @@ function setup() {
 
 
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
-  gen_button = createButton('Generate ⚡');
-  gen_button.position(3.5*w/12, h/3);
+  gen_button = createButton('Generate');
+  gen_button.position(3.5*w/12, 3.5*h/12);
   gen_button.style('background-color', '#878F9B');
   gen_button.style('color','#FFFFFF');
   gen_button.style('font-family: Bahnschrift');
