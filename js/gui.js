@@ -1,6 +1,6 @@
 // ------- P5 JS -----
 
-let w = window.innerWidth;
+let w = 1250;
 let h = 1000;
 
 let gen_button;
@@ -13,10 +13,11 @@ let All_Synths = ['AMSynth','DuoSynth','FMSynth','MembraneSynth', 'MetalSynth',
 let x=0;
 let cl_bg = '#4F5D75';
 
-
 function preload(){
-  //bg = loadImage("https://raw.githubusercontent.com/Rabbid76/graphics-snippets/master/resource/texture/background.jpg")
-  let bg = loadImage("https://cdn.videoplasty.com/animation/merry-christmas-background-and-giftcard-stock-animation-16874-1280x720.jpg")
+  for (let i = 0; i < 4; i++) {
+    let track_duration = finalMidiObject.tracks[i].duration;
+    let duration_bars = track_duration/length;
+  }
 }
 
 function setup() {
