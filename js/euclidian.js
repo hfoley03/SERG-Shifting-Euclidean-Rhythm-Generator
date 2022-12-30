@@ -33,7 +33,7 @@ let midiObject;
 // Creates full composition, with phase shifts
 let finalMidiObject;
 
-generateMidi(onsetsA = 4, pulsesA = 8, onsetsB = 3, pulsesB = 8);
+generateMidi(onsetsA = 3, pulsesA = 8, onsetsB = 7, pulsesB = 16);
 
 function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB){
   // Variables that could change by user

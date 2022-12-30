@@ -27,7 +27,8 @@ let pulse_durationB;
 
 let interval_visualA_fixed;
 let interval_visualB_fixed;
-let index = 0;
+let indexA = 0;
+let indexB = 0;
 let indexA_1;
 let indexA_2;
 let indexB_1;
@@ -169,10 +170,10 @@ function setup() {
   console.log("Track B bars Duration:" + bar_durationB);
   console.log("Track B Duration:" + trackB_duration);
 
-  indexA_1 = pulsesA-1;
-  indexA_2 = pulsesA;
-  indexB_1 = pulsesB-1;
-  indexB_2 = pulsesB;
+  indexA_1 = pulsesA;
+  indexA_2 = pulsesA-1;
+  indexB_1 = pulsesB;
+  indexB_2 = pulsesB-1;
 }
 
 function draw() {
@@ -293,26 +294,27 @@ function VisualFix(x,y,track,pulses,color){
   strokeWeight(7);
   strokeCap(SQUARE);
   noFill();
-  arc(x,y,w/4,w/4,end,start)
+  arc(x,y,w/4,w/4,start,end)
 
 }
 
 function VisualFixTiming(){
-  index++;
+  indexA++;
+  indexB++;
   indexA_1--;
   indexA_2--;
   indexB_1--;
   indexB_2--;
 
-  if (index==(pulsesA)){
-    index=0;
-    indexA_1=pulsesA-1;
-    indexA_2=pulsesA;
+  if (indexA==(pulsesA)){
+    indexA=0;
+    indexA_1=pulsesA;
+    indexA_2=pulsesA-1;
   }
-  if (index==(pulsesB)){
-    index=0;
-    indexB_1=pulsesB-1;
-    indexB_2=pulsesB;
+  if (indexB==(pulsesB)){
+    indexB=0;
+    indexB_1=pulsesB;
+    indexB_2=pulsesB-1;
   }
 }
 function startTimer(){
