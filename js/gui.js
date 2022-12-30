@@ -27,7 +27,10 @@ let onsetsB_loc;
 let pulsesA_loc;
 let pulsesB_loc;
 
-let over = false;
+
+let texts_ = ['1',  '2','3',  '4','5',  '6','',  '','',  '','',  '']
+var txt_objs = [];
+
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
@@ -38,6 +41,9 @@ function preload(){
 }
 
 function setup() {
+
+
+
   frameRate(100)
   createCanvas(w,h);
 
@@ -156,6 +162,35 @@ function setup() {
   stop_button.style('border-radius' , 10+'%');
   stop_button.mousePressed(stop_aud);
 
+
+  loc_dict_txt['tr1_synth_loc_txt'] = [loc_dict["tr1_synth_loc"][0] - 100, loc_dict["tr1_synth_loc"][1]];
+  loc_dict_txt['tr2_synth_loc_txt'] = [loc_dict["tr2_synth_loc"][0] - 100, loc_dict["tr2_synth_loc"][1]];
+  loc_dict_txt['tr3_synth_loc_txt'] = [loc_dict["tr3_synth_loc"][0] - 100, loc_dict["tr3_synth_loc"][1]];
+  loc_dict_txt['tr4_synth_loc_txt'] = [loc_dict["tr4_synth_loc"][0] - 100, loc_dict["tr4_synth_loc"][1]];
+  loc_dict_txt["phase_shift_amount_inp_loc_txt"] = [loc_dict["phase_shift_amount_inp_loc"][0]-200, loc_dict["phase_shift_amount_inp_loc"][1]];
+  loc_dict_txt["phase_shift_period_inp_loc_txt"] = [loc_dict["phase_shift_period_inp_loc"][0]-200, loc_dict["phase_shift_period_inp_loc"][1]];
+  loc_dict_txt["length_inp_loc_txt"] = [loc_dict["length_inp_loc"][0]-200, loc_dict["length_inp_loc"][1]];
+  loc_dict_txt["number_of_tracks_inp_loc_txt"] = [loc_dict["number_of_tracks_inp_loc"][0]-200, loc_dict["number_of_tracks_inp_loc"][1]];
+
+  let keys_txt = Object.keys(loc_dict_txt);
+  let keys = Object.keys(loc_dict);
+
+  for (i = 0;i< texts_.length;i++){
+
+    loc_name = keys[i];
+    loc_name_txt = loc_name + '_txt'
+
+    txt_x_st = loc_dict_txt[loc_name_txt][0]
+    txt_y_st = loc_dict_txt[loc_name_txt][1]
+
+    txt_x_end = loc_dict[loc_name][0]
+    txt_y_end = loc_dict[loc_name][1]
+
+    txt_objs[i] = new texts(txt_x_st, txt_x_end, txt_y_st, texts_[i]);
+
+
+
+  }
 }
 
 function draw() {
@@ -181,22 +216,14 @@ function draw() {
   text('Onsets 2nd Track', loc_dict_txt['onsetsB_loc_txt'][0], loc_dict_txt['onsetsB_loc_txt'][1]);
   text('Pulses 2nd Track', loc_dict_txt['pulsesB_loc_txt'][0], loc_dict_txt['pulsesB_loc_txt'][1]);
 
-  loc_dict_txt['tr1_synth_loc_txt'] = [loc_dict["tr1_synth_loc"][0] - 100, loc_dict["tr1_synth_loc"][1]];
   text('1st Track', loc_dict_txt['tr1_synth_loc_txt'][0], loc_dict_txt['tr1_synth_loc_txt'][1]);
-  loc_dict_txt['tr2_synth_loc_txt'] = [loc_dict["tr2_synth_loc"][0] - 100, loc_dict["tr2_synth_loc"][1]];
   text('2nd Track', loc_dict_txt['tr2_synth_loc_txt'][0], loc_dict_txt['tr2_synth_loc_txt'][1]);
-  loc_dict_txt['tr3_synth_loc_txt'] = [loc_dict["tr3_synth_loc"][0] - 100, loc_dict["tr3_synth_loc"][1]];
   text('3rd Track', loc_dict_txt['tr3_synth_loc_txt'][0], loc_dict_txt['tr3_synth_loc_txt'][1]);
-  loc_dict_txt['tr4_synth_loc_txt'] = [loc_dict["tr4_synth_loc"][0] - 100, loc_dict["tr4_synth_loc"][1]];
   text('4th Track', loc_dict_txt['tr4_synth_loc_txt'][0], loc_dict_txt['tr4_synth_loc_txt'][1]);
 
-  loc_dict_txt["phase_shift_amount_inp_loc_txt"] = [loc_dict["phase_shift_amount_inp_loc"][0]-200, loc_dict["phase_shift_amount_inp_loc"][1]];
   text('Phase Shift Amount', loc_dict_txt["phase_shift_amount_inp_loc_txt"][0],loc_dict_txt["phase_shift_amount_inp_loc_txt"][1]);
-  loc_dict_txt["phase_shift_period_inp_loc_txt"] = [loc_dict["phase_shift_period_inp_loc"][0]-200, loc_dict["phase_shift_period_inp_loc"][1]];
   text('Phase Shift Period', loc_dict_txt["phase_shift_period_inp_loc_txt"][0],loc_dict_txt["phase_shift_period_inp_loc_txt"][1]);
-  loc_dict_txt["length_inp_loc_txt"] = [loc_dict["length_inp_loc"][0]-200, loc_dict["length_inp_loc"][1]];
   text('Piece length', loc_dict_txt["length_inp_loc_txt"][0],loc_dict_txt["length_inp_loc_txt"][1]);
-  loc_dict_txt["number_of_tracks_inp_loc_txt"] = [loc_dict["number_of_tracks_inp_loc"][0]-200, loc_dict["number_of_tracks_inp_loc"][1]];
   text('Number of Tracks', loc_dict_txt["number_of_tracks_inp_loc_txt"][0], loc_dict_txt["number_of_tracks_inp_loc_txt"][1]);
 
   // ------- Generation of Concentric Circles
@@ -246,14 +273,19 @@ function draw() {
   ShuffleCircle(binaryRhythmB,pulsesB,proportion,cl3,cl4);
 
 
-  if (over == true){
-    let s = 'The quick brown fox jumped over the lazy ' + loc_name;
-    fill(50);
-    text(s, mouseX, mouseY);
-  }
-  p(over)
 
-  //mouseHover()
+  for (let i = 0; i < texts_.length; i++) {
+    txt_objs[i].checkHover();
+    //txt_objs[i].drawTextBox();
+    if (txt_objs[i].over) {
+      fill(200, 200, 200, 128);
+      rect(mouseX, mouseY, 100, 50);
+      fill(0);
+      text("Text " + (i + 1) + " hovered!", mouseX + 10, mouseY + 30);
+      console.log(i)
+    }
+  }
+
 
   function ShuffleCircle(onset,pulses,prt,color1,color2){
     noStroke();
@@ -280,12 +312,11 @@ function draw() {
   }
 }
 function mouseMoved() {
-  mouseHover()
 }
+
 function p(str){console.log(str)}
 function mouseHover(){
-  let keys_txt = Object.keys(loc_dict_txt);
-  let keys = Object.keys(loc_dict);
+
 
 
   for (let i = 0; i<keys_txt.length; i++){
@@ -334,4 +365,32 @@ function start_aud_gui() {
     start_aud();
   }
 
+}
+
+class texts {
+  constructor(txt_x_st, txt_x_end, txt_y_st, txt) {
+    this.txt_x_st = txt_x_st
+    this.txt_x_end = txt_x_end
+    this.txt_y_st = txt_y_st
+    this.over = false;
+    this.txt = txt;
+  }
+  drawTextBox() {
+    fill(0);
+    textSize(20);
+    text(this.txt, this.txt_x_st, this.txt_y_st);
+  }
+
+
+  checkHover() {
+    if (mouseX > this.txt_x_st &&
+      mouseX < this.txt_x_end &&
+      mouseY > this.txt_y_st &&
+      mouseY < this.txt_y_st + 10){
+      this.over = true
+    }
+    else{
+      this.over = false
+    }
+  }
 }
