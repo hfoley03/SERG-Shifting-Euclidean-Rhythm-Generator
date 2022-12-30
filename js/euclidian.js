@@ -18,8 +18,8 @@ let track2;     // track/player 2, shifting occurs
 let track3;     // track/player 1, no shifting, base rhythm
 let track4;      // track/player 2, shifting occurs
 
-let oneBarInTicks; //length of a bar in ticks, normally 1920
-let pulseInTicksA;     //length of one pulse in ticks,normally for a 1/16th note = 120
+let oneBarInTicks;   //length of a bar in ticks, normally 1920
+let pulseInTicksA;   //length of one pulse in ticks,normally for a 1/16th note = 120
 let pulseInTicksB;
 
 // Create binary euclidean rhythm
@@ -33,7 +33,7 @@ let midiObject;
 // Creates full composition, with phase shifts
 let finalMidiObject;
 
-generateMidi(onsetsA = 3, pulsesA = 8, onsetsB = 5, pulsesB = 16);
+generateMidi(onsetsA = 4, pulsesA = 8, onsetsB = 3, pulsesB = 8);
 
 function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB){
   // Variables that could change by user
