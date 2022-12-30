@@ -9,12 +9,10 @@ let stop_button;
 let state = false;
 
 let All_Synths = ['AMSynth','DuoSynth','FMSynth','MembraneSynth', 'MetalSynth',
-   'MonoSynth', 'NoiseSynth', 'PluckSynth', 'PolySynth', 'Sampler', 'Synth']
+   'MonoSynth', 'NoiseSynth', 'PluckSynth', 'PolySynth', 'Sampler', 'Synth'];
 
 let x=0;
 let cl_bg = '#4F5D75';
-
-var bg;
 
 let loc_dict = {}
 let loc_dict_txt = {}
@@ -33,10 +31,10 @@ function windowResized() {
 }
 
 function preload(){
-  for (let i = 0; i < 4; i++) {
+  /*for (let i = 0; i < 4; i++) {
     let track_duration = finalMidiObject.tracks[i].duration;
     let duration_bars = track_duration/length;
-  }
+  }*/
 }
 
 function setup() {
@@ -214,109 +212,35 @@ function draw() {
 
   // Circles of the Right
 
-  ShuffleCircle(binaryRhythmA,pulsesA,1,cl1,cl2,w/4);   // Track 1 Fixed Circle
-  ShuffleCircle(binaryRhythmA,pulsesA,0.7,cl3,cl4,w/4);   // Track 2 Shifting circle
-  ShuffleCircle(binaryRhythmB,pulsesB,1,cl1,cl2,3*w/4);   // Track 3 Fixed Circle
-  ShuffleCircle(binaryRhythmB,pulsesB,0.7,cl3,cl4,3*w/4);   // Track 4 Shifting circle
+  ShuffleCircle(binaryRhythmA, pulsesA, 1, cl1, cl2, w/4);   // Track 1 Fixed Circle
+  ShuffleCircle(binaryRhythmA, pulsesA, 0.7, cl3, cl4, w/4);   // Track 2 Shifting circle
+  ShuffleCircle(binaryRhythmB, pulsesB, 1, cl1, cl2, 3*w/4);   // Track 3 Fixed Circle
+  ShuffleCircle(binaryRhythmB, pulsesB, 0.7, cl3, cl4, 3*w/4);   // Track 4 Shifting circle
 
-  function ShuffleCircle(onset,pulses,prt,color1,color2,x){
+  function ShuffleCircle(onset, pulses, prt, color1, color2, x) {
 
-    let y = 2*h/4;
-    let r2 = w/4;
+    let y = 2 * h / 4;
+    let r2 = w / 4;
 
     noStroke();
-    for(let i = 0; i < pulses; i++) {
-      if(onset[i] == 1){
-        stroke(cl_bg);
-        fill(color1);
-        arc(x,y,prt*r2,prt*r2,2*PI*(1-(i+1)/pulses),2*PI*(1-i/pulses),PIE);
-        fill(cl_bg);
-        arc(x,y,prt*r2-15,prt*r2-15,0,2*PI,PIE);
-      }else{
-        stroke(cl_bg);
-        fill(color2);
-        arc(x,y,r2*prt,r2*prt,2*PI*(1-(i+1)/pulses),2*PI*(1-i/pulses),PIE);
-        fill(cl_bg);
-        arc(x,y,prt*r2-15,prt*r2-15,0,2*PI,PIE);
-      }
-    }
-  }
-}
-function start_aud_gui() {
-  SynthTypes = [tr1.value(), tr2.value(), tr3.value(), tr4.value()];
-  console.log('audio started');
-  start_aud();
-}
-
-/* // main circle
-  proportion = 1;
-  TrackCircle(binaryRhythmA,pulsesA,proportion, cl1, cl2);
-  // second circle
-  proportion = 0.7;
-  TrackCircle(binaryRhythmB,pulsesB,proportion, cl3, cl4);
-
-  function TrackCircle(onset,pulses,proportion,color1,color2) {
-    stroke(color1);
-    noFill();
-    circle(c_x,c_y, 2 * r * proportion);
     for (let i = 0; i < pulses; i++) {
-      let n_x = c_x + (proportion * r * cos(i * 2 * PI / pulses));
-      let n_y = c_y + (proportion * r * sin(i * 2 * PI / pulses));
-
       if (onset[i] == 1) {
-        stroke(color1);
+        stroke(cl_bg);
         fill(color1);
-        circle(n_x, n_y, c_x/10);
+        arc(x, y, prt * r2, prt * r2, 2 * PI * (1 - (i + 1) / pulses), 2 * PI * (1 - i / pulses), PIE);
+        fill(cl_bg);
+        arc(x, y, prt * r2 - 15, prt * r2 - 15, 0, 2 * PI, PIE);
       } else {
-        stroke(color2);
-        fill(color2);
-        circle(n_x, n_y, c_x/10);
-      }
-    }
-  }*/
-
-  }
-
-  proportion = 1;
-  ShuffleCircle(binaryRhythmA,pulsesA,proportion,cl1,cl2);
-
-  proportion = 0.7;
-  ShuffleCircle(binaryRhythmB,pulsesB,proportion,cl3,cl4);
-
-
-  if (over == true){
-    let s = 'The quick brown fox jumped over the lazy ' + loc_name;
-    fill(50);
-    text(s, mouseX, mouseY);
-  }
-  p(over)
-
-  //mouseHover()
-
-  function ShuffleCircle(onset,pulses,prt,color1,color2){
-    noStroke();
-
-    let x = 3*w/4;
-    let y = 2*h/4;
-    let r2 = w/4;
-
-    for(let i = 0; i < pulses; i++) {
-      if(onset[i] == 1){
-        stroke(cl_bg);
-        fill(color1);
-        arc(x,y,prt*r2,prt*r2,2*PI*(1-(i+1)/pulses),2*PI*(1-i/pulses),PIE);
-        fill(cl_bg);
-        arc(x,y,prt*r2-15,prt*r2-15,0,2*PI,PIE);
-      }else{
         stroke(cl_bg);
         fill(color2);
-        arc(x,y,r2*prt,r2*prt,2*PI*(1-(i+1)/pulses),2*PI*(1-i/pulses),PIE);
+        arc(x, y, r2 * prt, r2 * prt, 2 * PI * (1 - (i + 1) / pulses), 2 * PI * (1 - i / pulses), PIE);
         fill(cl_bg);
-        arc(x,y,prt*r2-15,prt*r2-15,0,2*PI,PIE);
+        arc(x, y, prt * r2 - 15, prt * r2 - 15, 0, 2 * PI, PIE);
       }
     }
   }
 }
+
 function mouseMoved() {
   mouseHover()
 }
@@ -371,5 +295,31 @@ function start_aud_gui() {
     Tone.Transport.toggle()
     start_aud();
   }
-
 }
+
+/* // main circle
+  proportion = 1;
+  TrackCircle(binaryRhythmA,pulsesA,proportion, cl1, cl2);
+  // second circle
+  proportion = 0.7;
+  TrackCircle(binaryRhythmB,pulsesB,proportion, cl3, cl4);
+
+  function TrackCircle(onset,pulses,proportion,color1,color2) {
+    stroke(color1);
+    noFill();
+    circle(c_x,c_y, 2 * r * proportion);
+    for (let i = 0; i < pulses; i++) {
+      let n_x = c_x + (proportion * r * cos(i * 2 * PI / pulses));
+      let n_y = c_y + (proportion * r * sin(i * 2 * PI / pulses));
+
+      if (onset[i] == 1) {
+        stroke(color1);
+        fill(color1);
+        circle(n_x, n_y, c_x/10);
+      } else {
+        stroke(color2);
+        fill(color2);
+        circle(n_x, n_y, c_x/10);
+      }
+    }
+  }*/
