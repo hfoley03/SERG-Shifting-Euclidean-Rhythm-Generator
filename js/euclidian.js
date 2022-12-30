@@ -3,10 +3,11 @@ let pulsesA;                             // How many steps, 4,8 or 16
 let onsetsB;
 let pulsesB;
 
-let phaseShiftAmount;                   // How many pulses is each shift
-let phaseShiftPeriod;                   // After how many bars does a shift occur
-let length;                            // Length of total piece
-let numberOfTracks;                     // Number of tracks/players
+let trackNamesTemp = ['track1', "track2", "track3", "track4"]
+let phaseShiftAmount = 1;                   // How many pulses is each shift
+let phaseShiftPeriod = 2;                   // After how many bars does a shift occur
+let numberOfTracks = 2;                     // Number of tracks/players
+let length = 16;                       // Length of total piece
 let mode;                               // Play mode (not used)
 let scale;                      // Used to add 4th and 5th note of C (see function pitch())
 let midiInProgress;
@@ -24,7 +25,6 @@ let pulseInTicksB;
 // Create binary euclidean rhythm
 let binaryRhythmA;
 let binaryRhythmB;
-//console.log(binaryRhythmB)
 
 
 // Convert into Midi object
@@ -33,15 +33,12 @@ let midiObject;
 // Creates full composition, with phase shifts
 let finalMidiObject;
 
-generateMidi(onsetsA = 3, pulsesA = 8, onsetsB = 3, pulsesB = 4);
+generateMidi(onsetsA = 3, pulsesA = 8, onsetsB = 5, pulsesB = 16);
 
 function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB){
   // Variables that could change by user
 
-  phaseShiftAmount = 2;                   // How many pulses is each shift
-  phaseShiftPeriod = 2;                   // After how many bars does a shift occur
-  length = 64;                            // Length of total piece
-  numberOfTracks = 4;                     // Number of tracks/players
+
   mode = 1;                               // Play mode (not used)
   scale = ['F', 'G']                      // Used to add 4th and 5th note of C (see function pitch())
   midiInProgress = new Midi();
@@ -211,7 +208,7 @@ function get_random (list) {
 function createNote(track_, timeTicks, pulseInTicks_){
   track_.addNote({
     pitch: pitch(),
-    octave: 4,
+    octave: 4,//trackNamesTemp.indexOf(track_.name) + 2,
     ticks: timeTicks,
     durationTicks: pulseInTicks_,
     velocity: vel()
