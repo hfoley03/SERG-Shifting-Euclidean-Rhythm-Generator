@@ -27,8 +27,6 @@ let over = false;
 let pulse_durationA;
 let pulse_durationB;
 
-let interval_visualA_fixed;
-let interval_visualB_fixed;
 let indexA = 0;
 let indexB = 0;
 let indexA_1;
@@ -36,7 +34,10 @@ let indexA_2;
 let indexB_1;
 let indexB_2;
 
-let ShiftBinaryA;
+let interval_visualA_fixed;
+let interval_visualB_fixed;
+let interval_visualA_shift;
+
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
@@ -166,9 +167,6 @@ function setup() {
   let trackA_duration = bar_durationA*length;
   let trackB_duration = bar_durationB*length;
 
-  ShiftBinaryA=TrackBinaryShift(1);
-  console.log(ShiftBinaryA);
-
   indexA_1 = pulsesA;
   indexA_2 = pulsesA-1;
   indexB_1 = pulsesB;
@@ -224,7 +222,8 @@ function draw() {
 
   FixedCircle(w/4, 2*h/4,binaryRhythmA, pulsesA, cl1, cl2);                 // Track 1 Fixed Circle
   VisualFix(w/4,2*h/4,1,pulsesA,cl2);
-  ShuffleCircle(3*w/4, 2*h/4, binaryRhythmA, pulsesA, 0.7, cl3, cl4);   // Track 2 Shifting circle
+  VisualShift(0,cl3, cl4);
+  //ShuffleCircle(3*w/4, 2*h/4, binaryRhythmA, pulsesA, 0.7, cl3, cl4);   // Track 2 Shifting circle
   FixedCircle(w/4,3*h/4,binaryRhythmB, pulsesB, cl1, cl2);                  // Track 3 Fixed Circle
   VisualFix(w/4,3*h/4,2,pulsesB,cl2);
   ShuffleCircle(3*w/4, 3*h/4, binaryRhythmB, pulsesB, 0.7, cl3, cl4);   // Track 4 Shifting circle
@@ -313,32 +312,44 @@ function ShuffleCircle(x, y, onset, pulses, prt, color1, color2) {
     }
   }
 }
-function TrackBinaryShift(track){ //function to obtain the binary pattern of the full track
+
+//--Function to obtain the binary pattern of the full track
+function VisualShift(track,color1, color2){
   let Time_notes_aux = [];
   let Time_index = 0;
   let pulses;
-
   let Shift_binary = [];
   let t = 0;
   let pulse_duration;
+  let Total_pulses = pulses*length;
+
+  let x_c;
+  let y_c;
+  let aux_onsets = [];
+  let proportion = 0;
 
   if (track==0){
     pulse_duration = pulse_durationA;
     pulses = pulsesA;
     console.log(pulse_duration)
+    x_c = 3*w/4
+    y_c = 2*h/4
+
   }else{
     pulse_duration = pulse_durationB;
     pulses = pulsesB;
     console.log(pulse_duration)
+    x_c = 3*w/4
+    y_c = 2*h/4
   }
-  let Total_pulses = pulses*length;
 
   finalMidiObject.tracks[track].notes.forEach((note,index) => {
     Time_notes_aux[index] = note.time
   })
   console.log(Time_notes_aux)
 
-  for(let n=0;n<Total_pulses;n++){ //Cycle to compare the times of the Onsets and set binary Array
+  //Cycle to compare the times of the Onsets to set the full binary array of the Track
+  for(let n=0;n<Total_pulses;n++){
     if(Time_notes_aux[t] == Time_index.toFixed(4)){
       console.log(Time_index)
       Shift_binary[n] = 1;
@@ -350,25 +361,29 @@ function TrackBinaryShift(track){ //function to obtain the binary pattern of the
       Time_index = Time_index+pulse_duration;
     }
   }
-  return Shift_binary;
-}
-function VisualShi(x, y, onset, pulses, color1, color2){
-  for(let i=0;i<length;i++){
-    //revisar la congruencia entre los track que se usaron en el shifbinario
-    ShuffleCircle(x, y, onset, pulses, prt*i*0.2, color1, color2)
+
+  // Divide the binary array in bars to then draw the shifter bar
+  for (let m=0; m < length; m++) {
+    for (let i = 0; i < pulses; i++) {
+      aux_onsets[i] = Shift_binary.slice(m * pulses, (m + 1) * pulses);
+    }
+    ShuffleCircle(x_c, y_c, aux_onsets, pulses, (proportion*0.2)+2, color1, color2)
+    proportion++;
+    if (proportion == 4){
+      proportion=0;
+    }
   }
-
 }
-
-
 
 function startTimer(){
   interval_visualA_fixed = setInterval(VisualFixTimingA,pulse_durationA*1000);
   interval_visualB_fixed = setInterval(VisualFixTiming,pulse_durationB*1000);
+  interval_visualA_shift = setInterval(VisualShift,(pulse_durationA*pulsesA*1000));
 }
 function stopTimer(){
   clearInterval(interval_visualA_fixed);
   clearInterval(interval_visualB_fixed);
+  clearInterval(interval_visualA_shift);
 }
 function start_aud_gui() {
   if (state) {
