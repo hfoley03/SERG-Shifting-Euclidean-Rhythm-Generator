@@ -6,8 +6,8 @@ let pulsesB;
 let trackNamesTemp = ['track1', "track2", "track3", "track4"]
 let phaseShiftAmount = 1;                   // How many pulses is each shift
 let phaseShiftPeriod = 2;                   // After how many bars does a shift occur
-let numberOfTracks = 2;                     // Number of tracks/players
-let length = 16;                       // Length of total piece
+let numberOfTracks = 4;                     // Number of tracks/players
+let length = 8;                       // Length of total piece
 let mode;                               // Play mode (not used)
 let scale;                      // Used to add 4th and 5th note of C (see function pitch())
 let midiInProgress;
@@ -33,7 +33,7 @@ let midiObject;
 // Creates full composition, with phase shifts
 let finalMidiObject;
 
-generateMidi(onsetsA = 3, pulsesA = 8, onsetsB = 3, pulsesB = 8);
+generateMidi(onsetsA = 2, pulsesA = 4, onsetsB = 3, pulsesB = 6);
 
 function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB){
   // Variables that could change by user

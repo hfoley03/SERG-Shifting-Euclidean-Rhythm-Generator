@@ -47,13 +47,13 @@ let channelStrip = [channel1, channel2, channel3, channel4];
 
 //This function creates the synths and sends them to the master
 function playNotes() {
-  console.log("playNotes")
+  //console.log("playNotes")
   //synths = [];
   time_common_track = Tone.now();
   finalMidiObject.tracks.forEach((track, index) => {
 
-    console.log('track name: ' + track.name)
-    console.log('index: ' + index);
+    //console.log('track name: ' + track.name)
+    //console.log('index: ' + index);
     console.log(channelStrip[index]);
     synth_type = SynthTypes[index];
 
@@ -70,9 +70,9 @@ function playNotes() {
     //create a synth for each track
 
     synths.push(synth)
-    console.log(synths)
+    //console.log(synths)
     synth_counter = synth_counter + 1
-    console.log("synth counter: " + synth_counter)
+    //console.log("synth counter: " + synth_counter)
     //schedule the events
     track.notes.forEach(note => {
       time_inst_to_play = time_common_track + note.time + 0.5
@@ -105,8 +105,8 @@ function start_aud() {
 
 function stop_aud(){
   Tone.Transport.stop();
-  console.log("stopAud")
-  console.log(synths)
+  //console.log("stopAud")
+  //console.log(synths)
   stopTimer();
 
   for (var i = 0; i < synths.length; i++) {
