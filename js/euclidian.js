@@ -2,14 +2,15 @@ let onsetsA;                             // How many hits
 let pulsesA;                             // How many steps, 4,8 or 16
 let onsetsB;
 let pulsesB;
+let tempo_bpm = 120;
 
 let trackNamesTemp = ['track1', "track2", "track3", "track4"]
 let phaseShiftAmount = 1;                   // How many pulses is each shift
 let phaseShiftPeriod = 2;                   // After how many bars does a shift occur
-let numberOfTracks = 2;                     // Number of tracks/players
-let length = 16;                       // Length of total piece
+let numberOfTracks = 1;                     // Number of tracks/players
+let length = 1;                       // Length of total piece
 let mode;                               // Play mode (not used)
-let scale;                      // Used to add 4th and 5th note of C (see function pitch())
+let scale_;                      // Used to add 4th and 5th note of C (see function pitch())
 let midiInProgress;
 let track1;      // track/player 1, no shifting, base rhythm
 let track2;     // track/player 2, shifting occurs
@@ -33,14 +34,14 @@ let midiObject;
 // Creates full composition, with phase shifts
 let finalMidiObject;
 
-generateMidi(onsetsA = 3, pulsesA = 8, onsetsB = 5, pulsesB = 16);
+generateMidi(onsetsA = 4, pulsesA = 8, onsetsB = 5, pulsesB = 16, tempo_bpm = 120);
 
-function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB){
+function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm){
   // Variables that could change by user
 
-
+  console.log("Generate Midi")
   mode = 1;                               // Play mode (not used)
-  scale = ['F', 'G']                      // Used to add 4th and 5th note of C (see function pitch())
+  scale_ = ['F', 'G']                      // Used to add 4th and 5th note of C (see function pitch())
   midiInProgress = new Midi();
   midiInProgress.name = "My Bloody Nightmare"
   track1 = midiInProgress.addTrack()      // track/player 1, no shifting, base rhythm
@@ -70,14 +71,14 @@ function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB){
   midiObject = binaryRhythmToMidi(binaryRhythmA, midiInProgress, pulseInTicksA, 0)
   midiObject = binaryRhythmToMidi(binaryRhythmB, midiObject, pulseInTicksB, 2)
 
-
-  /*
-  for(  j = 0; j < 4; j++){
-    console.log(midiObject.tracks[j].notes.length)
-  }*/
-
 // Creates full composition, with phase shifts
   finalMidiObject = phaseAndCompose(midiObject, phaseShiftAmount, phaseShiftPeriod, length, numberOfTracks, mode)
+
+  finalMidiObject.header.setTempo(tempo_bpm)
+  console.log("Midi Header Tempo Set:")
+  console.log(finalMidiObject.header.tempos)
+
+
 //  console.log(finalMidiObject)
   howManyTracks(finalMidiObject, numberOfTracks)
 
@@ -193,8 +194,8 @@ function phaseAndCompose(midiInProgress,phaseShiftAmount, phaseShiftPeriod,lengt
 
 
 function pitch(){
-  if (Math.random() > 0.1){
-    return get_random(scale)
+  if (Math.random() > 0.9){
+    return get_random(scale_)
   }
   else {
   return 'C'  }
@@ -211,7 +212,7 @@ function createNote(track_, timeTicks, pulseInTicks_){
     octave: 4,//trackNamesTemp.indexOf(track_.name) + 2,
     ticks: timeTicks,
     durationTicks: pulseInTicks_,
-    velocity: vel()
+    velocity: 0.8
   })
 }
 

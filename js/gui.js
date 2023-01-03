@@ -47,10 +47,12 @@ function setup() {
     pulsesA = parseInt(inp2.value());
     onsetsB = parseInt(inp3.value());
     pulsesB = parseInt(inp4.value());
-    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB);
+    tempo_bpm = parseInt(tempoBpmInp.value());
+    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm);
 
     //gen_button.style('background-color', '#02139b')
   });
+
 
   // ---- Selection of the type of Synth according to the user
 
@@ -100,38 +102,57 @@ function setup() {
 // ----- Inputs of the Onsets and Pulses of the Euclidean Rhythm
   let inp1 = createInput(onsetsA.toString());
   inp1.position(2.6*w/12, h/10+35);
-  inp1.size(100);
+  inp1.size(50);
 
   let inp2 = createInput(pulsesA.toString());
   inp2.position(2.6*w/12, h/10+55);
-  inp2.size(100);
+  inp2.size(50);
 
   let inp3 = createInput(onsetsB.toString());
   inp3.position(5.7*w/12, h/10+35);
-  inp3.size(100);
+  inp3.size(50);
 
   let inp4 = createInput(pulsesB.toString());
   inp4.position(5.7*w/12, h/10+55);
-  inp4.size(100);
+  inp4.size(50);
 
   let phaseShiftAmountInp = createInput(phaseShiftAmount.toString());
   phaseShiftAmountInp.position(9.6*w/12, h/11+80);
-  phaseShiftAmountInp.size(20);
+  phaseShiftAmountInp.size(30);
 
   let phaseShiftPeriodInp = createInput(phaseShiftPeriod.toString());
   phaseShiftPeriodInp.position(9.6*w/12, h/11+100);
-  phaseShiftPeriodInp.size(20);
+  phaseShiftPeriodInp.size(30);
 
   let lengthInp = createInput(length.toString());
   lengthInp.position(9.6*w/12, h/11+120);
-  lengthInp.size(20);
+  lengthInp.size(30);
 
   let numberOfTracksInp = createInput(numberOfTracks.toString());
   numberOfTracksInp.position(9.6*w/12, h/11+140);
-  numberOfTracksInp.size(20);
+  numberOfTracksInp.size(30);
+
+  let tempoBpmInp = createInput(tempo_bpm.toString());
+  tempoBpmInp.position(9.6*w/12, h/11+160);
+  tempoBpmInp.size(30);
+
+
+  // Mixer Sliders
+
+  track1_vol_slider = createSlider(-36, 0, -36);
+  track1_vol_slider.position(10, 100);
+  track1_vol_slider.style("transform","rotate(90deg)");
+
+
+
 }
 
 function draw() {
+
+  //channel1_vol = track1_vol_slider.value();
+  //channel1.volume = channel1_vol;
+
+
 
   background(cl_bg);
 
@@ -161,6 +182,8 @@ function draw() {
   text('Phase Shift Period', 6.5*w/10, h/11+100);
   text('Piece length', 6.5*w/10, h/11+120);
   text('Number of Tracks', 6.5*w/10, h/11+140);
+  text('Tempo (BPM)', 6.5*w/10, h/11+160);
+
 
   // ------- Generation of Concentric Circles
 
@@ -235,11 +258,10 @@ function draw() {
 function start_aud_gui() {
 
   if(state){
-    console.log("state: true")
-    console.log("already playing")
+    console.log("state: true, continue playing, dont restart")
   }
   else if(!state){
-    console.log("state false")
+    console.log("state: false, so start audio and visual")
     SynthTypes = [tr1.value(), tr2.value(), tr3.value(), tr4.value()];
     console.log('Call start_aud');
     Tone.Transport.toggle()
