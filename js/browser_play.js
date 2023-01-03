@@ -89,13 +89,14 @@ function playNotes() {
 function start_aud() {
   state = true;
   Tone.context.resume()
+  Tone.Transport.bpm.value = tempo_bpm;
   Tone.Destination.volume.value = -9; // this value is in dB
   main_loop_interval = (120/tempo_bpm)*2*length; // duration of looping
   console.log(main_loop_interval)
   main_loop.interval = main_loop_interval
   console.log(main_loop.interval)
   Tone.start().then(()=>{
-    Tone.Transport.bpm.value = tempo_bpm;
+
     Tone.Transport.start();
     main_loop.start();
     //print_loop.start();
