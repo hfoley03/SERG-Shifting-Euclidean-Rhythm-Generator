@@ -107,6 +107,7 @@ function stop_aud(){
   Tone.Transport.stop();
   console.log("stopAud")
   console.log(synths)
+  stopTimer();
 
   for (var i = 0; i < synths.length; i++) {
     synths[i].context._timeouts.cancel(0);

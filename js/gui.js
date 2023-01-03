@@ -156,17 +156,17 @@ function setup() {
   play_button.style('font-family', 'Bahnschrift');
   play_button.style('border-color', 'rgba(135, 143, 155,.25)');
   play_button.style('border-radius' , 10+'%');
-  play_button.mousePressed(function() {start_aud_gui();startTimer();});
+  play_button.mousePressed(function() {start_aud_gui()});
 
   // ---- Stop button
-  stop_button = createButton('II');
+  stop_button = createButton('S');
   stop_button.position(8*w/12, 3.5*h/12);
   stop_button.style('background-color','rgba(135, 143, 155,.5)');
   stop_button.style('color','#FFFFFF');
   stop_button.style('font-family','Bahnschrift');
   stop_button.style('border-color','rgba(135, 143, 155,.25)');
   stop_button.style('border-radius' , 10+'%');
-  stop_button.mousePressed(function(){stop_aud();stopTimer();});
+  stop_button.mousePressed(function(){stop_aud()});
 
   pulse_durationA = finalMidiObject.tracks[0].notes[1].duration;
   pulse_durationB = finalMidiObject.tracks[1].notes[1].duration;
@@ -180,7 +180,7 @@ function setup() {
   indexB_1 = pulsesB;
   indexB_2 = pulsesB-1;
 
-  //console.log(finalMidiObject.tracks)
+  console.log(finalMidiObject.tracks)
   //console.log("Shift_binary1 : "+GetBinaryShiftedOnset(1));
   //console.log("Shift_binary0 : "+GetBinaryShiftedOnset(0));
 
@@ -239,11 +239,11 @@ function draw() {
 
   // Top-right
   FixedCircle(4*w/6, 3*h/6,binaryRhythmA, pulsesA, cl3, cl4);      // Track 2  Fixed Circle
-  VisualShift(0,cl3, cl4);                                         // Visual Track 2 Shifting circle
+  VisualShift(1,cl3, cl4);                                         // Visual Track 2 Shifting circle
 
   // Bottom-Left
   FixedCircle(2*w/6,5*h/6,binaryRhythmB, pulsesB, cl1, cl2);       // Track 3 Fixed Circle
-  VisualFix(1,pulsesB,cl2);                                        // Visual Actual pulse playing Track 3
+  VisualFix(0,pulsesB,cl2);                                        // Visual Actual pulse playing Track 3
 
   //Bottom-Right
   FixedCircle(4*w/6,5*h/6,binaryRhythmB, pulsesB, cl3, cl4);       // Track 4 Fixed Circle
@@ -279,8 +279,8 @@ function VisualFix(track,pulses,color){
   if (track==0){
     end = map(indexA_1,0,pulses,0,360);
     start = map(indexA_2,0,pulses,0,360);
-    x_arc = 2*w/6;
-    y_arc = 3*h/6;
+    x_arc = 4*w/6;
+    y_arc = 5*h/6;
   }else{
     end = map(indexB_1,0,pulses,0,360);
     start = map(indexB_2,0,pulses,0,360);
@@ -389,7 +389,8 @@ function GetBinaryShiftedOnset(track){
     pulses = pulsesA;
     pulse_duration = pulse_durationA;
     Total_pulses = pulses*length;
-  }else{
+  }
+  if(track == 1){
     pulses = pulsesB;
     pulse_duration = pulse_durationB;
     Total_pulses = pulses*length;
@@ -451,16 +452,16 @@ function VisualShiftTimingB(){
 }
 
 function startTimer(){
-  interval_visualA_fixed = setInterval(VisualFixTimingA,pulse_durationA*1000);
-  interval_visualB_fixed = setInterval(VisualFixTimingB,pulse_durationB*1000);
-  interval_visualA_shift = setInterval(VisualShiftTimingA,(bar_durationA*1000));
-  interval_visualB_shift = setInterval(VisualShiftTimingB,(bar_durationB*1000));
+    interval_visualA_fixed = setInterval(VisualFixTimingA,pulse_durationA*1000);
+    interval_visualB_fixed = setInterval(VisualFixTimingB,pulse_durationB*1000);
+    interval_visualA_shift = setInterval(VisualShiftTimingA,bar_durationA*1000);
+    interval_visualB_shift = setInterval(VisualShiftTimingB,bar_durationB*1000);
 }
 function stopTimer(){
-  clearInterval(interval_visualA_fixed);
-  clearInterval(interval_visualB_fixed);
-  clearInterval(interval_visualA_shift);
-  clearInterval(interval_visualB_shift);
+    clearInterval(interval_visualA_fixed);
+    clearInterval(interval_visualB_fixed);
+    clearInterval(interval_visualA_shift);
+    clearInterval(interval_visualB_shift);
 }
 function start_aud_gui() {
   if (state) {
@@ -472,6 +473,7 @@ function start_aud_gui() {
     console.log('Call start_aud');
     Tone.Transport.toggle()
     start_aud();
+    startTimer();
   }
 }
 
