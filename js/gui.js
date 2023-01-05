@@ -1,9 +1,10 @@
 // ------- P5 JS -----
 
 let w = window.innerWidth;  //1250
-let h = 1000;
+let h = 900; //window.innerHeight
 
-let cl_bg = '#4F5D75';  // Background Color
+let cl_bg = '#FFFBFF';  // Background Color
+let color_txt = '#000000'
 
 let gen_button;
 let play_button;
@@ -51,29 +52,32 @@ function windowResized() {
 
 function setup() {
   windowResized()
-  frameRate(100)
+  //frameRate(10)
   createCanvas(w,h);
   angleMode(DEGREES);
 
   // ---- Selection of the type of Synth according to the user
-  let synth_x = 9.6*w/12;
-  let synth_y = h/11;
+  let synth_x = 3*w/12-17;
+  let synth_y = h/12+110;
   for(let i = 1; i<=4; i++){
     let tmp_synth_str = "tr" + i + "_synth";
     let tmp_synth = window[tmp_synth_str];
     tmp_synth = createSelect();
-
-    tmp_synth.position(synth_x,synth_y+ 20 * (i-1));
-    loc_dict[tmp_synth_str+ "_loc"] = [synth_x,synth_y+ 20 * (i-1)]
+    tmp_synth.position(synth_x,synth_y+20*(i-1)+1);
+    if(i==3 || i==4){
+      tmp_synth.position(synth_x+3*w/12+10,synth_y+20*(i-3)+1);
+    }
+    loc_dict[tmp_synth_str+ "_loc"] = [synth_x,synth_y+20*(i-1)]
     for( let k = 0; k<All_Synths.length;k++){
       tmp_synth.option(All_Synths[k]);
     }
     tmp_synth.selected(All_Synths[8]);
+    tmp_synth.size(95);
     synthinps.push(tmp_synth)
   }
 
   let phase_shift_amount_inp = createInput(phaseShiftAmount.toString());
-  let phase_shift_amount_inp_loc = [9.6*w/12, h/11+80];
+  let phase_shift_amount_inp_loc = [10*w/12-10, h/12+70];
   loc_dict['phase_shift_amount_inp_loc'] = phase_shift_amount_inp_loc
   phase_shift_amount_inp.position(phase_shift_amount_inp_loc[0],phase_shift_amount_inp_loc[1]);
   phase_shift_amount_inp.size(20);
@@ -87,7 +91,7 @@ function setup() {
   let length_inp = createInput(length.toString());
   let length_inp_loc = [phase_shift_amount_inp_loc[0], phase_shift_amount_inp_loc[1]+40];
   loc_dict['length_inp_loc'] = length_inp_loc
-  length_inp.position(length_inp_loc[0],length_inp_loc[1]);
+  length_inp.position(phase_shift_amount_inp_loc[0],length_inp_loc[1]);
   length_inp.size(20);
 
   let number_of_tracks_inp = createInput(numberOfTracks.toString());
@@ -96,18 +100,19 @@ function setup() {
   number_of_tracks_inp.position(number_of_tracks_inp_loc[0],number_of_tracks_inp_loc[1]);
   number_of_tracks_inp.size(20);
 
-
 // ----- Inputs of the Onsets and Pulses of the Euclidean Rhythm
-  let onsetsA_x = 2.6*w/12;
-  let onsetsA_x_txt = onsetsA_x/2.6;
-  let onsetsA_y = h/10+35;
+  let onsetsA_x = 3*w/12+50;
+  let onsetsA_x_txt = onsetsA_x/3;
+  let onsetsA_y = h/12+70;
   let onsetsA_y_txt = onsetsA_y + 5;
   let onsets_pulses = [onsetsA,pulsesA, onsetsB, pulsesB];
   let onsets_pulses_str = ["onsetsA","pulsesA", "onsetsB", "pulsesB"];
+
   for(let i = 1; i<=4; i++){
     let tmp_onsets_str = onsets_pulses_str[i-1] + "_loc";
     let tmp_onsets_txt_str = onsets_pulses_str[i-1] + "_loc_txt";
     let tmp_onsets = window[tmp_onsets_str];
+
     tmp_onsets = createInput(onsets_pulses[i-1]);
     if(i == 1 || i == 2) {
       tmp_onsets.position(onsetsA_x, onsetsA_y + 20 * (i - 1));
@@ -118,15 +123,14 @@ function setup() {
       tmp_onsets.position(onsetsA_x+ 330, onsetsA_y + 20 * (i - 3));
       loc_dict[tmp_onsets_str] = [onsetsA_x + 330, onsetsA_y + 20 * (i - 3)];
       loc_dict_txt[tmp_onsets_txt_str] = [onsetsA_x_txt+330, onsetsA_y_txt + 20 * (i - 3)];
-
     }
-    tmp_onsets.size(100);
+    tmp_onsets.size(20);
     onsetsinps.push(tmp_onsets);
   }
 
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
   gen_button = createButton('Generate');
-  gen_button.position(3.5*w/12, 3.5*h/12);
+  gen_button.position(3.5*w/12, 4*h/12);
   gen_button.style('background-color', 'rgba(135, 143, 155,.5)');
   gen_button.style('color','#FFFFFF');
   gen_button.style('font-family: Bahnschrift');
@@ -146,26 +150,22 @@ function setup() {
     onsetsB = parseInt(onsetsinps[2].value());
     pulsesB = parseInt(onsetsinps[3].value());
     generateMidi(onsetsA, pulsesA, onsetsB, pulsesB);
-
+    initialization();
   });
 
   // ---- Play button
   play_button = createButton('&#9658');
-  play_button.position(6*w/12, 3.5*h/12);
+  play_button.position(5.7*w/12, 4*h/12);
   play_button.style('background-color', 'rgba(135, 143, 155,.5)');
   play_button.style('color','#FFFFFF');
   play_button.style('font-family', 'Bahnschrift');
   play_button.style('border-color', 'rgba(135, 143, 155,.25)');
   play_button.style('border-radius' , 10+'%');
-  play_button.mousePressed(function() {
-    start_aud_gui();
-    initialization();
-  })
-
+  play_button.mousePressed(function() {start_aud_gui();})
 
   // ---- Stop button
   stop_button = createButton('S');
-  stop_button.position(8*w/12, 3.5*h/12);
+  stop_button.position(8*w/12, 4*h/12);
   stop_button.style('background-color','rgba(135, 143, 155,.5)');
   stop_button.style('color','#FFFFFF');
   stop_button.style('font-family','Bahnschrift');
@@ -173,58 +173,84 @@ function setup() {
   stop_button.style('border-radius' , 10+'%');
   stop_button.mousePressed(function(){stop_aud()});
 
-  initialization();
   //console.log(finalMidiObject.tracks)
   //console.log("Shift_binary1 : "+GetBinaryShiftedOnset(1));
   //console.log("Shift_binary0 : "+GetBinaryShiftedOnset(0));
+  initialization();
 }
 
 function draw() {
   background(cl_bg);
 
-  fill('#FFFFFF');
-  textSize(40);
+  fill('#073B3A');
+  textSize(50);
   textFont('Bahnschrift');
-
   textAlign(CENTER, BASELINE);
-  text('MIDI EUCLIDEAN RHYTHM GENERATOR', w / 2, h / 20);
+  text('MIDI EUCLIDEAN RHYTHM GENERATOR', w/2, h/20);
 
+  // ----- text first box
+  stroke('#FFD5C2');
+  strokeWeight(3);
+  noFill();
+  rect(w/12+2*w/48,h/12,5*w/24,2*h/12+h/48,10);
+
+  fill('#588B8B');
+  strokeWeight(0);
   textAlign(LEFT, CENTER);
-  text('1st Track', loc_dict_txt['onsetsA_loc_txt'][0], loc_dict_txt['onsetsA_loc_txt'][1] - 40);
-  textSize(20);
-  text('Onsets 1st Track', loc_dict_txt['onsetsA_loc_txt'][0], loc_dict_txt['onsetsA_loc_txt'][1]);
-  text('Pulses 1st Track', loc_dict_txt['pulsesA_loc_txt'][0], loc_dict_txt['pulsesA_loc_txt'][1]);
   textSize(40);
-  text('2nd Track', loc_dict_txt['onsetsB_loc_txt'][0], loc_dict_txt['onsetsB_loc_txt'][1] - 40);
+  text('1st Track', 2*w/12, h/12+30);
+  fill(color_txt);
   textSize(20);
-  text('Onsets 2nd Track', loc_dict_txt['onsetsB_loc_txt'][0], loc_dict_txt['onsetsB_loc_txt'][1]);
-  text('Pulses 2nd Track', loc_dict_txt['pulsesB_loc_txt'][0], loc_dict_txt['pulsesB_loc_txt'][1]);
+  let xx1 = 2*w/12-10;
+  let yy = h/12+70;
+  text('Onsets 1st Track', xx1, yy);
+  text('Pulses 1st Track', xx1, yy+20);
+  text('1st Track', xx1, yy+40);
+  text('2nd Track', xx1, yy+60);
 
-  loc_dict_txt['tr1_synth_loc_txt'] = [loc_dict["tr1_synth_loc"][0] - 100, loc_dict["tr1_synth_loc"][1]];
-  text('1st Track', loc_dict_txt['tr1_synth_loc_txt'][0], loc_dict_txt['tr1_synth_loc_txt'][1]);
-  loc_dict_txt['tr2_synth_loc_txt'] = [loc_dict["tr2_synth_loc"][0] - 100, loc_dict["tr2_synth_loc"][1]];
-  text('2nd Track', loc_dict_txt['tr2_synth_loc_txt'][0], loc_dict_txt['tr2_synth_loc_txt'][1]);
-  loc_dict_txt['tr3_synth_loc_txt'] = [loc_dict["tr3_synth_loc"][0] - 100, loc_dict["tr3_synth_loc"][1]];
-  text('3rd Track', loc_dict_txt['tr3_synth_loc_txt'][0], loc_dict_txt['tr3_synth_loc_txt'][1]);
-  loc_dict_txt['tr4_synth_loc_txt'] = [loc_dict["tr4_synth_loc"][0] - 100, loc_dict["tr4_synth_loc"][1]];
-  text('4th Track', loc_dict_txt['tr4_synth_loc_txt'][0], loc_dict_txt['tr4_synth_loc_txt'][1]);
+  // ----- text second box
+  stroke('#FFD5C2');
+  strokeWeight(3);
+  noFill();
+  rect(4*w/12+5*w/96,h/12,5*w/24,2*h/12+h/48,10);
 
-  loc_dict_txt["phase_shift_amount_inp_loc_txt"] = [loc_dict["phase_shift_amount_inp_loc"][0] - 200, loc_dict["phase_shift_amount_inp_loc"][1]];
-  text('Phase Shift Amount', loc_dict_txt["phase_shift_amount_inp_loc_txt"][0], loc_dict_txt["phase_shift_amount_inp_loc_txt"][1]);
-  loc_dict_txt["phase_shift_period_inp_loc_txt"] = [loc_dict["phase_shift_period_inp_loc"][0] - 200, loc_dict["phase_shift_period_inp_loc"][1]];
-  text('Phase Shift Period', loc_dict_txt["phase_shift_period_inp_loc_txt"][0], loc_dict_txt["phase_shift_period_inp_loc_txt"][1]);
-  loc_dict_txt["length_inp_loc_txt"] = [loc_dict["length_inp_loc"][0] - 200, loc_dict["length_inp_loc"][1]];
-  text('Piece length', loc_dict_txt["length_inp_loc_txt"][0], loc_dict_txt["length_inp_loc_txt"][1]);
-  loc_dict_txt["number_of_tracks_inp_loc_txt"] = [loc_dict["number_of_tracks_inp_loc"][0] - 200, loc_dict["number_of_tracks_inp_loc"][1]];
-  text('Number of Tracks', loc_dict_txt["number_of_tracks_inp_loc_txt"][0], loc_dict_txt["number_of_tracks_inp_loc_txt"][1]);
+  textSize(40);
+  fill('#588B8B');
+  strokeWeight(0);
+  text('2nd Track', 5*w/12, h/12+30);
+  fill(color_txt);
+  textSize(20);
+  let xx2 = 5*w/12-10;
+  text('Onsets 2nd Track', xx2, yy);
+  text('Pulses 2nd Track', xx2, yy+20);
+  text('3rd Track', xx2, yy+40);
+  text('4th Track', xx2, yy+60);
+
+  // ----- text third box
+  stroke('#FFD5C2');
+  strokeWeight(3);
+  noFill();
+  rect(w/12+3*w/48+6*w/12,h/12,5*w/24,2*h/12+h/48,10);
+
+  textSize(40);
+  fill('#588B8B');
+  strokeWeight(0);
+  text('Parameters', 8*w/12, h/12 + 30);
+  fill(color_txt);
+  textSize(20);
+  let xx3 = 8*w/12-5;
+  text('Phase Shift Amount', xx3, yy);
+  text('Phase Shift Period', xx3, yy+20);
+  text('Piece length', xx3, yy+40);
+  text('Number of Tracks', xx3, yy+60);
 
   // ------- Generation of Concentric Circles
 
-  let cl1 = 'rgba(0,52,89,1)';       // color onsets Track 1
-  let cl2 = 'rgba(0,52,89,0.3)';     // color pulses Track 1
-  let cl3 = 'rgba(170, 52, 89,1)';   // color onsets Track 2
-  let cl4 = 'rgba(170, 52, 89,0.3)'; // color pulses Track 2
-  let cl5 = 'rgba(0, 52, 89,0.2)'; // color pulses Track 2
+  let cl1 = 'rgba(200, 85, 61,1)';       // color onsets Track 1
+  let cl2 = 'rgba(200, 85, 61,0.3)';     // color pulses Track 1
+  let cl3 = 'rgba(239, 131, 84,1)';   // color onsets Track 2
+  let cl4 = 'rgba(239, 131, 84,0.3)'; // color pulses Track 2
+  let cl5 = 'rgba(191, 192, 192,0.2)'; // color pulses Track 2
 
   // top-left
   FixedCircle(2*w/6, 3*h/6, binaryRhythmA, pulsesA, cl1, cl2);      // Track 1 Fixed Circle
@@ -235,6 +261,7 @@ function draw() {
   FixedCircle(4*w/6, 3*h/6, binaryRhythmB, pulsesB, cl1, cl2);      // Track 3  Fixed Circle
   VisualShift(3, cl3, cl4);                                         // Visual Track 4 Shifting circle
   VisualFix(2, pulsesB, cl5);                                        // Visual Actual pulse playing Track 3-4
+
 }
 // ----- Functions for the visuals for the fixed circles  -----
 
@@ -249,9 +276,8 @@ function initialization(){
   indexB_1 = pulsesB+1;
   indexB_2 = pulsesB;
 }
-
 function FixedCircle(x, y, onset, pulses, color1, color2) {
-  let r2 = w/4;
+  let r2 = 2*w/12;
   strokeWeight(4);
 
   for (let i = 0; i < pulses; i++) {
@@ -293,17 +319,17 @@ function VisualFix(track, pulses, color){
   strokeCap(SQUARE);
   fill(color);
 
-  if((!first_cycleA && indexA_1==pulsesA+1) && (!first_cycleB && indexB_1==pulsesB+1)){
+  if((track == 0 && !first_cycleA && indexA_1==pulsesA+1) || (track ==2 && !first_cycleB && indexB_1==pulsesB+1)){
     noStroke();
     noFill();
   }
-  if (normal==1 && indexA_1==pulsesA+1){
+  if ((normal==1 && indexA_1==pulsesA+1)||(normal==1 && indexB_1==pulsesB+1)){
     stroke(color);
     strokeWeight(0);
     strokeCap(SQUARE);
     fill(color);
   }
-  arc(x_arc,y_arc,w/4-4,w/4-4,start,end);
+  arc(x_arc,y_arc,2*w/12,2*w/12,start,end);
 }
 function VisualFixTimingA(){
   indexA++;
@@ -352,7 +378,7 @@ function VisualFixTimingB(){
 
 // --------- Functions for the visuals of the shifting ------
 function ShuffleCircle(x, y, onset, pulses, prt, color1, color2) {
-  let r2 = w / 4;
+  let r2 = 2*w/12;
   strokeWeight(1);
 
   for (let i = 0; i<pulses; i++) {
@@ -490,20 +516,6 @@ function startTimer(){
     interval_visualB_fixed = setInterval(VisualFixTimingB,pulse_durationB*1000);
     interval_visualA_shift = setInterval(VisualShiftTimingA,bar_durationA*1000);
     interval_visualB_shift = setInterval(VisualShiftTimingB,bar_durationB*1000);
-  if (state) {
-    normal = 0;
-    indexA = 0;
-    indexA_1 = pulsesA+1;
-    indexA_2 = pulsesA;
-    indexB = 0;
-    indexB_1 = pulsesB+1;
-    indexB_2 = pulsesB;
-    actualbarA = 0;
-    proportion_indexA = 0.8;
-    actualbarB = 0;
-    proportion_indexB = 0.8;
-
-  }
 }
 function stopTimer(){
     clearInterval(interval_visualA_fixed);
