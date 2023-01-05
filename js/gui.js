@@ -164,11 +164,11 @@ function setup() {
   play_button.mousePressed(function() {start_aud_gui();})
 
   // ---- Stop button
-  stop_button = createButton('S');
+  stop_button = createButton('&#9209');
   stop_button.position(8*w/12, 4*h/12);
   stop_button.style('background-color','rgba(135, 143, 155,.5)');
   stop_button.style('color','#FFFFFF');
-  stop_button.style('font-family','Bahnschrift');
+  stop_button.style('font-family','Segoe UI Symbol');
   stop_button.style('border-color','rgba(135, 143, 155,.25)');
   stop_button.style('border-radius' , 10+'%');
   stop_button.mousePressed(function(){stop_aud()});
@@ -182,7 +182,7 @@ function setup() {
 function draw() {
   background(cl_bg);
 
-  fill('#073B3A');
+  fill('#0D3E1D');
   textSize(50);
   textFont('Bahnschrift');
   textAlign(CENTER, BASELINE);
