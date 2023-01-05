@@ -24,6 +24,9 @@ const reverb = new Tone.Reverb({
   preDelay : 0.08,
   wet: 0.4
 }).toDestination();
+//const feedbackDelay2 = new Tone.PingPongDelay("4n", 0.2).connect(reverb);
+//const feedbackDelay1 = new Tone.FeedbackDelay("8n", 0.4).connect(feedbackDelay2);
+
 let chorus = new Tone.Chorus({
   frequency : 100.5 ,
   delayTime : 0.5,
@@ -49,6 +52,8 @@ let channelStrip = [channel1, channel2, channel3, channel4];
 //This function creates the synths and sends them to the master
 function playNotes() {
   console.log("Notes Loop")
+  time_common_track = Tone.context.currentTime + 2;
+
   finalMidiObject.tracks.forEach((track, index) => {
 
     //console.log('track name: ' + track.name)
@@ -58,8 +63,8 @@ function playNotes() {
 
     synth_type = SynthTypes[index];
 
-    if (synth_type == "PolySynth") var synth = new Tone.PolySynth().connect(channelStrip[index]);
-    else if (synth_type == "PluckSynth") var synth = new Tone.PluckSynth().connect(channelStrip[index]);
+    //if (synth_type == "MonoSynth") var synth = new Tone.MonoSynth().connect(channelStrip[index]);
+    //else if (synth_type == "PluckSynth") var synth = new Tone.PluckSynth().connect(channelStrip[index]);
     /*else if (synth_type == "AMSynth") var synth = new Tone.AMSynth().connect(channelStrip[index]);
     else if (synth_type == "DuoSynth") var synth = new Tone.DuoSynth().connect(channelStrip[index]);
     else if (synth_type == "FMSynth") var synth = new Tone.FMSynth().connect(channelStrip[index]);
@@ -70,12 +75,18 @@ function playNotes() {
     //else if (synth_type == "Sampler") var synth = new Tone.PluckSynth().toMaster()
     //create a synth for each track*/
 
+    var synth = new Tone.MonoSynth().connect(channelStrip[index]);
+
     synths.push(synth)
     console.log(synths)
-   // synth_counter = synth_counter + 1
-    //console.log("synth counter: " + synth_counter)
+    synth.envelope.attack = 0.001
+    synth.envelope.attackCurve = 'step'
+    synth.envelope.decay = 0.1
+    synth.envelope.release = 0.02
+    synth.envelope.sustain  = 0.1
+
+
     //schedule the events
-    time_common_track = Tone.context.currentTime;
     track.notes.forEach(note => {
       time_inst_to_play = time_common_track + note.time + 0.0001;
       time_instants_to_play.push(time_inst_to_play);

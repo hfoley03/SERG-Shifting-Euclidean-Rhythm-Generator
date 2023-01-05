@@ -74,10 +74,10 @@ function setup() {
     tr3.option(All_Synths[i]);
     tr4.option(All_Synths[i]);
   }
-  tr1.selected('PolySynth');
-  tr2.selected('PolySynth');
-  tr3.selected('PolySynth');
-  tr4.selected('PolySynth');
+  tr1.selected('MonoSynth');
+  tr2.selected('MonoSynth');
+  tr3.selected('MonoSynth');
+  tr4.selected('MonoSynth');
 
   // ---- Play button
   play_button = createButton('&#9658');

@@ -194,7 +194,7 @@ function phaseAndCompose(midiInProgress,phaseShiftAmount, phaseShiftPeriod,lengt
 
 
 function pitch(){
-  if (Math.random() > 0.9){
+  if (Math.random() > 0.5){
     return get_random(scale_)
   }
   else {
@@ -209,10 +209,10 @@ function get_random (list) {
 function createNote(track_, timeTicks, pulseInTicks_){
   track_.addNote({
     pitch: pitch(),
-    octave: 4,//trackNamesTemp.indexOf(track_.name) + 2,
+    octave: trackNamesTemp.indexOf(track_.name) + 2,
     ticks: timeTicks,
     durationTicks: pulseInTicks_,
-    velocity: 0.8
+    velocity: vel()
   })
 }
 
