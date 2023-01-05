@@ -198,7 +198,7 @@ function draw() {
   strokeWeight(0);
   textAlign(LEFT, CENTER);
   textSize(40);
-  text('1st Track', 2*w/12, h/12+30);
+  text('Fisrt Set', 2*w/12, h/12+30);
   fill(color_txt);
   textSize(20);
   let xx1 = 2*w/12-10;
@@ -217,7 +217,7 @@ function draw() {
   textSize(40);
   fill('#588B8B');
   strokeWeight(0);
-  text('2nd Track', 5*w/12, h/12+30);
+  text('Second Set', 5*w/12, h/12+30);
   fill(color_txt);
   textSize(20);
   let xx2 = 5*w/12-10;
