@@ -12,7 +12,7 @@ let stop_button;
 let state = false;
 
 let All_Synths = ['AMSynth','DuoSynth','FMSynth','MembraneSynth', 'MetalSynth',
-   'MonoSynth', 'NoiseSynth', 'PluckSynth', 'PolySynth', 'Sampler', 'Synth'];
+   'MonoSynth', 'NoiseSynth', 'PluckSynth', 'PolySynth', 'Kick', 'Snare' ,'Synth'];
 
 let x=0;
 
@@ -71,7 +71,7 @@ function setup() {
     for( let k = 0; k<All_Synths.length;k++){
       tmp_synth.option(All_Synths[k]);
     }
-    tmp_synth.selected(All_Synths[8]);
+    tmp_synth.selected(All_Synths[9]);
     tmp_synth.size(95);
     synthinps.push(tmp_synth)
   }
@@ -423,8 +423,8 @@ function VisualShift(track,color1, color2){
   }
 
   Shift_binary = GetBinaryShiftedOnset(track);
-  console.log("Track : "+track);
-  console.log("Shift_binary : "+Shift_binary);
+  //console.log("Track : "+track);
+  //console.log("Shift_binary : "+Shift_binary);
 
   // Divide the binary array in bars to then draw the shifted bar
   if (actualbar <= length){
@@ -460,9 +460,9 @@ function GetBinaryShiftedOnset(track){
   })
 
   //console.log("Track: "+track)
-  console.log("Time Notes: "+Time_notes_aux)
-  console.log("Total pulses: "+Total_pulses)
-  console.log("pulse_duration: "+pulse_duration)
+  //console.log("Time Notes: "+Time_notes_aux)
+  //console.log("Total pulses: "+Total_pulses)
+  //console.log("pulse_duration: "+pulse_duration)
 
   //Cycle to compare the times of the Onsets to set the full binary array of the Track
   for(let n=0;n<Total_pulses;n++){
@@ -534,7 +534,7 @@ function stopTimer(){
 }
 function start_aud_gui() {
   if (state) {
-    //console.log("state: true")
+      //console.log("state: true")
     //console.log("already playing")
   } else if (!state) {
     //console.log("state false")
