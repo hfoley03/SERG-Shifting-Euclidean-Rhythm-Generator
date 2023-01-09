@@ -14,25 +14,35 @@ let synth_counter = 0;
 
 // Channel Strip and Effects
 
-let channel1_vol = -6
-let channel2_vol = -6
-let channel3_vol = -6
-let channel4_vol = -6
+let channel1_vol = -4
+let channel2_vol = -4
+let channel3_vol = -4
+let channel4_vol = -4
 
 const reverb = new Tone.Reverb({
   decay : 4 ,
   preDelay : 0.08,
   wet: 0.4
 }).toDestination();
-//const feedbackDelay2 = new Tone.PingPongDelay("4n", 0.2).connect(reverb);
-//const feedbackDelay1 = new Tone.FeedbackDelay("8n", 0.4).connect(feedbackDelay2);
+
+const feedbackDelay2 = new Tone.PingPongDelay({
+  delayTime : "4n",
+  feedback : 0.2,
+  wet: 0.1
+}).connect(reverb);
+
+const feedbackDelay1 = new Tone.FeedbackDelay({
+  delayTime : "8n" ,
+  feedback : 0.2,
+  wet: 0.6
+}).connect(feedbackDelay2);
 
 let chorus = new Tone.Chorus({
   frequency : 100.5 ,
   delayTime : 0.5,
   depth : 0.9 ,
-  spread : 90}).connect(reverb);
-let limiter = new Tone.Limiter(-6).connect(chorus);
+  spread : 90}).connect(feedbackDelay1);
+let limiter = new Tone.Limiter(-2).connect(chorus);
 let channel1 = new Tone.Channel(-6, 0.5).connect(limiter);
 let channel2 = new Tone.Channel(-6, -0.5).connect(limiter);
 let channel3 = new Tone.Channel(-6, 0.75).connect(limiter);
@@ -106,6 +116,7 @@ function start_aud() {
   console.log(main_loop_interval)
   main_loop.interval = main_loop_interval
   console.log(main_loop.interval)
+
   Tone.start().then(()=>{
 
     Tone.Transport.start();
