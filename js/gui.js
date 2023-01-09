@@ -530,6 +530,10 @@ function stopTimer(){
     indexB = 0;
     indexB_1 = pulsesB+1;
     indexB_2 = pulsesB;
+    actualbarA = 0;
+    proportion_indexA = 0.8;
+    actualbarB = 0;
+    proportion_indexB = 0.8;
   }
 }
 function start_aud_gui() {
