@@ -1,7 +1,7 @@
 // ------- P5 JS -----
 
-let w = window.innerWidth;  //1250
-let h = 900; //window.innerHeight
+let w; // = windowWidth;  //1250
+let h; // = 900; //window.innerHeight
 
 let cl_bg = '#FFFBFF';  // Background Color
 let color_txt = '#000000'
@@ -47,14 +47,15 @@ let interval_visualA_shift;
 let interval_visualB_shift;
 
 function windowResized() {
-  resizeCanvas(w, h);
+  resizeCanvas(windowWidth, windowHeight);
 }
 
 function setup() {
-  windowResized()
-  //frameRate(10)
-  createCanvas(w,h);
+  createCanvas(windowWidth,windowHeight);
   angleMode(DEGREES);
+
+  w = width;
+  h = height;
 
   // ---- Selection of the type of Synth according to the user
   let synth_x = 3*w/12-17;
@@ -181,24 +182,29 @@ function setup() {
 
 function draw() {
   background(cl_bg);
+  w = width;
+  h = height;
+
+  //console.log(w,h)
 
   fill('#0D3E1D');
-  textSize(50);
+  textSize(w*0.04);
   textFont('Bahnschrift');
-  textAlign(CENTER, BASELINE);
-  text('MIDI EUCLIDEAN RHYTHM GENERATOR', w/2, h/20);
+  textAlign(CENTER);
+  text('MIDI EUCLIDEAN RHYTHM GENERATOR', w/2, 3*h/60);
 
   // ----- text first box
   stroke('#FFD5C2');
-  strokeWeight(3);
+  strokeWeight(w*0.005);
   noFill();
-  rect(w/12+2*w/48,h/12,5*w/24,2*h/12+h/48,10);
+  rect(9*w/60,10*h/60,12*w/60,18*h/60,10);
 
   fill('#588B8B');
   strokeWeight(0);
-  textAlign(LEFT, CENTER);
+  textAlign(CENTER, CENTER);
   textSize(40);
-  text('Fisrt Set', 2*w/12, h/12+30);
+  text('First Set', 15*w/60, h/12+30);
+  textAlign(LEFT, CENTER);
   fill(color_txt);
   textSize(20);
   let xx1 = 2*w/12-10;
@@ -210,14 +216,16 @@ function draw() {
 
   // ----- text second box
   stroke('#FFD5C2');
-  strokeWeight(3);
+  strokeWeight(w*0.005);
   noFill();
-  rect(4*w/12+5*w/96,h/12,5*w/24,2*h/12+h/48,10);
+  rect(24*w/60,10*h/60,12*w/60,18*h/60,10);
 
+  textAlign(CENTER, CENTER);
   textSize(40);
   fill('#588B8B');
   strokeWeight(0);
-  text('Second Set', 5*w/12, h/12+30);
+  text('Second Set', 30*w/60, h/12+30);
+  textAlign(LEFT, CENTER);
   fill(color_txt);
   textSize(20);
   let xx2 = 5*w/12-10;
@@ -228,9 +236,9 @@ function draw() {
 
   // ----- text third box
   stroke('#FFD5C2');
-  strokeWeight(3);
+  strokeWeight(w*0.005);
   noFill();
-  rect(w/12+3*w/48+6*w/12,h/12,5*w/24,2*h/12+h/48,10);
+  rect(39*w/60,10*h/60,12*w/60,18*h/60,10);
 
   textSize(40);
   fill('#588B8B');
