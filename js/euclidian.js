@@ -44,7 +44,7 @@ let major = [2,2,1,2,2,2,1];
 let minor = [2,1,2,2,1,2,2];
 let melodicMinor = [2,1,2,2,2,2,1];
 
-generateMidi(onsetsA = 4, pulsesA = 8, onsetsB = 8, pulsesB = 16, tempo_bpm = 120);
+generateMidi(onsetsA = 3, pulsesA = 8, onsetsB = 8, pulsesB = 16, tempo_bpm = 120);
 
 function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm){
   // Variables that could change by user
@@ -226,7 +226,7 @@ function createNote(track_, timeTicks, pulseInTicks_){
     octave: trackNamesTemp.indexOf(track_.name) + 2,
     ticks: timeTicks,
     durationTicks: pulseInTicks_,
-    velocity: 0.8//vel()
+    velocity: 0.9//vel()
   })
 }
 

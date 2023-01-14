@@ -14,11 +14,13 @@ let time_instants_to_play = [];
 let synth_counter = 0;
 
 
-var bufferkick = new Tone.Buffer("https://audio.jukehost.co.uk/cH1i0pZVTQeBnVirW5nAKlX3CmQfVat0")
-var buffersnare = new Tone.Buffer("https://audio.jukehost.co.uk/6JWSH43KdKaQ7kxas6cLvxX5fGQPkTkx")
+var bufferkick = new Tone.Buffer("https://audio.jukehost.co.uk/mazfEsXSvszmtRHKw3p3jRZtWyTsVt9H")
+var buffersnare = new Tone.Buffer("https://audio.jukehost.co.uk/0v0XCCA6hcBRKPxqXZ5Xr0hOZ5AcvxcF")
+var bufferhihat = new Tone.Buffer("https://audio.jukehost.co.uk/Z3t7DblT22VAC0dDnHGq4gEBEczuFf1m")
+
 
 const reverb = new Tone.Reverb({
-  decay : 2 ,
+  decay : 4 ,
   preDelay : 0.08,
   wet: 0.4
 }).toDestination();
@@ -32,7 +34,7 @@ const feedbackDelay2 = new Tone.PingPongDelay({
 const feedbackDelay1 = new Tone.FeedbackDelay({
   delayTime : "8n" ,
   feedback : 0.2,
-  wet: 0.0
+  wet: 0.3
 }).connect(feedbackDelay2);
 
 let chorus = new Tone.Chorus({
@@ -87,6 +89,9 @@ function playNotes() {
     else if (synth_type == "Snare") {
       var synth = new Tone.Player(buffersnare).connect(channelStrip[index]);
     }
+    else if (synth_type == "Hihat") {
+      var synth = new Tone.Player(bufferhihat).connect(channelStrip[index]);
+    }
 
     //create a synth for each track
     console.log(synth)
@@ -95,7 +100,7 @@ function playNotes() {
     synth_counter = synth_counter + 1
     //console.log("synth counter: " + synth_counter)
     //schedule the events
-    if (synth_type != "Kick" && synth_type != "Snare" ){
+    if (synth_type == "MonoSynth"){
       track.notes.forEach(note => {
         time_inst_to_play = time_common_track + note.time + 0.0001
         time_instants_to_play.push(time_inst_to_play);
@@ -106,7 +111,7 @@ function playNotes() {
         track.notes.forEach(note => {
           time_inst_to_play = time_common_track + note.time + 0.0001
           time_instants_to_play.push(time_inst_to_play);
-          synth.start( time_inst_to_play, 0, note.duration)
+          synth.start( time_inst_to_play, 0, note.duration, note.velocity)
         })
       });
 
