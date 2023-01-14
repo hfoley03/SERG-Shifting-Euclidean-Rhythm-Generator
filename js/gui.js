@@ -2,7 +2,6 @@
 
 let w; // = windowWidth;  //1250
 let h; // = 900; //window.innerHeight
-
 let cl_bg = '#FFFBFF';  // Background Color
 let color_txt = '#000000'
 
