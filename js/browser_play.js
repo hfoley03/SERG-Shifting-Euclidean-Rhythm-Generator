@@ -29,13 +29,13 @@ const reverb = new Tone.Reverb({
 const feedbackDelay2 = new Tone.PingPongDelay({
   delayTime : "4n",
   feedback : 0.2,
-  wet: 0
+  wet: 0.3
 }).connect(reverb);
 
 const feedbackDelay1 = new Tone.FeedbackDelay({
   delayTime : "8n" ,
   feedback : 0.2,
-  wet: 0
+  wet: 0.3
 }).connect(feedbackDelay2);
 
 let chorus = new Tone.Chorus({
@@ -145,6 +145,7 @@ function playNotes() {
 
 // Initializes and starts and stops the audio, called from gui.js
 function start_aud() {
+
   state = true;
   Tone.context.resume()
   Tone.Transport.bpm.value = tempo_bpm;
@@ -162,6 +163,7 @@ function start_aud() {
 }
 
 function stop_aud(){
+  playNotesCount= 0;
   Tone.Transport.stop();
   console.log("stopAud")
   stopTimer()
