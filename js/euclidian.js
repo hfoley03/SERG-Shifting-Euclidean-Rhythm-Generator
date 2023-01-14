@@ -2,7 +2,7 @@ let onsetsA;                             // How many hits
 let pulsesA;                             // How many steps, 4,8 or 16
 let onsetsB;
 let pulsesB;
-let tempo_bpm = 120;
+let tempo_bpm = 80;
 
 let trackNamesTemp = ['track1', "track2", "track3", "track4"]
 let phaseShiftAmount = 1;                   // How many pulses is each shift
@@ -44,7 +44,7 @@ let major = [2,2,1,2,2,2,1];
 let minor = [2,1,2,2,1,2,2];
 let melodicMinor = [2,1,2,2,2,2,1];
 
-generateMidi(onsetsA = 4, pulsesA = 8, onsetsB = 8, pulsesB = 16, tempo_bpm = 120);
+generateMidi(onsetsA = 4, pulsesA = 8, onsetsB = 4, pulsesB = 8, tempo_bpm = 120);
 
 function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm){
   // Variables that could change by user

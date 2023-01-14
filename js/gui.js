@@ -110,13 +110,8 @@ function setup() {
   length_inp.size(20);
 
   let tempo_bpm_inp = createInput(tempo_bpm.toString());
-  tempo_bpm_inp.position(x_inputs,y_inputs+88);
+  tempo_bpm_inp.position(x_inputs,y_inputs+66);
   tempo_bpm_inp.size(20);
-
-  /*let number_of_tracks_inp = createInput(numberOfTracks.toString());
-  number_of_tracks_inp.position(x_inputs,y_inputs+66);
-  number_of_tracks_inp.size(20);7*/
-
 
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
   gen_button = createButton('Generate');
@@ -134,7 +129,6 @@ function setup() {
     phaseShiftAmount = parseInt(phase_shift_amount_inp.value());         // How many pulses is each shift
     phaseShiftPeriod = parseInt(phase_shift_amount_inp.value());         // After how many bars does a shift occur
     length = parseInt(length_inp.value());                               // Length of total piece
-    numberOfTracks = parseInt(number_of_tracks_inp.value());
     onsetsA = parseInt(onsetsinps[0].value());
     pulsesA = parseInt(onsetsinps[1].value());
     onsetsB = parseInt(onsetsinps[2].value());
@@ -238,8 +232,7 @@ function draw() {
   text('Phase Shift Amount', xx3, yy);
   text('Phase Shift Period', xx3, yy+20);
   text('Piece length', xx3, yy+40);
-  text('Number of Tracks', xx3, yy+60);
-  text('Tempo (BPM)', xx3, yy+80);
+  text('Tempo (BPM)', xx3, yy+60);
 
   // ------- Generation of Concentric Circles
 
@@ -267,13 +260,15 @@ function initialization(){
   pulse_durationB = finalMidiObject.tracks[3].notes[1].duration;
   bar_durationA = pulse_durationA*pulsesA;
   bar_durationB = pulse_durationB*pulsesB;
+  console.log(pulse_durationA,pulse_durationB)
 
-  indexA_1 = pulsesA+1;
-  indexA_2 = pulsesA;
-  indexB_1 = pulsesB+1;
-  indexB_2 = pulsesB;
+  indexA_1 = 0;
+  indexA_2 = 0;
+  indexB_1 = 0;
+  indexB_2 = 0;
 }
 function FixedCircle(x, y, onset, pulses, color1, color2) {
+
   let r2 = 10*w/60;
   strokeWeight(w*0.002);
 
@@ -281,13 +276,13 @@ function FixedCircle(x, y, onset, pulses, color1, color2) {
     if (onset[i] == 1) {
       stroke(cl_bg);
       fill(color1);
-      arc(x, y, r2, r2, 360*(1-(i+1)/pulses), 360*(1-i/pulses), PIE);
+      arc(x, y, r2, r2, -90+360/pulses*i, -90+360/pulses*(i+1), PIE);
       fill(cl_bg);
       arc(x, y, r2 - 1.5*w/60, r2 - 1.5*w/60, 0, 360, PIE);
     } else {
       stroke(cl_bg);
       fill(color2);
-      arc(x, y, r2, r2, 360*(1-(i+1)/pulses), 360*(1-i/pulses), PIE);
+      arc(x, y, r2, r2, -90+360/pulses*i, -90+360/pulses*(i+1), PIE);
       fill(cl_bg);
       arc(x, y, r2-1.5*w/60, r2-1.5*w/60, 0, 360, PIE);
     }
@@ -300,13 +295,13 @@ function VisualFix(track, pulses, color){
   let y_arc;
 
   if (track==0){
-    end = map(indexA_1,0,pulses,0,360);
-    start = map(indexA_2,0,pulses,0,360);
+    end = map(indexA_1,0,pulses,-90,270);
+    start = map(indexA_2,0,pulses,-90,270);
     x_arc = 15*w/60;
     y_arc = 45*h/60;
   }else if (track==2){
-    end = map(indexB_1,0,pulses,0,360);
-    start = map(indexB_2,0,pulses,0,360);
+    end = map(indexB_1,0,pulses,-90,270);
+    start = map(indexB_2,0,pulses,-90,270);
     x_arc = 45*w/60;
     y_arc = 45*h/60;
   }
@@ -316,11 +311,11 @@ function VisualFix(track, pulses, color){
   strokeCap(SQUARE);
   fill(color);
 
-  if((track == 0 && !first_cycleA && indexA_1==pulsesA+1) || (track ==2 && !first_cycleB && indexB_1==pulsesB+1)){
+  if((track==0 && !first_cycleA && indexA_1==0) || (track==2 && !first_cycleB && indexB_1==0)){
     noStroke();
     noFill();
   }
-  if ((normal==1 && indexA_1==pulsesA+1)||(normal==1 && indexB_1==pulsesB+1)){
+  if ((normal==1 && indexA_1==0)||(normal==1 && indexB_1==0)){
     stroke(color);
     strokeWeight(0);
     strokeCap(SQUARE);
@@ -330,46 +325,46 @@ function VisualFix(track, pulses, color){
 }
 function VisualFixTimingA(){
   indexA++;
-  indexA_1--;
-  indexA_2--;
+  indexA_1++;
+  indexA_2++;
 
   if (indexA == pulsesA+1){
     first_cycleA = 1;
     indexA = 0;
-    indexA_1 = pulsesA;
-    indexA_2 = pulsesA-1;
+    indexA_1 = 0;
+    indexA_2 = -1;
   } else if (indexA == pulsesA+1 && first_cycleA){
     first_cycleA = 0;
     indexA = 0;
-    indexA_1 = pulsesA;
-    indexA_2 = pulsesA-1;
+    indexA_1 = 0;
+    indexA_2 = -1;
   } else if(indexA == pulsesA && !first_cycleA){
     normal = 1;
     indexA = 0;
-    indexA_1 = pulsesA+1;
-    indexA_2 = pulsesA;
+    indexA_1 = 0;
+    indexA_2 = -1;
   }
 }
 function VisualFixTimingB(){
   indexB++;
-  indexB_1--;
-  indexB_2--;
+  indexB_1++;
+  indexB_2++;
 
   if (indexB == pulsesB+1){
     first_cycleB = 1;
     indexB = 0;
-    indexB_1 = pulsesB;
-    indexB_2 = pulsesB-1;
+    indexB_1 = 0;
+    indexB_2 = -1;
   } else if (indexB == pulsesB+1 && first_cycleB){
     first_cycleB = 0;
     indexB = 0;
-    indexB_1 = pulsesB;
-    indexB_2 = pulsesB-1;
+    indexB_1 = 0;
+    indexB_2 = -1;
   } else if(indexB == pulsesB && !first_cycleB){
     normal = 1;
     indexB = 0;
-    indexB_1 = pulsesB+1;
-    indexB_2 = pulsesB;
+    indexB_1 = 0;
+    indexB_2 = -1;
   }
 }
 
@@ -382,13 +377,13 @@ function ShuffleCircle(x, y, onset, pulses, prt, color1, color2) {
     if (onset[i] == 1) {
       stroke(cl_bg);
       fill(color1);
-      arc(x, y, prt*r2, prt*r2, 360*(1-(i+1)/pulses), 360*(1-i/pulses), PIE);
+      arc(x, y, prt*r2, prt*r2, -90+360/pulses*i, -90+360/pulses*(i+1), PIE);
       fill(cl_bg);
       arc(x, y, prt*r2-1.5*w/60, prt*r2-1.5*w/60, 0, 360, PIE);
     } else{
       stroke(cl_bg);
       fill(color2);
-      arc(x, y, r2 * prt, r2 * prt, 360 * (1 - (i + 1) / pulses), 360 * (1 - i / pulses), PIE);
+      arc(x, y, r2 * prt, r2*prt, -90+360/pulses*i, -90+360/pulses*(i+1), PIE);
       fill(cl_bg);
       arc(x, y, prt * r2-1.5*w/60, prt * r2-1.5*w/60, 0, 360, PIE);
     }
@@ -521,11 +516,11 @@ function stopTimer(){
   if (state) {
     normal = 0;
     indexA = 0;
-    indexA_1 = pulsesA+1;
-    indexA_2 = pulsesA;
+    indexA_1 = 0;
+    indexA_2 = 0;
     indexB = 0;
-    indexB_1 = pulsesB+1;
-    indexB_2 = pulsesB;
+    indexB_1 = 0;
+    indexB_2 = 0;
     actualbarA = 0;
     proportion_indexA = 0.8;
     actualbarB = 0;
