@@ -10,8 +10,7 @@ let play_button;
 let stop_button;
 let state = false;
 
-let All_Synths = ['AMSynth','DuoSynth','FMSynth','MembraneSynth', 'MetalSynth',
-   'MonoSynth', 'NoiseSynth', 'PluckSynth', 'PolySynth', 'Kick', 'Snare' ,'Synth'];
+let All_Synths = ['MonoSynth', 'Kick', 'Snare' ,'Synth'];
 
 let x=0;
 
@@ -71,7 +70,7 @@ function setup() {
     for( let k = 0; k<All_Synths.length;k++){
       tmp_synth.option(All_Synths[k]);
     }
-    tmp_synth.selected(All_Synths[9]);
+    tmp_synth.selected(All_Synths[0]);
     tmp_synth.size(95);
     synthinps.push(tmp_synth)
   }
@@ -99,6 +98,13 @@ function setup() {
   loc_dict['number_of_tracks_inp_loc'] = number_of_tracks_inp_loc
   number_of_tracks_inp.position(number_of_tracks_inp_loc[0],number_of_tracks_inp_loc[1]);
   number_of_tracks_inp.size(20);
+
+  let tempo_bpm_inp = createInput(tempo_bpm.toString());
+  let tempo_bpm_inp_loc = [phase_shift_amount_inp_loc[0], phase_shift_amount_inp_loc[1]+80];
+  loc_dict['tempo_bpm_inp_loc'] = tempo_bpm_inp_loc
+  tempo_bpm_inp.position(tempo_bpm_inp_loc[0],tempo_bpm_inp_loc[1]);
+  tempo_bpm_inp.size(20);
+
 
 // ----- Inputs of the Onsets and Pulses of the Euclidean Rhythm
   let onsetsA_x = 3*w/12+50;
@@ -147,7 +153,8 @@ function setup() {
     pulsesA = parseInt(onsetsinps[1].value());
     onsetsB = parseInt(onsetsinps[2].value());
     pulsesB = parseInt(onsetsinps[3].value());
-    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB);
+    tempo_bpm = parseInt(tempo_bpm_inp.value());
+    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm);
     initialization();
   });
 
@@ -248,6 +255,9 @@ function draw() {
   text('Phase Shift Period', xx3, yy+20);
   text('Piece length', xx3, yy+40);
   text('Number of Tracks', xx3, yy+60);
+  text('Tempo (BPM)', xx3, yy+80);
+
+
 
   // ------- Generation of Concentric Circles
 

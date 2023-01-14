@@ -1,8 +1,8 @@
 //Synths that will play the sound
 let synths = []
 
-let main_bpm;
-let main_loop_interval;// duration of looping
+let main_loop_interval = 2;// duration of looping
+
 
 let main_loop = new Tone.Loop(playNotes , main_loop_interval);
 let print_loop = new Tone.Loop(() => {console.log("loop")});
@@ -16,22 +16,34 @@ let synth_counter = 0;
 
 var bufferkick = new Tone.Buffer("https://audio.jukehost.co.uk/cH1i0pZVTQeBnVirW5nAKlX3CmQfVat0")
 var buffersnare = new Tone.Buffer("https://audio.jukehost.co.uk/6JWSH43KdKaQ7kxas6cLvxX5fGQPkTkx")
+
 const reverb = new Tone.Reverb({
-  decay : 4 ,
+  decay : 2 ,
   preDelay : 0.08,
   wet: 0.4
 }).toDestination();
+
+const feedbackDelay2 = new Tone.PingPongDelay({
+  delayTime : "4n",
+  feedback : 0.2,
+  wet: 0.0
+}).connect(reverb);
+
+const feedbackDelay1 = new Tone.FeedbackDelay({
+  delayTime : "8n" ,
+  feedback : 0.2,
+  wet: 0.0
+}).connect(feedbackDelay2);
 
 let chorus = new Tone.Chorus({
   frequency : 100.5 ,
   delayTime : 0.5,
   depth : 0.9 ,
-  spread : 90}
-).connect(reverb);
+  spread : 90}).connect(feedbackDelay1);
 
-let limiter = new Tone.Limiter(-6).connect(chorus);
-let channel1 = new Tone.Channel(-6, -0.9).connect(limiter);
-let channel2 = new Tone.Channel(-6, 0.9).connect(limiter);
+let limiter = new Tone.Limiter(-2).connect(chorus);
+let channel1 = new Tone.Channel(-6, 0.5).connect(limiter);
+let channel2 = new Tone.Channel(-6, -0.5).connect(limiter);
 let channel3 = new Tone.Channel(-6, 0.75).connect(limiter);
 let channel4 = new Tone.Channel(-6, -0.75).connect(limiter);
 
@@ -51,7 +63,9 @@ let channelStrip = [channel1, channel2, channel3, channel4];
 function playNotes() {
   //console.log("playNotes")
   //synths = [];
-  time_common_track = Tone.now();
+  //time_common_track = Tone.now();
+  time_common_track = Tone.context.currentTime + 2;
+
   finalMidiObject.tracks.forEach((track, index) => {
 
     //console.log('track name: ' + track.name)
@@ -59,25 +73,21 @@ function playNotes() {
     console.log(channelStrip[index]);
     synth_type = SynthTypes[index];
 
-    if (synth_type == "MembraneSynth") var synth = new Tone.MembraneSynth().connect(channelStrip[index]);
-    else if (synth_type == "PluckSynth") var synth = new Tone.PluckSynth().connect(channelStrip[index]);
-    else if (synth_type == "AMSynth") var synth = new Tone.AMSynth().connect(channelStrip[index]);
-    else if (synth_type == "DuoSynth") var synth = new Tone.DuoSynth().connect(channelStrip[index]);
-    else if (synth_type == "FMSynth") var synth = new Tone.FMSynth().connect(channelStrip[index]);
-    else if (synth_type == "MetalSynth") var synth = new Tone.MetalSynth().connect(channelStrip[index])
-    else if (synth_type == "MonoSynth") var synth = new Tone.MonoSynth().connect(channelStrip[index]);
-    else if (synth_type == "NoiseSynth") var synth = new Tone.NoiseSynth().connect(channelStrip[index])
-    else if (synth_type == "PolySynth") var synth = new Tone.PolySynth().connect(channelStrip[index]);
+    if (synth_type == "MonoSynth") {
+      var synth = new Tone.MonoSynth().connect(channelStrip[index]);
+      synth.envelope.attack = 0.001
+      synth.envelope.attackCurve = 'step'
+      synth.envelope.decay = 0.1
+      synth.envelope.release = 0.02
+      synth.envelope.sustain  = 0.1
+    }
     else if (synth_type == "Kick") {
       var synth = new Tone.Player(bufferkick).connect(channelStrip[index]);
-
     }
     else if (synth_type == "Snare") {
       var synth = new Tone.Player(buffersnare).connect(channelStrip[index]);
-
     }
 
-    //else if (synth_type == "Sampler") var synth = new Tone.PluckSynth().toMaster()
     //create a synth for each track
     console.log(synth)
     synths.push(synth)
@@ -87,14 +97,14 @@ function playNotes() {
     //schedule the events
     if (synth_type != "Kick" && synth_type != "Snare" ){
       track.notes.forEach(note => {
-        time_inst_to_play = time_common_track + note.time + 0.5
+        time_inst_to_play = time_common_track + note.time + 0.0001
         time_instants_to_play.push(time_inst_to_play);
         synth.triggerAttackRelease(note.name, note.duration, time_inst_to_play, note.velocity)
       })
     }else{
       Tone.loaded().then(() => {
         track.notes.forEach(note => {
-          time_inst_to_play = time_common_track + note.time + 0.5
+          time_inst_to_play = time_common_track + note.time + 0.0001
           time_instants_to_play.push(time_inst_to_play);
           synth.start( time_inst_to_play, 0, note.duration)
         })
@@ -109,28 +119,25 @@ function playNotes() {
 function start_aud() {
   state = true;
   Tone.context.resume()
-
+  Tone.Transport.bpm.value = tempo_bpm;
   Tone.Destination.volume.value = -9; // this value is in dB
-  main_bpm = 120;
-  main_loop_interval = length*2; // duration of looping
-
+  main_loop_interval = (120/tempo_bpm)*2*length; // duration of looping
+  console.log(main_loop_interval)
   main_loop.interval = main_loop_interval
-  print_loop.interval = main_loop_interval
+  console.log(main_loop.interval)
 
   Tone.start().then(()=>{
-    Tone.Transport.bpm.value = main_bpm;
+
     Tone.Transport.start();
     main_loop.start();
-    print_loop.start();
+    //print_loop.start();
   });
 }
 
 function stop_aud(){
   Tone.Transport.stop();
-  //console.log("stopAud")
-  //console.log(synths)
-  stopTimer();
-
+  console.log("stopAud")
+  stopTimer()
   for (var i = 0; i < synths.length; i++) {
     synths[i].context._timeouts.cancel(0);
     synths[i].dispose();

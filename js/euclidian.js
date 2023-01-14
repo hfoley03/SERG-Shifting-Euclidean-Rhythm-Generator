@@ -2,6 +2,7 @@ let onsetsA;                             // How many hits
 let pulsesA;                             // How many steps, 4,8 or 16
 let onsetsB;
 let pulsesB;
+let tempo_bpm = 120;
 
 let trackNamesTemp = ['track1', "track2", "track3", "track4"]
 let phaseShiftAmount = 1;                   // How many pulses is each shift
@@ -9,7 +10,7 @@ let phaseShiftPeriod = 2;                   // After how many bars does a shift 
 let numberOfTracks = 4;                     // Number of tracks/players
 let length = 8;                       // Length of total piece
 let mode;                               // Play mode (not used)
-let scale;                      // Used to add 4th and 5th note of C (see function pitch())
+let scale_;                      // Used to add 4th and 5th note of C (see function pitch())
 let midiInProgress;
 let track1;      // track/player 1, no shifting, base rhythm
 let track2;     // track/player 2, shifting occurs
@@ -33,14 +34,31 @@ let midiObject;
 // Creates full composition, with phase shifts
 let finalMidiObject;
 
-generateMidi(onsetsA = 2, pulsesA = 4, onsetsB = 3, pulsesB = 6);
+let velAmount = 0.4 // Pushed from GUI Slider range [0.05 - 0.45]
 
-function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB){
+let rootNote = "G"; // Pushed from GUI drop down menu of all notes
+let userSelected = [4,5] // Pushed from GUI, series of tick boxes
+
+let keys = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ]
+let major = [2,2,1,2,2,2,1];
+let minor = [2,1,2,2,1,2,2];
+let melodicMinor = [2,1,2,2,2,2,1];
+
+generateMidi(onsetsA = 4, pulsesA = 8, onsetsB = 8, pulsesB = 16, tempo_bpm = 120);
+
+function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm){
   // Variables that could change by user
 
 
+  console.log("Generate Midi")
   mode = 1;                               // Play mode (not used)
-  scale = ['F', 'G']                      // Used to add 4th and 5th note of C (see function pitch())
+  let scaleCalculated = calcScale(rootNote, melodicMinor)
+  console.log(scaleCalculated)
+  scale_ = userSelectedNotes(userSelected, scaleCalculated)
+  console.log(scale_)
+
+
+
   midiInProgress = new Midi();
   midiInProgress.name = "My Bloody Nightmare"
   track1 = midiInProgress.addTrack()      // track/player 1, no shifting, base rhythm
@@ -70,15 +88,13 @@ function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB){
   midiObject = binaryRhythmToMidi(binaryRhythmA, midiInProgress, pulseInTicksA, 0)
   midiObject = binaryRhythmToMidi(binaryRhythmB, midiObject, pulseInTicksB, 2)
 
-
-  /*
-  for(  j = 0; j < 4; j++){
-    console.log(midiObject.tracks[j].notes.length)
-  }*/
-
 // Creates full composition, with phase shifts
   finalMidiObject = phaseAndCompose(midiObject, phaseShiftAmount, phaseShiftPeriod, length, numberOfTracks, mode)
-//  console.log(finalMidiObject)
+
+  finalMidiObject.header.setTempo(tempo_bpm)
+  console.log("Midi Header Tempo Set:")
+  console.log(finalMidiObject.header.tempos)
+
   howManyTracks(finalMidiObject, numberOfTracks)
 
   return;
@@ -191,13 +207,12 @@ function phaseAndCompose(midiInProgress,phaseShiftAmount, phaseShiftPeriod,lengt
   return midiInProgress
 }
 
-
 function pitch(){
-  if (Math.random() > 0.1){
-    return get_random(scale)
+  if (Math.random() > 0.5){
+    return get_random(scale_)
   }
   else {
-  return 'C'  }
+    return rootNote  }
 }
 
 function get_random (list) {
@@ -208,10 +223,10 @@ function get_random (list) {
 function createNote(track_, timeTicks, pulseInTicks_){
   track_.addNote({
     pitch: pitch(),
-    octave: 4,//trackNamesTemp.indexOf(track_.name) + 2,
+    octave: trackNamesTemp.indexOf(track_.name) + 2,
     ticks: timeTicks,
     durationTicks: pulseInTicks_,
-    velocity: vel()
+    velocity: 0.8//vel()
   })
 }
 
@@ -219,7 +234,7 @@ function createNote(track_, timeTicks, pulseInTicks_){
 function vel(){
   let vel_ = Math.random();
   if (vel_ < 0.5){ // needed as a velocity of zero means no note
-    vel_ = vel_ + 0.4
+    vel_ = vel_ + velAmount
   }
   return vel_
 }
@@ -235,6 +250,24 @@ function howManyTracks(midiObject, num){
   }
 }
 
+
+function calcScale(key,intervals){
+  let scale = []
+  let index = keys.indexOf(key);
+  for (let i=0; i < intervals.length; i++) {
+    scale[i] = keys[index % 12];
+    index += intervals[i];
+  }
+  return scale
+}
+
+function userSelectedNotes(userSelected, scaleCalculated){
+  let flavourNotes = []
+  for (let i=0; i < userSelected.length; i++) {
+    flavourNotes[i] = scaleCalculated[userSelected[i]-1]
+  }
+  return flavourNotes;
+}
 
 
 
