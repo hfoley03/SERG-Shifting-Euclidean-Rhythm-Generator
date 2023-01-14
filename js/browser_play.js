@@ -14,6 +14,8 @@ let time_instants_to_play = [];
 let synth_counter = 0;
 
 
+var bufferkick = new Tone.Buffer("https://audio.jukehost.co.uk/cH1i0pZVTQeBnVirW5nAKlX3CmQfVat0")
+var buffersnare = new Tone.Buffer("https://audio.jukehost.co.uk/6JWSH43KdKaQ7kxas6cLvxX5fGQPkTkx")
 const reverb = new Tone.Reverb({
   decay : 4 ,
   preDelay : 0.08,
@@ -47,13 +49,13 @@ let channelStrip = [channel1, channel2, channel3, channel4];
 
 //This function creates the synths and sends them to the master
 function playNotes() {
-  console.log("playNotes")
+  //console.log("playNotes")
   //synths = [];
   time_common_track = Tone.now();
   finalMidiObject.tracks.forEach((track, index) => {
 
-    console.log('track name: ' + track.name)
-    console.log('index: ' + index);
+    //console.log('track name: ' + track.name)
+    //console.log('index: ' + index);
     console.log(channelStrip[index]);
     synth_type = SynthTypes[index];
 
@@ -66,19 +68,39 @@ function playNotes() {
     else if (synth_type == "MonoSynth") var synth = new Tone.MonoSynth().connect(channelStrip[index]);
     else if (synth_type == "NoiseSynth") var synth = new Tone.NoiseSynth().connect(channelStrip[index])
     else if (synth_type == "PolySynth") var synth = new Tone.PolySynth().connect(channelStrip[index]);
+    else if (synth_type == "Kick") {
+      var synth = new Tone.Player(bufferkick).connect(channelStrip[index]);
+
+    }
+    else if (synth_type == "Snare") {
+      var synth = new Tone.Player(buffersnare).connect(channelStrip[index]);
+
+    }
+
     //else if (synth_type == "Sampler") var synth = new Tone.PluckSynth().toMaster()
     //create a synth for each track
-
+    console.log(synth)
     synths.push(synth)
-    console.log(synths)
+    //console.log(synths)
     synth_counter = synth_counter + 1
-    console.log("synth counter: " + synth_counter)
+    //console.log("synth counter: " + synth_counter)
     //schedule the events
-    track.notes.forEach(note => {
-      time_inst_to_play = time_common_track + note.time + 0.5
-      time_instants_to_play.push(time_inst_to_play);
-      synth.triggerAttackRelease(note.name, note.duration, time_inst_to_play, note.velocity)
-    })
+    if (synth_type != "Kick" && synth_type != "Snare" ){
+      track.notes.forEach(note => {
+        time_inst_to_play = time_common_track + note.time + 0.5
+        time_instants_to_play.push(time_inst_to_play);
+        synth.triggerAttackRelease(note.name, note.duration, time_inst_to_play, note.velocity)
+      })
+    }else{
+      Tone.loaded().then(() => {
+        track.notes.forEach(note => {
+          time_inst_to_play = time_common_track + note.time + 0.5
+          time_instants_to_play.push(time_inst_to_play);
+          synth.start( time_inst_to_play, 0, note.duration)
+        })
+      });
+
+    }
 
   })
 }
@@ -105,15 +127,16 @@ function start_aud() {
 
 function stop_aud(){
   Tone.Transport.stop();
-  console.log("stopAud")
-  console.log(synths)
+  //console.log("stopAud")
+  //console.log(synths)
+  stopTimer();
 
   for (var i = 0; i < synths.length; i++) {
     synths[i].context._timeouts.cancel(0);
     synths[i].dispose();
   }
   synths = []
-  console.log(synths)
+  //console.log(synths)
   state = false;
 }
 
