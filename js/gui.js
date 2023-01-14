@@ -561,6 +561,7 @@ function start_aud_gui() {
     //console.log('Call start_aud');
     Tone.Transport.toggle()
     start_aud();
+    //setTimeout( startTimer(), time_common_track)
     startTimer();
   }
 }

@@ -20,15 +20,15 @@ var bufferhihat = new Tone.Buffer("https://audio.jukehost.co.uk/Z3t7DblT22VAC0dD
 
 
 const reverb = new Tone.Reverb({
-  decay : 4 ,
+  decay : 3 ,
   preDelay : 0.08,
-  wet: 0.4
+  wet: 0.3
 }).toDestination();
 
 const feedbackDelay2 = new Tone.PingPongDelay({
   delayTime : "4n",
   feedback : 0.2,
-  wet: 0.0
+  wet: 0.2
 }).connect(reverb);
 
 const feedbackDelay1 = new Tone.FeedbackDelay({
@@ -40,7 +40,7 @@ const feedbackDelay1 = new Tone.FeedbackDelay({
 let chorus = new Tone.Chorus({
   frequency : 100.5 ,
   delayTime : 0.5,
-  depth : 0.9 ,
+  depth : 0.1 ,
   spread : 90}).connect(feedbackDelay1);
 
 let limiter = new Tone.Limiter(-2).connect(chorus);
@@ -66,7 +66,7 @@ function playNotes() {
   //console.log("playNotes")
   //synths = [];
   //time_common_track = Tone.now();
-  time_common_track = Tone.context.currentTime + 2;
+  time_common_track  = Tone.context.currentTime+2;
 
   finalMidiObject.tracks.forEach((track, index) => {
 
@@ -82,6 +82,11 @@ function playNotes() {
       synth.envelope.decay = 0.1
       synth.envelope.release = 0.02
       synth.envelope.sustain  = 0.1
+      synth.filterEnvelope.attack = 0.001
+      synth.filterEnvelope.attackCurve = 'step'
+      synth.filterEnvelope.decay = 0.5
+      synth.filterEnvelope.release = 0.5
+      synth.filterEnvelope.sustain  = 0.5
     }
     else if (synth_type == "Kick") {
       var synth = new Tone.Player(bufferkick).connect(channelStrip[index]);
@@ -130,7 +135,6 @@ function start_aud() {
   console.log(main_loop_interval)
   main_loop.interval = main_loop_interval
   console.log(main_loop.interval)
-
   Tone.start().then(()=>{
 
     Tone.Transport.start();

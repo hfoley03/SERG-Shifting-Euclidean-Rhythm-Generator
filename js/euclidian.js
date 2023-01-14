@@ -37,14 +37,14 @@ let finalMidiObject;
 let velAmount = 0.4 // Pushed from GUI Slider range [0.05 - 0.45]
 
 let rootNote = "G"; // Pushed from GUI drop down menu of all notes
-let userSelected = [4,5] // Pushed from GUI, series of tick boxes
+let userSelected = [3,5,7] // Pushed from GUI, series of tick boxes
 
 let keys = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ]
 let major = [2,2,1,2,2,2,1];
 let minor = [2,1,2,2,1,2,2];
 let melodicMinor = [2,1,2,2,2,2,1];
 
-generateMidi(onsetsA = 3, pulsesA = 8, onsetsB = 8, pulsesB = 16, tempo_bpm = 120);
+generateMidi(onsetsA = 4, pulsesA = 8, onsetsB = 5, pulsesB = 16, tempo_bpm = 120);
 
 function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm){
   // Variables that could change by user
@@ -52,7 +52,7 @@ function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm){
 
   console.log("Generate Midi")
   mode = 1;                               // Play mode (not used)
-  let scaleCalculated = calcScale(rootNote, melodicMinor)
+  let scaleCalculated = calcScale(rootNote, major)
   console.log(scaleCalculated)
   scale_ = userSelectedNotes(userSelected, scaleCalculated)
   console.log(scale_)
