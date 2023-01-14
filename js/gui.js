@@ -263,9 +263,9 @@ function initialization(){
   console.log(pulse_durationA,pulse_durationB)
 
   indexA_1 = 0;
-  indexA_2 = 0;
+  indexA_2 = -1;
   indexB_1 = 0;
-  indexB_2 = 0;
+  indexB_2 = -1;
 }
 function FixedCircle(x, y, onset, pulses, color1, color2) {
 
@@ -517,10 +517,10 @@ function stopTimer(){
     normal = 0;
     indexA = 0;
     indexA_1 = 0;
-    indexA_2 = 0;
+    indexA_2 = -1;
     indexB = 0;
     indexB_1 = 0;
-    indexB_2 = 0;
+    indexB_2 = -1;
     actualbarA = 0;
     proportion_indexA = 0.8;
     actualbarB = 0;
