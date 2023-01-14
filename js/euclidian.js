@@ -8,7 +8,7 @@ let trackNamesTemp = ['track1', "track2", "track3", "track4"]
 let phaseShiftAmount = 1;                   // How many pulses is each shift
 let phaseShiftPeriod = 2;                   // After how many bars does a shift occur
 let numberOfTracks = 4;                     // Number of tracks/players
-let length = 8;                       // Length of total piece
+let length = 2;                       // Length of total piece
 let mode;                               // Play mode (not used)
 let scale_;                      // Used to add 4th and 5th note of C (see function pitch())
 let midiInProgress;
@@ -37,14 +37,14 @@ let finalMidiObject;
 let velAmount = 0.4 // Pushed from GUI Slider range [0.05 - 0.45]
 
 let rootNote = "G"; // Pushed from GUI drop down menu of all notes
-let userSelected = [4,5] // Pushed from GUI, series of tick boxes
+let userSelected = [3,5,7] // Pushed from GUI, series of tick boxes
 
 let keys = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ]
 let major = [2,2,1,2,2,2,1];
 let minor = [2,1,2,2,1,2,2];
 let melodicMinor = [2,1,2,2,2,2,1];
 
-generateMidi(onsetsA = 4, pulsesA = 8, onsetsB = 4, pulsesB = 8, tempo_bpm = 120);
+generateMidi(onsetsA = 4, pulsesA = 8, onsetsB = 5, pulsesB = 16, tempo_bpm = 120);
 
 function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm){
   // Variables that could change by user
@@ -52,7 +52,7 @@ function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm){
 
   console.log("Generate Midi")
   mode = 1;                               // Play mode (not used)
-  let scaleCalculated = calcScale(rootNote, melodicMinor)
+  let scaleCalculated = calcScale(rootNote, major)
   console.log(scaleCalculated)
   scale_ = userSelectedNotes(userSelected, scaleCalculated)
   console.log(scale_)
@@ -226,7 +226,7 @@ function createNote(track_, timeTicks, pulseInTicks_){
     octave: trackNamesTemp.indexOf(track_.name) + 2,
     ticks: timeTicks,
     durationTicks: pulseInTicks_,
-    velocity: 0.8//vel()
+    velocity: 0.9//vel()
   })
 }
 

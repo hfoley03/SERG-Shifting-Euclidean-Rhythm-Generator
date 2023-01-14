@@ -10,7 +10,7 @@ let play_button;
 let stop_button;
 let state = false;
 
-let All_Synths = ['MonoSynth', 'Kick', 'Snare' ,'Synth'];
+let All_Synths = ['MonoSynth', 'Kick', 'Snare' ,'Synth','Hihat'];
 
 let x=0;
 
@@ -537,6 +537,7 @@ function start_aud_gui() {
     //console.log('Call start_aud');
     Tone.Transport.toggle()
     start_aud();
+    //setTimeout( startTimer(), time_common_track)
     startTimer();
   }
 }
