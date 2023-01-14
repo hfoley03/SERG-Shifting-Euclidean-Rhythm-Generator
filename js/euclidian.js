@@ -214,7 +214,7 @@ function pitch(){
     return get_random(scale_)
   }
   else {
-  return rootNote  }
+    return rootNote  }
 }
 
 function get_random (list) {
@@ -251,6 +251,7 @@ function howManyTracks(midiObject, num){
     }
   }
 }
+
 
 function calcScale(key,intervals){
   let scale = []
