@@ -28,13 +28,13 @@ const reverb = new Tone.Reverb({
 const feedbackDelay2 = new Tone.PingPongDelay({
   delayTime : "4n",
   feedback : 0.2,
-  wet: 0.1
+  wet: 0.0
 }).connect(reverb);
 
 const feedbackDelay1 = new Tone.FeedbackDelay({
   delayTime : "8n" ,
   feedback : 0.2,
-  wet: 0.6
+  wet: 0.0
 }).connect(feedbackDelay2);
 
 let chorus = new Tone.Chorus({
