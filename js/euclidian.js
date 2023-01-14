@@ -252,7 +252,6 @@ function howManyTracks(midiObject, num){
   }
 }
 
-
 function calcScale(key,intervals){
   let scale = []
   let index = keys.indexOf(key);
