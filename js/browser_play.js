@@ -42,11 +42,11 @@ let chorus = new Tone.Chorus({
   delayTime : 0.5,
   depth : 0.9 ,
   spread : 90}).connect(feedbackDelay1);
-let limiter = new Tone.Limiter(-2).connect(chorus);
-let channel1 = new Tone.Channel(-6, 0.5).connect(limiter);
-let channel2 = new Tone.Channel(-6, -0.5).connect(limiter);
-let channel3 = new Tone.Channel(-6, 0.75).connect(limiter);
-let channel4 = new Tone.Channel(-6, -0.75).connect(limiter);
+let limiter = new Tone.Limiter(0).connect(chorus);
+let channel1 = new Tone.Channel(-1, 0.5).connect(limiter);
+let channel2 = new Tone.Channel(-1, -0.5).connect(limiter);
+let channel3 = new Tone.Channel(-1, 0.75).connect(limiter);
+let channel4 = new Tone.Channel(-1, -0.75).connect(limiter);
 
 channel1.name = "Channel 1"
 channel2.name = "Channel 2"
@@ -74,16 +74,7 @@ function playNotes() {
     synth_type = SynthTypes[index];
 
     //if (synth_type == "MonoSynth") var synth = new Tone.MonoSynth().connect(channelStrip[index]);
-    //else if (synth_type == "PluckSynth") var synth = new Tone.PluckSynth().connect(channelStrip[index]);
-    /*else if (synth_type == "AMSynth") var synth = new Tone.AMSynth().connect(channelStrip[index]);
-    else if (synth_type == "DuoSynth") var synth = new Tone.DuoSynth().connect(channelStrip[index]);
-    else if (synth_type == "FMSynth") var synth = new Tone.FMSynth().connect(channelStrip[index]);
-    else if (synth_type == "MetalSynth") var synth = new Tone.MetalSynth().connect(channelStrip[index])
-    else if (synth_type == "MonoSynth") var synth = new Tone.MonoSynth().connect(channelStrip[index]);
-    else if (synth_type == "NoiseSynth") var synth = new Tone.NoiseSynth().connect(channelStrip[index])
-    else if (synth_type == "PolySynth") var synth = new Tone.PolySynth().connect(channelStrip[index]);
-    //else if (synth_type == "Sampler") var synth = new Tone.PluckSynth().toMaster()
-    //create a synth for each track*/
+
 
     var synth = new Tone.MonoSynth().connect(channelStrip[index]);
 
