@@ -55,16 +55,16 @@ function setup() {
   w = width;
   h = height;
 
-  // ---- Selection of the type of Synth according to the user
-  let synth_x = 3*w/12-17;
-  let synth_y = h/12+110;
+  // ---- Selection Synth type by the user
+  let synth_x = 15*w/60+10;
+  let synth_y = 18*h/60-5;
   for(let i = 1; i<=4; i++){
     let tmp_synth_str = "tr" + i + "_synth";
     let tmp_synth = window[tmp_synth_str];
     tmp_synth = createSelect();
     tmp_synth.position(synth_x,synth_y+20*(i-1)+1);
     if(i==3 || i==4){
-      tmp_synth.position(synth_x+3*w/12+10,synth_y+20*(i-3)+1);
+      tmp_synth.position(synth_x+15*w/60,synth_y+20*(i-3)+1);
     }
     loc_dict[tmp_synth_str+ "_loc"] = [synth_x,synth_y+20*(i-1)]
     for( let k = 0; k<All_Synths.length;k++){
@@ -75,66 +75,53 @@ function setup() {
     synthinps.push(tmp_synth)
   }
 
-  let phase_shift_amount_inp = createInput(phaseShiftAmount.toString());
-  let phase_shift_amount_inp_loc = [10*w/12-10, h/12+70];
-  loc_dict['phase_shift_amount_inp_loc'] = phase_shift_amount_inp_loc
-  phase_shift_amount_inp.position(phase_shift_amount_inp_loc[0],phase_shift_amount_inp_loc[1]);
-  phase_shift_amount_inp.size(20);
-
-  let phase_shift_period_inp = createInput(phaseShiftPeriod.toString());
-  let phase_shift_period_inp_loc = [phase_shift_amount_inp_loc[0], phase_shift_amount_inp_loc[1]+20];
-  loc_dict['phase_shift_period_inp_loc'] = phase_shift_period_inp_loc
-  phase_shift_period_inp.position(phase_shift_amount_inp_loc[0],phase_shift_amount_inp_loc[1]+20);
-  phase_shift_period_inp.size(20);
-
-  let length_inp = createInput(length.toString());
-  let length_inp_loc = [phase_shift_amount_inp_loc[0], phase_shift_amount_inp_loc[1]+40];
-  loc_dict['length_inp_loc'] = length_inp_loc
-  length_inp.position(phase_shift_amount_inp_loc[0],length_inp_loc[1]);
-  length_inp.size(20);
-
-  let number_of_tracks_inp = createInput(numberOfTracks.toString());
-  let number_of_tracks_inp_loc = [phase_shift_amount_inp_loc[0], phase_shift_amount_inp_loc[1]+60];
-  loc_dict['number_of_tracks_inp_loc'] = number_of_tracks_inp_loc
-  number_of_tracks_inp.position(number_of_tracks_inp_loc[0],number_of_tracks_inp_loc[1]);
-  number_of_tracks_inp.size(20);
-
-  let tempo_bpm_inp = createInput(tempo_bpm.toString());
-  let tempo_bpm_inp_loc = [phase_shift_amount_inp_loc[0], phase_shift_amount_inp_loc[1]+80];
-  loc_dict['tempo_bpm_inp_loc'] = tempo_bpm_inp_loc
-  tempo_bpm_inp.position(tempo_bpm_inp_loc[0],tempo_bpm_inp_loc[1]);
-  tempo_bpm_inp.size(20);
-
-
-// ----- Inputs of the Onsets and Pulses of the Euclidean Rhythm
-  let onsetsA_x = 3*w/12+50;
-  let onsetsA_x_txt = onsetsA_x/3;
-  let onsetsA_y = h/12+70;
-  let onsetsA_y_txt = onsetsA_y + 5;
+  // ----- Inputs of Onsets and Pulses for the Euclidean Rhythm
+  let x_onsets = 15*w/60+10;
+  let y_onsets = 13*h/60;
   let onsets_pulses = [onsetsA,pulsesA, onsetsB, pulsesB];
   let onsets_pulses_str = ["onsetsA","pulsesA", "onsetsB", "pulsesB"];
   for(let i = 1; i<=4; i++){
-    let tmp_onsets_str = onsets_pulses_str[i-1] + "_loc";
-    let tmp_onsets_txt_str = onsets_pulses_str[i-1] + "_loc_txt";
+    let tmp_onsets_str = onsets_pulses_str[i-1];
     let tmp_onsets = window[tmp_onsets_str];
     tmp_onsets = createInput(onsets_pulses[i-1]);
     if(i == 1 || i == 2) {
-      tmp_onsets.position(onsetsA_x, onsetsA_y + 20 * (i - 1));
-      loc_dict[tmp_onsets_str] = [onsetsA_x, onsetsA_y + 20 * (i - 1)];
-      loc_dict_txt[tmp_onsets_txt_str] = [onsetsA_x_txt, onsetsA_y_txt + 20 * (i - 1)];
+      tmp_onsets.position(x_onsets, y_onsets + 22 * (i - 1));
     }
     else{
-      tmp_onsets.position(onsetsA_x+ 330, onsetsA_y + 20 * (i - 3));
-      loc_dict[tmp_onsets_str] = [onsetsA_x + 330, onsetsA_y + 20 * (i - 3)];
-      loc_dict_txt[tmp_onsets_txt_str] = [onsetsA_x_txt+330, onsetsA_y_txt + 20 * (i - 3)];
+      tmp_onsets.position(x_onsets+15*w/60, y_onsets + 22 * (i - 3));
     }
     tmp_onsets.size(20);
     onsetsinps.push(tmp_onsets);
   }
 
+  // ----- Inputs of lenght of piece, shifting amount and shifting period
+  let phase_shift_amount_inp = createInput(phaseShiftAmount.toString());
+  let x_inputs = 49*w/60;
+  let y_inputs = 13*h/60-2;
+  phase_shift_amount_inp.position(x_inputs,y_inputs);
+  phase_shift_amount_inp.size(20);
+
+  let phase_shift_period_inp = createInput(phaseShiftPeriod.toString());
+  phase_shift_period_inp.position(x_inputs,y_inputs+22);
+  phase_shift_period_inp.size(20);
+
+  let length_inp = createInput(length.toString());
+  length_inp.position(x_inputs,y_inputs+44);
+  length_inp.size(20);
+
+  let tempo_bpm_inp = createInput(tempo_bpm.toString());
+  tempo_bpm_inp.position(x_inputs,y_inputs+88);
+  tempo_bpm_inp.size(20);
+
+  /*let number_of_tracks_inp = createInput(numberOfTracks.toString());
+  number_of_tracks_inp.position(x_inputs,y_inputs+66);
+  number_of_tracks_inp.size(20);7*/
+
+
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
   gen_button = createButton('Generate');
-  gen_button.position(3.5*w/12, 4*h/12);
+  gen_button.position(13*w/60, 27*h/60);
+  gen_button.size(4*w/60);
   gen_button.style('background-color', 'rgba(135, 143, 155,.5)');
   gen_button.style('color','#FFFFFF');
   gen_button.style('font-family: Bahnschrift');
@@ -142,11 +129,10 @@ function setup() {
   gen_button.style('border-radius' , 10 + '%');
   gen_button.style('z-index',  100);
   gen_button.mousePressed(function() {
-    clear()
-
+    clear();
     stop_aud();
-    phaseShiftAmount = parseInt(phase_shift_amount_inp.value());           // How many pulses is each shift
-    phaseShiftPeriod = parseInt(phase_shift_amount_inp.value());           // After how many bars does a shift occur
+    phaseShiftAmount = parseInt(phase_shift_amount_inp.value());         // How many pulses is each shift
+    phaseShiftPeriod = parseInt(phase_shift_amount_inp.value());         // After how many bars does a shift occur
     length = parseInt(length_inp.value());                               // Length of total piece
     numberOfTracks = parseInt(number_of_tracks_inp.value());
     onsetsA = parseInt(onsetsinps[0].value());
@@ -160,7 +146,7 @@ function setup() {
 
   // ---- Play button
   play_button = createButton('&#9658');
-  play_button.position(5.7*w/12, 4*h/12);
+  play_button.position(29.5*w/60, 27*h/60);
   play_button.style('background-color', 'rgba(135, 143, 155,.5)');
   play_button.style('color','#FFFFFF');
   play_button.style('font-family', 'Bahnschrift');
@@ -170,7 +156,7 @@ function setup() {
 
   // ---- Stop button
   stop_button = createButton('&#9209');
-  stop_button.position(8*w/12, 4*h/12);
+  stop_button.position(44.5*w/60, 27*h/60);
   stop_button.style('background-color','rgba(135, 143, 155,.5)');
   stop_button.style('color','#FFFFFF');
   stop_button.style('font-family','Segoe UI Symbol');
@@ -189,8 +175,6 @@ function draw() {
   w = width;
   h = height;
 
-  //console.log(w,h)
-
   fill('#0D3E1D');
   textSize(w*0.04);
   textFont('Bahnschrift');
@@ -199,65 +183,63 @@ function draw() {
 
   // ----- text first box
   stroke('#FFD5C2');
-  strokeWeight(w*0.005);
+  strokeWeight(w*0.003);
   noFill();
-  rect(9*w/60,10*h/60,12*w/60,18*h/60,10);
+  rect(9*w/60,11*h/60,12*w/60,12*h/60,10);
 
   fill('#588B8B');
   strokeWeight(0);
   textAlign(CENTER, CENTER);
-  textSize(40);
-  text('First Set', 15*w/60, h/12+30);
+  textSize(w*0.03);
+  text('First Set', 15*w/60, 8*h/60);
   textAlign(LEFT, CENTER);
   fill(color_txt);
-  textSize(20);
-  let xx1 = 2*w/12-10;
-  let yy = h/12+70;
-  text('Onsets 1st Track', xx1, yy);
-  text('Pulses 1st Track', xx1, yy+20);
-  text('1st Track', xx1, yy+40);
-  text('2nd Track', xx1, yy+60);
+  textSize(w*0.015);
+  let xx1 = 10*w/60+15;
+  let yy = 13*h/60;
+  text('Onsets', xx1, yy);
+  text('Pulses', xx1, yy+22);
+  text('1st Track', xx1, yy+44);
+  text('2nd Track', xx1, yy+66);
 
   // ----- text second box
   stroke('#FFD5C2');
-  strokeWeight(w*0.005);
+  strokeWeight(w*0.003);
   noFill();
-  rect(24*w/60,10*h/60,12*w/60,18*h/60,10);
+  rect(24*w/60,11*h/60,12*w/60,12*h/60,10);
 
   textAlign(CENTER, CENTER);
-  textSize(40);
+  textSize(w*0.03);
   fill('#588B8B');
   strokeWeight(0);
-  text('Second Set', 30*w/60, h/12+30);
+  text('Second Set', 30*w/60, 8*h/60);
   textAlign(LEFT, CENTER);
   fill(color_txt);
-  textSize(20);
-  let xx2 = 5*w/12-10;
-  text('Onsets 2nd Track', xx2, yy);
-  text('Pulses 2nd Track', xx2, yy+20);
-  text('3rd Track', xx2, yy+40);
-  text('4th Track', xx2, yy+60);
+  textSize(w*0.015);
+  let xx2 = 25*w/60+12;
+  text('Onsets', xx2, yy);
+  text('Pulses', xx2, yy+22);
+  text('3rd Track', xx2, yy+44);
+  text('4th Track', xx2, yy+66);
 
   // ----- text third box
   stroke('#FFD5C2');
-  strokeWeight(w*0.005);
+  strokeWeight(w*0.003);
   noFill();
-  rect(39*w/60,10*h/60,12*w/60,18*h/60,10);
+  rect(39*w/60,11*h/60,12*w/60,12*h/60,10);
 
-  textSize(40);
+  textSize(w*0.03);
   fill('#588B8B');
   strokeWeight(0);
-  text('Parameters', 8*w/12, h/12 + 30);
+  text('Parameters', 8*w/12, 8*h/60);
   fill(color_txt);
-  textSize(20);
-  let xx3 = 8*w/12-5;
+  textSize(w*0.015);
+  let xx3 = 40*w/60;
   text('Phase Shift Amount', xx3, yy);
   text('Phase Shift Period', xx3, yy+20);
   text('Piece length', xx3, yy+40);
   text('Number of Tracks', xx3, yy+60);
   text('Tempo (BPM)', xx3, yy+80);
-
-
 
   // ------- Generation of Concentric Circles
 
@@ -268,12 +250,12 @@ function draw() {
   let cl5 = 'rgba(191, 192, 192,0.2)'; // color pulses Track 2
 
   // top-left
-  FixedCircle(2*w/6, 3*h/6, binaryRhythmA, pulsesA, cl1, cl2);      // Track 1 Fixed Circle
+  FixedCircle(15*w/60, 45*h/60, binaryRhythmA, pulsesA, cl1, cl2);      // Track 1 Fixed Circle
   VisualShift(1, cl3, cl4);                                         // Visual Track 2 Shifting circle
   VisualFix(0, pulsesA, cl5);                                        // Visual Actual pulse playing Track 1-2
 
   // Top-right
-  FixedCircle(4*w/6, 3*h/6, binaryRhythmB, pulsesB, cl1, cl2);      // Track 3  Fixed Circle
+  FixedCircle(45*w/60, 45*h/60, binaryRhythmB, pulsesB, cl1, cl2);      // Track 3  Fixed Circle
   VisualShift(3, cl3, cl4);                                         // Visual Track 4 Shifting circle
   VisualFix(2, pulsesB, cl5);                                        // Visual Actual pulse playing Track 3-4
 
@@ -292,8 +274,8 @@ function initialization(){
   indexB_2 = pulsesB;
 }
 function FixedCircle(x, y, onset, pulses, color1, color2) {
-  let r2 = 2*w/12;
-  strokeWeight(4);
+  let r2 = 10*w/60;
+  strokeWeight(w*0.002);
 
   for (let i = 0; i < pulses; i++) {
     if (onset[i] == 1) {
@@ -301,13 +283,13 @@ function FixedCircle(x, y, onset, pulses, color1, color2) {
       fill(color1);
       arc(x, y, r2, r2, 360*(1-(i+1)/pulses), 360*(1-i/pulses), PIE);
       fill(cl_bg);
-      arc(x, y, r2 - 25, r2 - 25, 0, 360, PIE);
+      arc(x, y, r2 - 1.5*w/60, r2 - 1.5*w/60, 0, 360, PIE);
     } else {
       stroke(cl_bg);
       fill(color2);
       arc(x, y, r2, r2, 360*(1-(i+1)/pulses), 360*(1-i/pulses), PIE);
       fill(cl_bg);
-      arc(x, y, r2-25, r2-25, 0, 360, PIE);
+      arc(x, y, r2-1.5*w/60, r2-1.5*w/60, 0, 360, PIE);
     }
   }
 }
@@ -320,13 +302,13 @@ function VisualFix(track, pulses, color){
   if (track==0){
     end = map(indexA_1,0,pulses,0,360);
     start = map(indexA_2,0,pulses,0,360);
-    x_arc = 2*w/6;
-    y_arc = 3*h/6;
+    x_arc = 15*w/60;
+    y_arc = 45*h/60;
   }else if (track==2){
     end = map(indexB_1,0,pulses,0,360);
     start = map(indexB_2,0,pulses,0,360);
-    x_arc = 4*w/6;
-    y_arc = 3*h/6;
+    x_arc = 45*w/60;
+    y_arc = 45*h/60;
   }
 
   stroke(color);
@@ -393,8 +375,8 @@ function VisualFixTimingB(){
 
 // --------- Functions for the visuals of the shifting ------
 function ShuffleCircle(x, y, onset, pulses, prt, color1, color2) {
-  let r2 = 2*w/12;
-  strokeWeight(1);
+  let r2 = 10*w/60;
+  strokeWeight(w*0.002);
 
   for (let i = 0; i<pulses; i++) {
     if (onset[i] == 1) {
@@ -402,13 +384,13 @@ function ShuffleCircle(x, y, onset, pulses, prt, color1, color2) {
       fill(color1);
       arc(x, y, prt*r2, prt*r2, 360*(1-(i+1)/pulses), 360*(1-i/pulses), PIE);
       fill(cl_bg);
-      arc(x, y, prt*r2-15, prt*r2-15, 0, 360, PIE);
+      arc(x, y, prt*r2-1.5*w/60, prt*r2-1.5*w/60, 0, 360, PIE);
     } else{
       stroke(cl_bg);
       fill(color2);
       arc(x, y, r2 * prt, r2 * prt, 360 * (1 - (i + 1) / pulses), 360 * (1 - i / pulses), PIE);
       fill(cl_bg);
-      arc(x, y, prt * r2 - 15, prt * r2 - 15, 0, 360, PIE);
+      arc(x, y, prt * r2-1.5*w/60, prt * r2-1.5*w/60, 0, 360, PIE);
     }
   }
 }
@@ -418,7 +400,6 @@ function VisualShift(track,color1, color2){
   let Shift_binary = [];
   let proportion;
   let actualbar;
-
   let x_c;
   let y_c;
   let aux_onsets = [];
@@ -427,14 +408,14 @@ function VisualShift(track,color1, color2){
     pulses = pulsesA;
     proportion = proportion_indexA;
     actualbar = actualbarA;
-    x_c = 2*w/6;
-    y_c = 3*h/6;
+    x_c = 15*w/60;
+    y_c = 45*h/60;
   }else if (track == 3){
     pulses = pulsesB;
     proportion = proportion_indexB;
     actualbar = actualbarB;
-    x_c = 4*w/6;
-    y_c = 3*h/6;
+    x_c = 45*w/60;
+    y_c = 45*h/60;
   }
 
   Shift_binary = GetBinaryShiftedOnset(track);
