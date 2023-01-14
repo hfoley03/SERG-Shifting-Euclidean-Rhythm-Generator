@@ -42,11 +42,11 @@ let chorus = new Tone.Chorus({
   delayTime : 0.5,
   depth : 0.9 ,
   spread : 90}).connect(feedbackDelay1);
-let limiter = new Tone.Limiter(-2).connect(chorus);
-let channel1 = new Tone.Channel(-6, 0.5).connect(limiter);
-let channel2 = new Tone.Channel(-6, -0.5).connect(limiter);
-let channel3 = new Tone.Channel(-6, 0.75).connect(limiter);
-let channel4 = new Tone.Channel(-6, -0.75).connect(limiter);
+let limiter = new Tone.Limiter(0).connect(chorus);
+let channel1 = new Tone.Channel(-1, 0.5).connect(limiter);
+let channel2 = new Tone.Channel(-1, -0.5).connect(limiter);
+let channel3 = new Tone.Channel(-1, 0.75).connect(limiter);
+let channel4 = new Tone.Channel(-1, -0.75).connect(limiter);
 
 channel1.name = "Channel 1"
 channel2.name = "Channel 2"
