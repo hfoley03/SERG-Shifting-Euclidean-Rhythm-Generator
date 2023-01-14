@@ -8,7 +8,7 @@ let trackNamesTemp = ['track1', "track2", "track3", "track4"]
 let phaseShiftAmount = 1;                   // How many pulses is each shift
 let phaseShiftPeriod = 2;                   // After how many bars does a shift occur
 let numberOfTracks = 4;                     // Number of tracks/players
-let length = 8;                       // Length of total piece
+let length = 2;                       // Length of total piece
 let mode;                               // Play mode (not used)
 let scale_;                      // Used to add 4th and 5th note of C (see function pitch())
 let midiInProgress;

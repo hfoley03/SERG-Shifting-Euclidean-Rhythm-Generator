@@ -18,6 +18,7 @@ var bufferkick = new Tone.Buffer("https://audio.jukehost.co.uk/mazfEsXSvszmtRHKw
 var buffersnare = new Tone.Buffer("https://audio.jukehost.co.uk/0v0XCCA6hcBRKPxqXZ5Xr0hOZ5AcvxcF")
 var bufferhihat = new Tone.Buffer("https://audio.jukehost.co.uk/Z3t7DblT22VAC0dDnHGq4gEBEczuFf1m")
 
+var playNotesCount = 0;
 
 const reverb = new Tone.Reverb({
   decay : 3 ,
@@ -28,13 +29,13 @@ const reverb = new Tone.Reverb({
 const feedbackDelay2 = new Tone.PingPongDelay({
   delayTime : "4n",
   feedback : 0.2,
-  wet: 0.2
+  wet: 0
 }).connect(reverb);
 
 const feedbackDelay1 = new Tone.FeedbackDelay({
   delayTime : "8n" ,
   feedback : 0.2,
-  wet: 0.3
+  wet: 0
 }).connect(feedbackDelay2);
 
 let chorus = new Tone.Chorus({
@@ -66,7 +67,19 @@ function playNotes() {
   //console.log("playNotes")
   //synths = [];
   //time_common_track = Tone.now();
-  time_common_track  = Tone.context.currentTime+2;
+  if (playNotesCount==0){
+
+    time_common_track  = Tone.context.currentTime+2;
+    playNotesCount += 1;
+  }
+  else {
+    last_track_note_duration = finalMidiObject.tracks[0].notes[0].duration;
+    //time_common_track = last_time_inst + last_track_note_duration;
+
+    time_common_track = time_common_track + last_track_note_duration * pulsesA * length;
+  }
+
+  console.log(time_common_track)
 
   finalMidiObject.tracks.forEach((track, index) => {
 
@@ -110,6 +123,8 @@ function playNotes() {
         time_inst_to_play = time_common_track + note.time + 0.0001
         time_instants_to_play.push(time_inst_to_play);
         synth.triggerAttackRelease(note.name, note.duration, time_inst_to_play, note.velocity)
+        //console.log(time_inst_to_play);
+
       })
     }else{
       Tone.loaded().then(() => {
@@ -122,6 +137,9 @@ function playNotes() {
 
     }
 
+    last_time_inst = time_inst_to_play;
+    //console.log(last_time_inst)
+    for(let i = 0; i<time_instants_to_play.length-1;i++){console.log(time_instants_to_play[i+1]-time_instants_to_play[i])}
   })
 }
 
