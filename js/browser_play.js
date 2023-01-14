@@ -74,16 +74,7 @@ function playNotes() {
     synth_type = SynthTypes[index];
 
     //if (synth_type == "MonoSynth") var synth = new Tone.MonoSynth().connect(channelStrip[index]);
-    //else if (synth_type == "PluckSynth") var synth = new Tone.PluckSynth().connect(channelStrip[index]);
-    /*else if (synth_type == "AMSynth") var synth = new Tone.AMSynth().connect(channelStrip[index]);
-    else if (synth_type == "DuoSynth") var synth = new Tone.DuoSynth().connect(channelStrip[index]);
-    else if (synth_type == "FMSynth") var synth = new Tone.FMSynth().connect(channelStrip[index]);
-    else if (synth_type == "MetalSynth") var synth = new Tone.MetalSynth().connect(channelStrip[index])
-    else if (synth_type == "MonoSynth") var synth = new Tone.MonoSynth().connect(channelStrip[index]);
-    else if (synth_type == "NoiseSynth") var synth = new Tone.NoiseSynth().connect(channelStrip[index])
-    else if (synth_type == "PolySynth") var synth = new Tone.PolySynth().connect(channelStrip[index]);
-    //else if (synth_type == "Sampler") var synth = new Tone.PluckSynth().toMaster()
-    //create a synth for each track*/
+
 
     var synth = new Tone.MonoSynth().connect(channelStrip[index]);
 
