@@ -82,14 +82,25 @@ function setup() {
   for(let i = 1; i<=4; i++){
     let tmp_onsets_str = onsets_pulses_str[i-1];
     let tmp_onsets = window[tmp_onsets_str];
-    tmp_onsets = createInput(onsets_pulses[i-1]);
+
+    if (i==1 || i==3){
+      tmp_onsets = createInput(onsets_pulses[i-1]);
+      tmp_onsets.size(32);
+
+    }
+    else{
+      tmp_onsets = createSelect();
+      tmp_onsets.option(2);tmp_onsets.option(4);
+      tmp_onsets.option(8);tmp_onsets.option(16);tmp_onsets.option(32);
+      tmp_onsets.size(40)
+      tmp_onsets.selected(onsets_pulses[i-1])
+    }
     if(i == 1 || i == 2) {
       tmp_onsets.position(x_onsets, y_onsets + 22 * (i - 1));
     }
     else{
       tmp_onsets.position(x_onsets+15*w/60, y_onsets + 22 * (i - 3));
     }
-    tmp_onsets.size(22);
     onsetsinps.push(tmp_onsets);
   }
 
@@ -551,7 +562,6 @@ function stopTimer(){
   }
 }
 function start_aud_gui() {
-  TimerDelay = last_time_inst;
   if (state) {
     //console.log("state: true")
     //console.log("already playing")
@@ -559,7 +569,7 @@ function start_aud_gui() {
     //console.log("state false")
     SynthTypes = [synthinps[0].value(), synthinps[1].value(), synthinps[2].value(), synthinps[3].value()];
     //console.log('Call start_aud');
-    Tone.Transport.toggle();
+    //Tone.Transport.toggle();
     start_aud();
     startTimer();
   }

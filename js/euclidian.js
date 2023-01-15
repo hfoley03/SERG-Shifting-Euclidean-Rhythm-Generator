@@ -27,7 +27,6 @@ let pulseInTicksB;
 let binaryRhythmA;
 let binaryRhythmB;
 
-
 // Convert into Midi object
 let midiObject;
 
@@ -35,7 +34,6 @@ let midiObject;
 let finalMidiObject;
 
 let velAmount = 0.4 // Pushed from GUI Slider range [0.05 - 0.45]
-
 let rootNote = "G"; // Pushed from GUI drop down menu of all notes
 let userSelected = [3,5,7] // Pushed from GUI, series of tick boxes
 
@@ -48,17 +46,12 @@ generateMidi(onsetsA = 2, pulsesA = 8, onsetsB = 6, pulsesB = 8, tempo_bpm = 100
 
 function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm){
   // Variables that could change by user
-
-
   console.log("Generate Midi")
   mode = 1;                               // Play mode (not used)
   let scaleCalculated = calcScale(rootNote, major)
   console.log(scaleCalculated)
   scale_ = userSelectedNotes(userSelected, scaleCalculated)
   console.log(scale_)
-
-
-
   midiInProgress = new Midi();
   midiInProgress.name = "My Bloody Nightmare"
   track1 = midiInProgress.addTrack()      // track/player 1, no shifting, base rhythm
@@ -66,7 +59,7 @@ function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm){
   track2 = midiInProgress.addTrack()      // track/player 2, shifting occurs
   track2.name = "track2"
 
-// Pair 2
+  // Pair 2
   track3 = midiInProgress.addTrack()      // track/player 1, no shifting, base rhythm
   track3.name = "track3"
   track4 = midiInProgress.addTrack()      // track/player 2, shifting occurs
@@ -76,19 +69,18 @@ function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm){
   pulseInTicksA = (oneBarInTicks)/pulsesA     //length of one pulse in ticks,normally for a 1/16th note = 120
   pulseInTicksB = (oneBarInTicks)/pulsesB
 
-// Create binary euclidean rhythm
+  // Create binary euclidean rhythm
   binaryRhythmA = euclidianPattern(onsetsA, pulsesA)
-//  console.log('BR a onsets pulses', onsetsA, pulsesA)
+  //  console.log('BR a onsets pulses', onsetsA, pulsesA)
 
   binaryRhythmB = euclidianPattern(onsetsB, pulsesB)
-//  console.log('BR b onsets pulses ', onsetsB, pulsesB)
+  //  console.log('BR b onsets pulses ', onsetsB, pulsesB)
 
-
-// Convert into Midi object
+  // Convert into Midi object
   midiObject = binaryRhythmToMidi(binaryRhythmA, midiInProgress, pulseInTicksA, 0)
   midiObject = binaryRhythmToMidi(binaryRhythmB, midiObject, pulseInTicksB, 2)
 
-// Creates full composition, with phase shifts
+  // Creates full composition, with phase shifts
   finalMidiObject = phaseAndCompose(midiObject, phaseShiftAmount, phaseShiftPeriod, length, numberOfTracks, mode)
 
   finalMidiObject.header.setTempo(tempo_bpm)
@@ -171,12 +163,11 @@ function phaseAndCompose(midiInProgress,phaseShiftAmount, phaseShiftPeriod,lengt
     var trackSpecificOnsets = players[t].notes.length
     var trackSpecificPulses = oneBarInTicks/trackSpecificPulseInTicks
 
-//    console.log("player " + players[t].name + " onsets: " + trackSpecificOnsets + " pulses: " + trackSpecificPulses +" values of pulse: " + trackSpecificPulseInTicks)
+    //    console.log("player " + players[t].name + " onsets: " + trackSpecificOnsets + " pulses: " + trackSpecificPulses +" values of pulse: " + trackSpecificPulseInTicks)
 
     for (let barNumber = 0; barNumber < length; barNumber++) {   // For each bar in the total length of composition
       //console.log("bar no.: " + barNumber)
       if (barNumber > 0) { // Make next bar
-
         //Create an array of the ticks of the previous bar
         //REFACTOR?
         var previousBar = players[t].notes.slice(((barNumber - 1) * trackSpecificOnsets), ((barNumber - 1) * trackSpecificOnsets) + (trackSpecificOnsets))
@@ -219,7 +210,6 @@ function get_random (list) {
   return list[Math.floor((Math.random()*list.length))];
 }
 
-
 function createNote(track_, timeTicks, pulseInTicks_){
   track_.addNote({
     pitch: pitch(),
@@ -249,7 +239,6 @@ function howManyTracks(midiObject, num){
     }
   }
 }
-
 
 function calcScale(key,intervals){
   let scale = []
