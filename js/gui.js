@@ -203,7 +203,7 @@ function setup() {
   Mute4 = createCheckbox("Checkbox", 29.5*w/60, 54*h/60, w/60, w/60);
   Mute4.setStyle({rounding: 5, trackWidth: 0.1});
 
-  tutorial_button = createButton("?",55*w/60, 5*h/60,2*w/60,2*h/60);
+  tutorial_button = createButton("?",55*w/60, 3*h/60,2*w/60,2*h/60);
 
   //console.log(finalMidiObject.tracks)
   //console.log("Shift_binary1 : "+GetBinaryShiftedOnset(1));
