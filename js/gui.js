@@ -1,8 +1,14 @@
 // ------- P5 JS -----
 let w;      //windowWidth
-let h;      //windowHeight
+let h = 700;      //windowHeight
 let cl_bg = '#FFFBFF';       //Background Color
 let color_txt = '#000000';   //Color of Text
+
+
+let phase_shift_amount_inp;
+let phase_shift_period_inp;
+let length_inp;
+let tempo_bpm_inp;
 
 let gen_button;
 let play_button;
@@ -44,18 +50,26 @@ let interval_visualB_fixed;
 let interval_visualA_shift;
 let interval_visualB_shift;
 
-let TimerDelay=0;
+let Volume1;
+let Volume2;
+let Volume3;
+let Volume4;
+
+let Mute1;
+let Mute2;
+let Mute3;
+let Mute4;
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+  resizeCanvas(windowWidth, h);
 }
 
 function setup() {
-  createCanvas(windowWidth,windowHeight);
+  createCanvas(windowWidth,h);
   angleMode(DEGREES);
 
   w = width;
-  h = height;
+  let gui = createGui();
 
   tutorial = createGraphics(w, h);
   toggleTutorial();
@@ -111,67 +125,83 @@ function setup() {
   }
 
   // ----- Inputs of lenght of piece, shifting amount and shifting period
-  let phase_shift_amount_inp = createInput(phaseShiftAmount.toString());
+  phase_shift_amount_inp = createInput(phaseShiftAmount.toString());
   let x_inputs = 49*w/60;
   let y_inputs = 13*h/60-2;
   phase_shift_amount_inp.position(x_inputs,y_inputs);
   phase_shift_amount_inp.size(22);
 
-  let phase_shift_period_inp = createInput(phaseShiftPeriod.toString());
+  phase_shift_period_inp = createInput(phaseShiftPeriod.toString());
   phase_shift_period_inp.position(x_inputs,y_inputs+22);
   phase_shift_period_inp.size(22);
 
-  let length_inp = createInput(length.toString());
+  length_inp = createInput(length.toString());
   length_inp.position(x_inputs,y_inputs+44);
   length_inp.size(22);
 
-  let tempo_bpm_inp = createInput(tempo_bpm.toString());
+  tempo_bpm_inp = createInput(tempo_bpm.toString());
   tempo_bpm_inp.position(x_inputs,y_inputs+66);
   tempo_bpm_inp.size(22);
 
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
-  gen_button = createButton('Generate');
-  gen_button.position(13*w/60, 27*h/60);
-  gen_button.style('background-color', 'rgba(135, 143, 155,.5)');
-  gen_button.style('color','#FFFFFF');
-  gen_button.style('font-family: Bahnschrift');
-  gen_button.style('border-color', 'rgba(135, 143, 155,.25)');
-  gen_button.style('border-radius' , 10 + '%');
-  gen_button.style('z-index',  100);
-  gen_button.mousePressed(function() {
-    clear();
-    stop_aud();
-    phaseShiftAmount = parseInt(phase_shift_amount_inp.value());         // How many pulses is each shift
-    phaseShiftPeriod = parseInt(phase_shift_period_inp.value());         // After how many bars does a shift occur
-    length = parseInt(length_inp.value());                               // Length of total piece
-    onsetsA = parseInt(onsetsinps[0].value());
-    pulsesA = parseInt(onsetsinps[1].value());
-    onsetsB = parseInt(onsetsinps[2].value());
-    pulsesB = parseInt(onsetsinps[3].value());
-    tempo_bpm = parseInt(tempo_bpm_inp.value());
-    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm);
-    initialization();
+  gen_button = createButton('GENERATE', 12*w/60, 27*h/60,6*w/60,2*h/60);
+  gen_button.setStyle({
+    fillBg:color('rgba(135, 143, 155,.5)'),
+    rounding: 5,
+    font:'Bahnschrift',
+    textSize: w/60,
+    fillLabel:color('#FFFFFF'),
+    fillLabelHover:color('rgba(135, 143, 155,1)'),
+    strokeBg:color('rgba(135, 143, 155,.25)'),
+    strokeBgHover:color('rgba(135, 143, 155,.7)')
   });
 
   // ---- Play button
-  play_button = createButton('&#9658');
-  play_button.position(29.5*w/60, 27*h/60);
-  play_button.style('background-color', 'rgba(135, 143, 155,.5)');
-  play_button.style('color','#FFFFFF');
-  play_button.style('font-family', 'Bahnschrift');
-  play_button.style('border-color', 'rgba(135, 143, 155,.25)');
-  play_button.style('border-radius' , 10+'%');
-  play_button.mousePressed(function() {start_aud_gui();})
+  play_button = createButton('PLAY',27*w/60, 27*h/60,6*w/60,2*h/60);
+  play_button.setStyle({
+    fillBg:color('rgba(135, 143, 155,.5)'),
+    rounding: 5,
+    font:'Bahnschrift',
+    textSize: w/60,
+    fillLabel:color('#FFFFFF'),
+    fillLabelHover:color('rgba(135, 143, 155,1)'),
+    strokeBg:color('rgba(135, 143, 155,.25)'),
+    strokeBgHover:color('rgba(135, 143, 155,.7)')
+  });
 
   // ---- Stop button
-  stop_button = createButton('&#9209');
-  stop_button.position(44.5*w/60, 27*h/60);
-  stop_button.style('background-color','rgba(135, 143, 155,.5)');
-  stop_button.style('color','#FFFFFF');
-  stop_button.style('font-family','Segoe UI Symbol');
-  stop_button.style('border-color','rgba(135, 143, 155,.25)');
-  stop_button.style('border-radius' , 10+'%');
-  stop_button.mousePressed(function(){stop_aud()});
+  stop_button = createButton('STOP',42*w/60, 27*h/60,6*w/60,2*h/60);
+  stop_button.setStyle({
+    fillBg:color('rgba(135, 143, 155,.5)'),
+    rounding: 5,
+    font:'Bahnschrift',
+    textSize: w/60,
+    fillLabel:color('#FFFFFF'),
+    fillLabelHover:color('rgba(135, 143, 155,1)'),
+    strokeBg:color('rgba(135, 143, 155,.25)'),
+    strokeBgHover:color('rgba(135, 143, 155,.7)')
+  });
+
+  // ---- Volume Slides
+  Volume1 = createSliderV('Volume1', 22*w/60, 38.5*h/60, w/60, 8*w/60, 0, 1);
+  Volume1.setStyle({rounding: 5, trackWidth: 0.1});
+  Volume2 = createSliderV('Volume1', 24.5*w/60, 38.5*h/60, w/60, 8*w/60, 0, 1);
+  Volume2.setStyle({rounding: 5, trackWidth: 0.1});
+  Volume3 = createSliderV('Volume1', 27*w/60, 38.5*h/60, w/60, 8*w/60, 0, 1);
+  Volume3.setStyle({rounding: 5, trackWidth: 0.1});
+  Volume4 = createSliderV('Volume1', 29.5*w/60, 38.5*h/60, w/60, 8*w/60, 0, 1);
+  Volume4.setStyle({rounding: 5, trackWidth: 0.1});
+
+  // ---- Mute Selecotors
+  Mute1 = createCheckbox("Checkbox", 22*w/60, 54*h/60, w/60, w/60);
+  Mute1.setStyle({rounding: 5, trackWidth: 0.1});
+  Mute2 = createCheckbox("Checkbox", 24.5*w/60, 54*h/60, w/60, w/60);
+  Mute2.setStyle({rounding: 5, trackWidth: 0.1});
+  Mute3 = createCheckbox("Checkbox", 27*w/60, 54*h/60, w/60, w/60);
+  Mute3.setStyle({rounding: 5, trackWidth: 0.1});
+  Mute4 = createCheckbox("Checkbox", 29.5*w/60, 54*h/60, w/60, w/60);
+  Mute4.setStyle({rounding: 5, trackWidth: 0.1});
+
 
   tutorial_button = createButton("?");
   tutorial_button.position(10,10);
@@ -189,10 +219,11 @@ function setup() {
 
 function draw() {
   background(cl_bg);
+  drawGui();
+
   image(tutorial, 0, 0);
 
   w = width;
-  h = height;
 
   fill('#0D3E1D');
   textSize(w*0.04);
@@ -247,10 +278,12 @@ function draw() {
   noFill();
   rect(39*w/60,11*h/60,12*w/60,12*h/60,10);
 
+  textAlign(CENTER, CENTER);
   textSize(w*0.03);
   fill('#588B8B');
   strokeWeight(0);
-  text('Parameters', 8*w/12, 8*h/60);
+  text('Parameters', 45*w/60, 8*h/60);
+  textAlign(LEFT, CENTER);
   fill(color_txt);
   textSize(w*0.015);
   let xx3 = 40*w/60;
@@ -258,6 +291,46 @@ function draw() {
   text('Phase Shift Period', xx3, yy+20);
   text('Piece length', xx3, yy+40);
   text('Tempo (BPM)', xx3, yy+60);
+
+  // ----- Buttons
+  if (gen_button.isPressed){
+    clear();
+    stop_aud();
+    phaseShiftAmount = parseInt(phase_shift_amount_inp.value());         // How many pulses is each shift
+    phaseShiftPeriod = parseInt(phase_shift_amount_inp.value());         // After how many bars does a shift occur
+    length = parseInt(length_inp.value());                               // Length of total piece
+    onsetsA = parseInt(onsetsinps[0].value());
+    pulsesA = parseInt(onsetsinps[1].value());
+    onsetsB = parseInt(onsetsinps[2].value());
+    pulsesB = parseInt(onsetsinps[3].value());
+    tempo_bpm = parseInt(tempo_bpm_inp.value());
+    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm);
+    initialization();
+  }
+  if(play_button.isPressed){
+    start_aud_gui();
+  }
+  if(stop_button.isPressed){
+    stop_aud();
+  }
+
+  // ------- Mixer - Control Volume BOX
+  strokeWeight(w*0.003);
+  stroke('rgba(135, 143, 155,.5)');
+  fill('rgba(135, 143, 155,.5)');
+  rect(21*w/60,34*h/60,18*w/60,25*h/60,10);
+
+  textAlign(CENTER, CENTER);
+  textSize(w*0.03);
+  fill('#588B8B');
+  strokeWeight(0);
+  text('Mixer', 30*w/60, 32*h/60);
+  fill('#FFFFFF');
+  textSize(w*0.02);
+  text('1', 22.5*w/60, 37*h/60);
+  text('2', 25*w/60, 37*h/60);
+  text('3', 27.5*w/60, 37*h/60);
+  text('4', 30*w/60, 37*h/60);
 
   // ------- Generation of Concentric Circles
 
@@ -268,12 +341,12 @@ function draw() {
   let cl5 = 'rgba(191, 192, 192,0.2)'; // color pulses Track 2
 
   // top-left
-  FixedCircle(15*w/60, 45*h/60, binaryRhythmA, pulsesA, cl1, cl2);      // Track 1 Fixed Circle
+  FixedCircle(10*w/60, 45*h/60, binaryRhythmA, pulsesA, cl1, cl2);      // Track 1 Fixed Circle
   VisualShift(1, cl3, cl4);                                         // Visual Track 2 Shifting circle
   VisualFix(0, pulsesA, cl5);                                        // Visual Actual pulse playing Track 1-2
 
   // Top-right
-  FixedCircle(45*w/60, 45*h/60, binaryRhythmB, pulsesB, cl1, cl2);      // Track 3  Fixed Circle
+  FixedCircle(50*w/60, 45*h/60, binaryRhythmB, pulsesB, cl1, cl2);      // Track 3  Fixed Circle
   VisualShift(3, cl3, cl4);                                         // Visual Track 4 Shifting circle
   VisualFix(2, pulsesB, cl5);                                        // Visual Actual pulse playing Track 3-4
 
@@ -295,7 +368,7 @@ function initialization(){
 }
 function FixedCircle(x, y, onset, pulses, color1, color2) {
 
-  let r2 = 10*w/60;
+  let r2 = 12*w/60;
   strokeWeight(w*0.002);
 
   for (let i = 0; i < pulses; i++) {
@@ -323,12 +396,12 @@ function VisualFix(track, pulses, color){
   if (track==0){
     end = map(indexA_2,0,pulses,-90,270);
     start = map(indexA_1,0,pulses,-90,270);
-    x_arc = 15*w/60;
+    x_arc = 10*w/60;
     y_arc = 45*h/60;
   }else if (track==2){
     end = map(indexB_2,0,pulses,-90,270);
     start = map(indexB_1,0,pulses,-90,270);
-    x_arc = 45*w/60;
+    x_arc = 50*w/60;
     y_arc = 45*h/60;
   }
 
@@ -351,7 +424,7 @@ function VisualFix(track, pulses, color){
     strokeCap(SQUARE);
     fill(color);
   }
-  arc(x_arc,y_arc,2*w/12,2*w/12,start,end);
+  arc(x_arc,y_arc,12*w/60,12*w/60,start,end);
 }
 function VisualFixTimingA(){
   indexA++;
@@ -401,7 +474,7 @@ function VisualFixTimingB(){
 
 // --------- Functions for the visuals of the shifting ------
 function ShuffleCircle(x, y, onset, pulses, prt, color1, color2) {
-  let r2 = 10*w/60;
+  let r2 = 12*w/60;
   strokeWeight(w*0.002);
 
   for (let i = 0; i<pulses; i++) {
@@ -434,13 +507,13 @@ function VisualShift(track,color1, color2){
     pulses = pulsesA;
     proportion = proportion_indexA;
     actualbar = actualbarA;
-    x_c = 15*w/60;
+    x_c = 10*w/60;
     y_c = 45*h/60;
   }else if (track == 3){
     pulses = pulsesB;
     proportion = proportion_indexB;
     actualbar = actualbarB;
-    x_c = 45*w/60;
+    x_c = 50*w/60;
     y_c = 45*h/60;
   }
 
