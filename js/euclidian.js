@@ -2,13 +2,13 @@ let onsetsA;                             // How many hits
 let pulsesA;                             // How many steps, 4,8 or 16
 let onsetsB;
 let pulsesB;
-let tempo_bpm = 80;
+let tempo_bpm = 100;
 
 let trackNamesTemp = ['track1', "track2", "track3", "track4"]
 let phaseShiftAmount = 1;                   // How many pulses is each shift
 let phaseShiftPeriod = 2;                   // After how many bars does a shift occur
 let numberOfTracks = 4;                     // Number of tracks/players
-let length = 2;                       // Length of total piece
+let length = 8;                       // Length of total piece
 let mode;                               // Play mode (not used)
 let scale_;                      // Used to add 4th and 5th note of C (see function pitch())
 let midiInProgress;
@@ -44,7 +44,7 @@ let major = [2,2,1,2,2,2,1];
 let minor = [2,1,2,2,1,2,2];
 let melodicMinor = [2,1,2,2,2,2,1];
 
-generateMidi(onsetsA = 4, pulsesA = 8, onsetsB = 5, pulsesB = 16, tempo_bpm = 120);
+generateMidi(onsetsA = 1, pulsesA = 8, onsetsB = 1, pulsesB = 8, tempo_bpm = 100);
 
 function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm){
   // Variables that could change by user

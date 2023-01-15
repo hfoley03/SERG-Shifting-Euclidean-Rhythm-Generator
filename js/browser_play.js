@@ -23,19 +23,19 @@ var playNotesCount = 0;
 const reverb = new Tone.Reverb({
   decay : 3 ,
   preDelay : 0.08,
-  wet: 0.3
+  wet: 0
 }).toDestination();
 
 const feedbackDelay2 = new Tone.PingPongDelay({
   delayTime : "4n",
   feedback : 0.2,
-  wet: 0.3
+  wet: 0
 }).connect(reverb);
 
 const feedbackDelay1 = new Tone.FeedbackDelay({
   delayTime : "8n" ,
   feedback : 0.2,
-  wet: 0.3
+  wet: 0
 }).connect(feedbackDelay2);
 
 let chorus = new Tone.Chorus({
@@ -69,7 +69,7 @@ function playNotes() {
   //time_common_track = Tone.now();
   if (playNotesCount==0){
 
-    time_common_track  = Tone.context.currentTime+2;
+    time_common_track  = Tone.context.currentTime+0.5;
     playNotesCount += 1;
   }
   else {
@@ -79,13 +79,13 @@ function playNotes() {
     time_common_track = time_common_track + last_track_note_duration * pulsesA * length;
   }
 
-  console.log(time_common_track)
+  //console.log(time_common_track)
 
   finalMidiObject.tracks.forEach((track, index) => {
 
     //console.log('track name: ' + track.name)
     //console.log('index: ' + index);
-    console.log(channelStrip[index]);
+    //console.log(channelStrip[index]);
     synth_type = SynthTypes[index];
 
     if (synth_type == "MonoSynth") {
@@ -112,7 +112,7 @@ function playNotes() {
     }
 
     //create a synth for each track
-    console.log(synth)
+    //console.log(synth)
     synths.push(synth)
     //console.log(synths)
     synth_counter = synth_counter + 1
@@ -139,7 +139,7 @@ function playNotes() {
 
     last_time_inst = time_inst_to_play;
     //console.log(last_time_inst)
-    for(let i = 0; i<time_instants_to_play.length-1;i++){console.log(time_instants_to_play[i+1]-time_instants_to_play[i])}
+    //for(let i = 0; i<time_instants_to_play.length-1;i++){console.log(time_instants_to_play[i+1]-time_instants_to_play[i])}
   })
 }
 
@@ -151,9 +151,9 @@ function start_aud() {
   Tone.Transport.bpm.value = tempo_bpm;
   Tone.Destination.volume.value = -9; // this value is in dB
   main_loop_interval = (120/tempo_bpm)*2*length; // duration of looping
-  console.log(main_loop_interval)
+  //console.log(main_loop_interval)
   main_loop.interval = main_loop_interval
-  console.log(main_loop.interval)
+  //console.log(main_loop.interval)
   Tone.start().then(()=>{
 
     Tone.Transport.start();

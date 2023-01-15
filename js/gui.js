@@ -71,7 +71,7 @@ function setup() {
       tmp_synth.option(All_Synths[k]);
     }
     tmp_synth.selected(All_Synths[0]);
-    tmp_synth.size(95);
+    tmp_synth.size(91);
     synthinps.push(tmp_synth)
   }
 
@@ -90,7 +90,7 @@ function setup() {
     else{
       tmp_onsets.position(x_onsets+15*w/60, y_onsets + 22 * (i - 3));
     }
-    tmp_onsets.size(20);
+    tmp_onsets.size(22);
     onsetsinps.push(tmp_onsets);
   }
 
@@ -99,19 +99,19 @@ function setup() {
   let x_inputs = 49*w/60;
   let y_inputs = 13*h/60-2;
   phase_shift_amount_inp.position(x_inputs,y_inputs);
-  phase_shift_amount_inp.size(20);
+  phase_shift_amount_inp.size(22);
 
   let phase_shift_period_inp = createInput(phaseShiftPeriod.toString());
   phase_shift_period_inp.position(x_inputs,y_inputs+22);
-  phase_shift_period_inp.size(20);
+  phase_shift_period_inp.size(22);
 
   let length_inp = createInput(length.toString());
   length_inp.position(x_inputs,y_inputs+44);
-  length_inp.size(20);
+  length_inp.size(22);
 
   let tempo_bpm_inp = createInput(tempo_bpm.toString());
   tempo_bpm_inp.position(x_inputs,y_inputs+66);
-  tempo_bpm_inp.size(20);
+  tempo_bpm_inp.size(22);
 
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
   gen_button = createButton('Generate');
@@ -260,12 +260,12 @@ function initialization(){
   pulse_durationB = finalMidiObject.tracks[3].notes[1].duration;
   bar_durationA = pulse_durationA*pulsesA;
   bar_durationB = pulse_durationB*pulsesB;
-  console.log(pulse_durationA,pulse_durationB)
 
   indexA_1 = 0;
   indexA_2 = -1;
   indexB_1 = 0;
   indexB_2 = -1;
+  first_cycleA = 0;
 }
 function FixedCircle(x, y, onset, pulses, color1, color2) {
 
@@ -315,7 +315,11 @@ function VisualFix(track, pulses, color){
     noStroke();
     noFill();
   }
-  if ((normal==1 && indexA_1==0)||(normal==1 && indexB_1==0)){
+  if((track==0 && first_cycleA && indexA_1==0) || (track==2 && first_cycleB && indexB_1==0)){
+    noStroke();
+    noFill();
+  }
+  if ((normal==1 && indexA_1==0)||(normal==1 && indexB_1==0)||(first_cycleA && indexA_1==0)){
     stroke(color);
     strokeWeight(0);
     strokeCap(SQUARE);
@@ -339,6 +343,7 @@ function VisualFixTimingA(){
     indexA_1 = 0;
     indexA_2 = -1;
   } else if(indexA == pulsesA && !first_cycleA){
+    first_cycleA = 0;
     normal = 1;
     indexA = 0;
     indexA_1 = 0;
@@ -517,14 +522,16 @@ function stopTimer(){
     normal = 0;
     indexA = 0;
     indexA_1 = 0;
-    indexA_2 = -1;
+    indexA_2 = 0;
     indexB = 0;
     indexB_1 = 0;
-    indexB_2 = -1;
+    indexB_2 = 0;
     actualbarA = 0;
     proportion_indexA = 0.8;
     actualbarB = 0;
     proportion_indexB = 0.8;
+    first_cycleA = 0;
+    first_cycleB =0;
   }
 }
 function start_aud_gui() {
