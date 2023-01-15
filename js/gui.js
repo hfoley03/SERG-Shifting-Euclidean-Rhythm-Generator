@@ -54,11 +54,17 @@ let Volume1;
 let Volume2;
 let Volume3;
 let Volume4;
-
 let Mute1;
 let Mute2;
 let Mute3;
 let Mute4;
+let Solo1;
+let Solo2;
+let Solo3;
+let Solo4;
+let Delay;
+let Reverb;
+let MasterLPF;
 
 function windowResized() {
   resizeCanvas(windowWidth, h);
@@ -76,7 +82,7 @@ function setup() {
 
   // ---- Selection Synth type by the user
   let synth_x = 15*w/60+10;
-  let synth_y = 18*h/60-5;
+  let synth_y = 17*h/60-5;
   for(let i = 1; i<=4; i++){
     let tmp_synth_str = "tr" + i + "_synth";
     let tmp_synth = window[tmp_synth_str];
@@ -182,7 +188,7 @@ function setup() {
     strokeBgHover:color('rgba(135, 143, 155,.7)')
   });
 
-  // ---- Volume Slides
+  // ---- Volume Sliders
   Volume1 = createSliderV('Volume1', 22*w/60, 38.5*h/60, w/60, 8*w/60, 0, 1);
   Volume1.setStyle({rounding: 5, trackWidth: 0.1});
   Volume2 = createSliderV('Volume1', 24.5*w/60, 38.5*h/60, w/60, 8*w/60, 0, 1);
@@ -194,15 +200,33 @@ function setup() {
 
   // ---- Mute Selecotors
   Mute1 = createCheckbox("Checkbox", 22*w/60, 54*h/60, w/60, w/60);
-  Mute1.setStyle({rounding: 5, trackWidth: 0.1});
+  Mute1.setStyle({rounding: 5});
   Mute2 = createCheckbox("Checkbox", 24.5*w/60, 54*h/60, w/60, w/60);
-  Mute2.setStyle({rounding: 5, trackWidth: 0.1});
+  Mute2.setStyle({rounding: 5});
   Mute3 = createCheckbox("Checkbox", 27*w/60, 54*h/60, w/60, w/60);
-  Mute3.setStyle({rounding: 5, trackWidth: 0.1});
+  Mute3.setStyle({rounding: 5});
   Mute4 = createCheckbox("Checkbox", 29.5*w/60, 54*h/60, w/60, w/60);
-  Mute4.setStyle({rounding: 5, trackWidth: 0.1});
+  Mute4.setStyle({rounding: 5});
 
-  tutorial_button = createButton("?",55*w/60, 5*h/60,2*w/60,2*h/60);
+  // ---- Solo Selectors
+  Solo1 = createCheckbox("Checkbox", 22*w/60, 57*h/60, w/60, w/60);
+  Solo1.setStyle({rounding: 5});
+  Solo2 = createCheckbox("Checkbox", 24.5*w/60, 57*h/60, w/60, w/60);
+  Solo2.setStyle({rounding: 5});
+  Solo3 = createCheckbox("Checkbox", 27*w/60, 57*h/60, w/60, w/60);
+  Solo3.setStyle({rounding: 5});
+  Solo4 = createCheckbox("Checkbox", 29.5*w/60, 57*h/60, w/60, w/60);
+  Solo4.setStyle({rounding: 5});
+
+  // ---- Effects Sliders
+  Reverb = createSlider('Volume1', 32*w/60, 38.5*h/60, 6*w/60, w/60, 0, 1);
+  Reverb.setStyle({rounding: 5, trackWidth: 0.1});
+  Delay = createSlider('Volume1', 32*w/60, 44.5*h/60, 6*w/60, w/60, 0, 1);
+  Delay.setStyle({rounding: 5, trackWidth: 0.1});
+  MasterLPF = createSlider('Volume1', 32*w/60, 50.5*h/60, 6*w/60, w/60, 0, 1);
+  MasterLPF.setStyle({rounding: 5, trackWidth: 0.1});
+
+  tutorial_button = createButton("?",54*w/60, 5*h/60,2*w/60,2*h/60);
 
   //console.log(finalMidiObject.tracks)
   //console.log("Shift_binary1 : "+GetBinaryShiftedOnset(1));
@@ -307,12 +331,15 @@ function draw() {
   if(stop_button.isPressed){
     stop_aud();
   }
+  if(tutorial_button.isPressed){
+    toggleTutorial();
+  }
 
   // ------- Mixer - Control Volume BOX
   strokeWeight(w*0.003);
   stroke('rgba(135, 143, 155,.5)');
   fill('rgba(135, 143, 155,.5)');
-  rect(21*w/60,34*h/60,18*w/60,25*h/60,10);
+  rect(21*w/60,34*h/60,18*w/60,26*h/60,10);
 
   textAlign(CENTER, CENTER);
   textSize(w*0.03);
@@ -325,6 +352,17 @@ function draw() {
   text('2', 25*w/60, 37*h/60);
   text('3', 27.5*w/60, 37*h/60);
   text('4', 30*w/60, 37*h/60);
+  textSize(w*0.015);
+  text('Reverberation', 35*w/60, 37*h/60);
+  text('Delay', 35*w/60, 43*h/60);
+  text('Master LPF', 35*w/60, 49*h/60);
+
+  text('Mute', 35*w/60, 55*h/60);
+  text('Solo', 35*w/60, 58*h/60);
+  strokeWeight(w*0.003);
+  stroke('rgba(135, 143, 155,.8)');
+  noFill();
+  rect(21.5*w/60,53.5*h/60,17*w/60,6*h/60,10);
 
   // ------- Generation of Concentric Circles
 
@@ -641,32 +679,20 @@ function start_aud_gui() {
   }
 }
 
-
 function generateFlag(){
-
   if (phaseShiftAmount > pulsesA || phaseShiftAmount > pulsesB){
     window.alert("The phase shift amount, can't be more than number of pulses")
   }
-
-    return true
-
+    return true;
 }
-
 
 function toggleTutorial() {
   if (!tutorial_state) {
-    //background(1)
-    tutorial.background(255, 255, 255, 100);
-    tutorial.fill(0,0,0,150);
-    tutorial.textSize(10);
-    tutorial.textAlign(CENTER,CENTER);
-    tutorial.text("This is a play button hihi", w/2, h/2);
     tutorial_state=true;
+    tutorial.clear();
   }
   else{
-    //background(100)
-
-    tutorial.clear();
     tutorial_state=false;
+    tutorial.text("This is a play button hihi", w/2, h/2);
   }
 }
