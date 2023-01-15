@@ -21,8 +21,8 @@ let volume3 = -6;
 let volume4 = -6;
 
 let reverbWet = 0.3;
-let delay1Wet = 0.0;
-let delay2Wet = 0.0;
+let delay1Wet = 0.3;
+let delay2Wet = 0.3;
 
 const reverb = new Tone.Reverb({
   decay : 3 ,

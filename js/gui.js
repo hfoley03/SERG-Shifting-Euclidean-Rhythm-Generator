@@ -1,4 +1,5 @@
 // ------- P5 JS -----
+var colorKnob;
 
 let w;      //windowWidth
 let h;      //windowHeight
@@ -50,6 +51,7 @@ function windowResized() {
 function setup() {
   createCanvas(windowWidth,windowHeight);
   angleMode(DEGREES);
+  colorKnob = new MakeKnobC("red", 200, width/2, height/2, 255, 0, 0, 0,"Background", [0,200,200], 18);
 
   w = width;
   h = height;
@@ -170,11 +172,14 @@ function setup() {
   //console.log(finalMidiObject.tracks)
   //console.log("Shift_binary1 : "+GetBinaryShiftedOnset(1));
   //console.log("Shift_binary0 : "+GetBinaryShiftedOnset(0));
+
   initialization();
 }
 
 function draw() {
-  background(cl_bg);
+  background(colorKnob.knobValue); // Use the knob to control something
+  colorKnob.update();
+  //background(cl_bg);
   w = width;
   h = height;
 
@@ -558,3 +563,6 @@ function start_aud_gui() {
   }
 }
 
+function mousePressed(){colorKnob.active()}
+
+function mouseReleased(){colorKnob.inactive()}
