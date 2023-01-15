@@ -534,7 +534,6 @@ function stopTimer(){
   }
 }
 function start_aud_gui() {
-  TimerDelay = last_time_inst;
   if (state) {
     //console.log("state: true")
     //console.log("already playing")
