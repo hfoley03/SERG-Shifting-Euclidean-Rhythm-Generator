@@ -93,6 +93,7 @@ function setup() {
       tmp_onsets.option(2);tmp_onsets.option(4);
       tmp_onsets.option(8);tmp_onsets.option(16);tmp_onsets.option(32);
       tmp_onsets.size(40)
+      tmp_onsets.selected(onsets_pulses[i-1])
     }
     if(i == 1 || i == 2) {
       tmp_onsets.position(x_onsets, y_onsets + 22 * (i - 1));
