@@ -7,7 +7,11 @@ let color_txt = '#000000';   //Color of Text
 let gen_button;
 let play_button;
 let stop_button;
+let tutorial_button;
 let state = false;
+let tutorial;
+let tutorial_state = false;
+
 
 let All_Synths = ['MonoSynth', 'Kick', 'Snare' ,'Synth','Hihat'];
 
@@ -52,6 +56,9 @@ function setup() {
 
   w = width;
   h = height;
+
+  tutorial = createGraphics(w, h);
+  toggleTutorial();
 
   // ---- Selection Synth type by the user
   let synth_x = 15*w/60+10;
@@ -135,7 +142,7 @@ function setup() {
     clear();
     stop_aud();
     phaseShiftAmount = parseInt(phase_shift_amount_inp.value());         // How many pulses is each shift
-    phaseShiftPeriod = parseInt(phase_shift_amount_inp.value());         // After how many bars does a shift occur
+    phaseShiftPeriod = parseInt(phase_shift_period_inp.value());         // After how many bars does a shift occur
     length = parseInt(length_inp.value());                               // Length of total piece
     onsetsA = parseInt(onsetsinps[0].value());
     pulsesA = parseInt(onsetsinps[1].value());
@@ -166,6 +173,13 @@ function setup() {
   stop_button.style('border-radius' , 10+'%');
   stop_button.mousePressed(function(){stop_aud()});
 
+  tutorial_button = createButton("?");
+  tutorial_button.position(10,10);
+  tutorial_button.mousePressed(toggleTutorial);
+
+
+
+
   //console.log(finalMidiObject.tracks)
   //console.log("Shift_binary1 : "+GetBinaryShiftedOnset(1));
   //console.log("Shift_binary0 : "+GetBinaryShiftedOnset(0));
@@ -175,6 +189,8 @@ function setup() {
 
 function draw() {
   background(cl_bg);
+  image(tutorial, 0, 0);
+
   w = width;
   h = height;
 
@@ -555,5 +571,35 @@ function start_aud_gui() {
     //Tone.Transport.toggle();
     start_aud();
     startTimer();
+  }
+}
+
+
+function generateFlag(){
+
+  if (phaseShiftAmount > pulsesA || phaseShiftAmount > pulsesB){
+    window.alert("The phase shift amount, can't be more than number of pulses")
+  }
+
+    return true
+
+}
+
+
+function toggleTutorial() {
+  if (!tutorial_state) {
+    //background(1)
+    tutorial.background(255, 255, 255, 100);
+    tutorial.fill(0,0,0,150);
+    tutorial.textSize(20);
+    tutorial.textAlign(CENTER,CENTER);
+    tutorial.text("This is tutorial", w/2, h/2);
+    tutorial_state=true;
+  }
+  else{
+    //background(100)
+
+    tutorial.clear();
+    tutorial_state=false;
   }
 }
