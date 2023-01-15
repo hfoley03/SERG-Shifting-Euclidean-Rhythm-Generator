@@ -220,10 +220,12 @@ function draw() {
   noFill();
   rect(39*w/60,11*h/60,12*w/60,12*h/60,10);
 
+  textAlign(CENTER, CENTER);
   textSize(w*0.03);
   fill('#588B8B');
   strokeWeight(0);
-  text('Parameters', 8*w/12, 8*h/60);
+  text('Parameters', 45*w/60, 8*h/60);
+  textAlign(LEFT, CENTER);
   fill(color_txt);
   textSize(w*0.015);
   let xx3 = 40*w/60;
@@ -249,6 +251,21 @@ function draw() {
   FixedCircle(45*w/60, 45*h/60, binaryRhythmB, pulsesB, cl1, cl2);      // Track 3  Fixed Circle
   VisualShift(3, cl3, cl4);                                         // Visual Track 4 Shifting circle
   VisualFix(2, pulsesB, cl5);                                        // Visual Actual pulse playing Track 3-4
+
+  // ------- Mixer - Control Volume BOX
+  strokeWeight(w*0.003);
+  stroke('rgba(135, 143, 155,.5)');
+  fill('rgba(135, 143, 155,.5)');
+  rect(24*w/60,35*h/60,12*w/60,20*h/60,10);
+
+  textAlign(CENTER, CENTER);
+  textSize(w*0.03);
+  fill('#588B8B');
+  strokeWeight(0);
+  text('Mixer', 30*w/60, 33*h/60);
+  fill(color_txt);
+  textSize(w*0.015);
+
 
 }
 // ----- Functions for the visuals for the fixed circles  -----
