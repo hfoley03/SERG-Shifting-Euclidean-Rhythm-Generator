@@ -67,7 +67,7 @@ let channelStrip = [channel1, channel2, channel3, channel4];
 function playNotes() {
 
   if (playNotesCount==0){
-    time_common_track  = Tone.context.currentTime+2;
+    time_common_track  = Tone.context.currentTime + 2;
     playNotesCount += 1;
   }
   else {
@@ -146,6 +146,7 @@ function start_aud() {
   Tone.start().then(()=>{
     Tone.Transport.start();
     main_loop.start();
+
   });
 }
 
@@ -160,21 +161,4 @@ function stop_aud(){
   }
   synths = []
   state = false;
-}
-
-function pause_cont(){
-
-  if (synths.some((x) => x.volume.value > -79)){
-    for (var i = 0; i < synths.length; i++) {
-      synths[i].volume.value = -89;
-      pause_flag = true;
-    }
-  }
-  else {
-    for (var i = 0; i < synths.length; i++) {
-      synths[i].volume.value = -9;
-      pause_flag = false;
-
-    }
-  }
 }

@@ -541,7 +541,7 @@ function start_aud_gui() {
     //console.log("state false")
     SynthTypes = [synthinps[0].value(), synthinps[1].value(), synthinps[2].value(), synthinps[3].value()];
     //console.log('Call start_aud');
-    Tone.Transport.toggle();
+    //Tone.Transport.toggle();
     start_aud();
     startTimer();
   }
