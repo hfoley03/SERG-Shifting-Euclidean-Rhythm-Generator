@@ -1,11 +1,7 @@
 //Synths that will play the sound
 let synths = []
-
 let main_loop_interval = 2;// duration of looping
-
-
 let main_loop = new Tone.Loop(playNotes , main_loop_interval);
-let print_loop = new Tone.Loop(() => {console.log("loop")});
 
 let pause_flag = false;
 
@@ -13,29 +9,37 @@ let time_instants_to_play = [];
 
 let synth_counter = 0;
 
-
 var bufferkick = new Tone.Buffer("https://audio.jukehost.co.uk/mazfEsXSvszmtRHKw3p3jRZtWyTsVt9H")
 var buffersnare = new Tone.Buffer("https://audio.jukehost.co.uk/0v0XCCA6hcBRKPxqXZ5Xr0hOZ5AcvxcF")
 var bufferhihat = new Tone.Buffer("https://audio.jukehost.co.uk/Z3t7DblT22VAC0dDnHGq4gEBEczuFf1m")
 
 var playNotesCount = 0;
 
+let volume1 = -6;
+let volume2 = -6;
+let volume3 = -6;
+let volume4 = -6;
+
+let reverbWet = 0.3;
+let delay1Wet = 0.0;
+let delay2Wet = 0.0;
+
 const reverb = new Tone.Reverb({
   decay : 3 ,
   preDelay : 0.08,
-  wet: 0.3
+  wet: reverbWet
 }).toDestination();
 
 const feedbackDelay2 = new Tone.PingPongDelay({
   delayTime : "4n",
   feedback : 0.2,
-  wet: 0.3
+  wet: delay2Wet
 }).connect(reverb);
 
 const feedbackDelay1 = new Tone.FeedbackDelay({
   delayTime : "8n" ,
   feedback : 0.2,
-  wet: 0.3
+  wet: delay1Wet
 }).connect(feedbackDelay2);
 
 let chorus = new Tone.Chorus({
@@ -45,10 +49,10 @@ let chorus = new Tone.Chorus({
   spread : 90}).connect(feedbackDelay1);
 
 let limiter = new Tone.Limiter(-2).connect(chorus);
-let channel1 = new Tone.Channel(-6, 0.5).connect(limiter);
-let channel2 = new Tone.Channel(-6, -0.5).connect(limiter);
-let channel3 = new Tone.Channel(-6, 0.75).connect(limiter);
-let channel4 = new Tone.Channel(-6, -0.75).connect(limiter);
+let channel1 = new Tone.Channel(volume1, 0.5).connect(limiter);
+let channel2 = new Tone.Channel(volume2, -0.5).connect(limiter);
+let channel3 = new Tone.Channel(volume3, 0.75).connect(limiter);
+let channel4 = new Tone.Channel(volume4, -0.75).connect(limiter);
 
 channel1.name = "Channel 1"
 channel2.name = "Channel 2"
@@ -57,34 +61,23 @@ channel4.name = "Channel 4"
 
 let channelStrip = [channel1, channel2, channel3, channel4];
 
-
-
 //Functions for playing on the browser
-
 
 //This function creates the synths and sends them to the master
 function playNotes() {
-  //console.log("playNotes")
-  //synths = [];
-  //time_common_track = Tone.now();
-  if (playNotesCount==0){
 
+  if (playNotesCount==0){
     time_common_track  = Tone.context.currentTime+2;
     playNotesCount += 1;
   }
   else {
     last_track_note_duration = finalMidiObject.tracks[0].notes[0].duration;
-    //time_common_track = last_time_inst + last_track_note_duration;
-
     time_common_track = time_common_track + last_track_note_duration * pulsesA * length;
   }
-
   console.log(time_common_track)
 
   finalMidiObject.tracks.forEach((track, index) => {
 
-    //console.log('track name: ' + track.name)
-    //console.log('index: ' + index);
     console.log(channelStrip[index]);
     synth_type = SynthTypes[index];
 
@@ -124,7 +117,6 @@ function playNotes() {
         time_instants_to_play.push(time_inst_to_play);
         synth.triggerAttackRelease(note.name, note.duration, time_inst_to_play, note.velocity)
         //console.log(time_inst_to_play);
-
       })
     }else{
       Tone.loaded().then(() => {
@@ -134,9 +126,7 @@ function playNotes() {
           synth.start( time_inst_to_play, 0, note.duration, note.velocity)
         })
       });
-
     }
-
     last_time_inst = time_inst_to_play;
     //console.log(last_time_inst)
     for(let i = 0; i<time_instants_to_play.length-1;i++){console.log(time_instants_to_play[i+1]-time_instants_to_play[i])}
@@ -145,7 +135,6 @@ function playNotes() {
 
 // Initializes and starts and stops the audio, called from gui.js
 function start_aud() {
-
   state = true;
   Tone.context.resume()
   Tone.Transport.bpm.value = tempo_bpm;
@@ -155,10 +144,8 @@ function start_aud() {
   main_loop.interval = main_loop_interval
   console.log(main_loop.interval)
   Tone.start().then(()=>{
-
     Tone.Transport.start();
     main_loop.start();
-    //print_loop.start();
   });
 }
 
@@ -172,7 +159,6 @@ function stop_aud(){
     synths[i].dispose();
   }
   synths = []
-  //console.log(synths)
   state = false;
 }
 
