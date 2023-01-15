@@ -309,17 +309,19 @@ function draw() {
     stop_aud();
   }
 
-  if(Mute1.isPressed){
-    console.log("mute 1")
-  }
-
   if (Volume1.isChanged) {channel1.volume.value = Math.round(Volume1.val)}
   if (Volume2.isChanged) {channel2.volume.value = Math.round(Volume2.val)}
   if (Volume3.isChanged) {channel3.volume.value = Math.round(Volume3.val)}
   if (Volume4.isChanged) {channel4.volume.value = Math.round(Volume4.val)}
 
+  channel1.mute = Mute1.val
+  channel2.mute = Mute2.val
+  channel3.mute = Mute3.val
+  channel4.mute = Mute4.val
 
-    // ------- Mixer - Control Volume BOX
+
+
+  // ------- Mixer - Control Volume BOX
   if(tutorial_button.isPressed){
     toggleTutorial();
   }
