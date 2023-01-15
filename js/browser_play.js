@@ -80,6 +80,8 @@ function playNotes() {
 
   finalMidiObject.tracks.forEach((track, index) => {
 
+    console.log(Tone.context.currentTime);
+
     console.log(channelStrip[index]);
     synth_type = SynthTypes[index];
 
@@ -87,6 +89,7 @@ function playNotes() {
     // create synths for the given synth type
     if (synth_type == "MonoSynth") {
       var synth = new Tone.MonoSynth().connect(channelStrip[index]);
+      /*
       synth.envelope.attack = 0.001
       synth.envelope.attackCurve = 'step'
       synth.envelope.decay = 0.1
@@ -97,6 +100,7 @@ function playNotes() {
       synth.filterEnvelope.decay = 0.5
       synth.filterEnvelope.release = 0.5
       synth.filterEnvelope.sustain  = 0.5
+       */
     }
     else if (synth_type == "Kick") {
       var synth = new Tone.Player(bufferkick).connect(channelStrip[index]);

@@ -591,9 +591,9 @@ function toggleTutorial() {
     //background(1)
     tutorial.background(255, 255, 255, 100);
     tutorial.fill(0,0,0,150);
-    tutorial.textSize(20);
+    tutorial.textSize(10);
     tutorial.textAlign(CENTER,CENTER);
-    tutorial.text("This is tutorial", w/2, h/2);
+    tutorial.text("This is a play button hihi", w/2, h/2);
     tutorial_state=true;
   }
   else{
