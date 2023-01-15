@@ -82,14 +82,24 @@ function setup() {
   for(let i = 1; i<=4; i++){
     let tmp_onsets_str = onsets_pulses_str[i-1];
     let tmp_onsets = window[tmp_onsets_str];
-    tmp_onsets = createInput(onsets_pulses[i-1]);
+
+    if (i==1 || i==3){
+      tmp_onsets = createInput(onsets_pulses[i-1]);
+      tmp_onsets.size(32);
+
+    }
+    else{
+      tmp_onsets = createSelect();
+      tmp_onsets.option(2);tmp_onsets.option(4);
+      tmp_onsets.option(8);tmp_onsets.option(16);tmp_onsets.option(32);
+      tmp_onsets.size(40)
+    }
     if(i == 1 || i == 2) {
       tmp_onsets.position(x_onsets, y_onsets + 22 * (i - 1));
     }
     else{
       tmp_onsets.position(x_onsets+15*w/60, y_onsets + 22 * (i - 3));
     }
-    tmp_onsets.size(22);
     onsetsinps.push(tmp_onsets);
   }
 
