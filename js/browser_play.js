@@ -3,7 +3,7 @@ let synths = []
 let main_loop_interval = 2;// duration of looping
 let main_loop = new Tone.Loop(playNotes , main_loop_interval);
 
-//let time_instants_to_play = []; //This is used for testing the play times of each note
+let time_instants_to_play = []; //This is used for testing the play times of each note
 
 //sample links
 var bufferkick = new Tone.Buffer("https://audio.jukehost.co.uk/mazfEsXSvszmtRHKw3p3jRZtWyTsVt9H")
