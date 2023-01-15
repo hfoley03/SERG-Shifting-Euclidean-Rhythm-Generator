@@ -1,6 +1,6 @@
 // ------- P5 JS -----
 let w;      //windowWidth
-let h = 700;      //windowHeight
+let h = 800;      //windowHeight
 let cl_bg = '#FFFBFF';       //Background Color
 let color_txt = '#000000';   //Color of Text
 
@@ -82,7 +82,7 @@ function setup() {
 
   // ---- Selection Synth type by the user
   let synth_x = 15*w/60+10;
-  let synth_y = 17*h/60-5;
+  let synth_y = 16*h/60+1;
   for(let i = 1; i<=4; i++){
     let tmp_synth_str = "tr" + i + "_synth";
     let tmp_synth = window[tmp_synth_str];
@@ -150,7 +150,7 @@ function setup() {
   tempo_bpm_inp.size(22);
 
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
-  gen_button = createButton('GENERATE', 12*w/60, 27*h/60,6*w/60,2*h/60);
+  gen_button = createButton('GENERATE', 12*w/60, 24*h/60,6*w/60,2*h/60);
   gen_button.setStyle({
     fillBg:color('rgba(135, 143, 155,.5)'),
     rounding: 5,
@@ -163,7 +163,7 @@ function setup() {
   });
 
   // ---- Play button
-  play_button = createButton('PLAY',27*w/60, 27*h/60,6*w/60,2*h/60);
+  play_button = createButton('PLAY',27*w/60, 24*h/60,6*w/60,2*h/60);
   play_button.setStyle({
     fillBg:color('rgba(135, 143, 155,.5)'),
     rounding: 5,
@@ -176,7 +176,7 @@ function setup() {
   });
 
   // ---- Stop button
-  stop_button = createButton('STOP',42*w/60, 27*h/60,6*w/60,2*h/60);
+  stop_button = createButton('STOP',42*w/60, 24*h/60,6*w/60,2*h/60);
   stop_button.setStyle({
     fillBg:color('rgba(135, 143, 155,.5)'),
     rounding: 5,
@@ -189,41 +189,41 @@ function setup() {
   });
 
   // ---- Volume Sliders
-  Volume1 = createSliderV('Volume1', 22*w/60, 38.5*h/60, w/60, 8*w/60, 0, 1);
+  Volume1 = createSliderV('Volume1', 22*w/60, 36*h/60, w/60, 8*w/60, 0, 1);
   Volume1.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume2 = createSliderV('Volume1', 24.5*w/60, 38.5*h/60, w/60, 8*w/60, 0, 1);
+  Volume2 = createSliderV('Volume1', 24.5*w/60, 36*h/60, w/60, 8*w/60, 0, 1);
   Volume2.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume3 = createSliderV('Volume1', 27*w/60, 38.5*h/60, w/60, 8*w/60, 0, 1);
+  Volume3 = createSliderV('Volume1', 27*w/60, 36*h/60, w/60, 8*w/60, 0, 1);
   Volume3.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume4 = createSliderV('Volume1', 29.5*w/60, 38.5*h/60, w/60, 8*w/60, 0, 1);
+  Volume4 = createSliderV('Volume1', 29.5*w/60, 36*h/60, w/60, 8*w/60, 0, 1);
   Volume4.setStyle({rounding: 5, trackWidth: 0.1});
 
   // ---- Mute Selecotors
-  Mute1 = createCheckbox("Checkbox", 22*w/60, 54*h/60, w/60, w/60);
+  Mute1 = createCheckbox("Checkbox", 22*w/60, 51*h/60, w/60, w/60);
   Mute1.setStyle({rounding: 5});
-  Mute2 = createCheckbox("Checkbox", 24.5*w/60, 54*h/60, w/60, w/60);
+  Mute2 = createCheckbox("Checkbox", 24.5*w/60, 51*h/60, w/60, w/60);
   Mute2.setStyle({rounding: 5});
-  Mute3 = createCheckbox("Checkbox", 27*w/60, 54*h/60, w/60, w/60);
+  Mute3 = createCheckbox("Checkbox", 27*w/60, 51*h/60, w/60, w/60);
   Mute3.setStyle({rounding: 5});
-  Mute4 = createCheckbox("Checkbox", 29.5*w/60, 54*h/60, w/60, w/60);
+  Mute4 = createCheckbox("Checkbox", 29.5*w/60, 51*h/60, w/60, w/60);
   Mute4.setStyle({rounding: 5});
 
   // ---- Solo Selectors
-  Solo1 = createCheckbox("Checkbox", 22*w/60, 57*h/60, w/60, w/60);
+  Solo1 = createCheckbox("Checkbox", 22*w/60, 54*h/60, w/60, w/60);
   Solo1.setStyle({rounding: 5});
-  Solo2 = createCheckbox("Checkbox", 24.5*w/60, 57*h/60, w/60, w/60);
+  Solo2 = createCheckbox("Checkbox", 24.5*w/60, 54*h/60, w/60, w/60);
   Solo2.setStyle({rounding: 5});
-  Solo3 = createCheckbox("Checkbox", 27*w/60, 57*h/60, w/60, w/60);
+  Solo3 = createCheckbox("Checkbox", 27*w/60, 54*h/60, w/60, w/60);
   Solo3.setStyle({rounding: 5});
-  Solo4 = createCheckbox("Checkbox", 29.5*w/60, 57*h/60, w/60, w/60);
+  Solo4 = createCheckbox("Checkbox", 29.5*w/60, 54*h/60, w/60, w/60);
   Solo4.setStyle({rounding: 5});
 
   // ---- Effects Sliders
-  Reverb = createSlider('Volume1', 32*w/60, 38.5*h/60, 6*w/60, w/60, 0, 1);
+  Reverb = createSlider('Volume1', 32*w/60, 36*h/60, 6*w/60, w/60, 0, 1);
   Reverb.setStyle({rounding: 5, trackWidth: 0.1});
-  Delay = createSlider('Volume1', 32*w/60, 44.5*h/60, 6*w/60, w/60, 0, 1);
+  Delay = createSlider('Volume1', 32*w/60, 41.5*h/60, 6*w/60, w/60, 0, 1);
   Delay.setStyle({rounding: 5, trackWidth: 0.1});
-  MasterLPF = createSlider('Volume1', 32*w/60, 50.5*h/60, 6*w/60, w/60, 0, 1);
+  MasterLPF = createSlider('Volume1', 32*w/60, 47*h/60, 6*w/60, w/60, 0, 1);
   MasterLPF.setStyle({rounding: 5, trackWidth: 0.1});
 
   tutorial_button = createButton("?",54*w/60, 5*h/60,2*w/60,2*h/60);
@@ -253,13 +253,13 @@ function draw() {
   stroke('#FFD5C2');
   strokeWeight(w*0.003);
   noFill();
-  rect(9*w/60,11*h/60,12*w/60,12*h/60,10);
+  rect(9*w/60,10*h/60,12*w/60,12*h/60,10);
 
   fill('#588B8B');
   strokeWeight(0);
   textAlign(CENTER, CENTER);
-  textSize(w*0.03);
-  text('First Set', 15*w/60, 8*h/60);
+  textSize(w*0.025);
+  text('FIRST SET', 15*w/60, 8*h/60);
   textAlign(LEFT, CENTER);
   fill(color_txt);
   textSize(w*0.015);
@@ -274,13 +274,13 @@ function draw() {
   stroke('#FFD5C2');
   strokeWeight(w*0.003);
   noFill();
-  rect(24*w/60,11*h/60,12*w/60,12*h/60,10);
+  rect(24*w/60,10*h/60,12*w/60,12*h/60,10);
 
   textAlign(CENTER, CENTER);
-  textSize(w*0.03);
+  textSize(w*0.025);
   fill('#588B8B');
   strokeWeight(0);
-  text('Second Set', 30*w/60, 8*h/60);
+  text('SECOND SET', 30*w/60, 8*h/60);
   textAlign(LEFT, CENTER);
   fill(color_txt);
   textSize(w*0.015);
@@ -294,13 +294,13 @@ function draw() {
   stroke('#FFD5C2');
   strokeWeight(w*0.003);
   noFill();
-  rect(39*w/60,11*h/60,12*w/60,12*h/60,10);
+  rect(39*w/60,10*h/60,12*w/60,12*h/60,10);
 
   textAlign(CENTER, CENTER);
-  textSize(w*0.03);
+  textSize(w*0.025);
   fill('#588B8B');
   strokeWeight(0);
-  text('Parameters', 45*w/60, 8*h/60);
+  text('PARAMETERS', 45*w/60, 8*h/60);
   textAlign(LEFT, CENTER);
   fill(color_txt);
   textSize(w*0.015);
@@ -339,30 +339,30 @@ function draw() {
   strokeWeight(w*0.003);
   stroke('rgba(135, 143, 155,.5)');
   fill('rgba(135, 143, 155,.5)');
-  rect(21*w/60,34*h/60,18*w/60,26*h/60,10);
+  rect(21*w/60,32*h/60,18*w/60,26*h/60,10);
 
   textAlign(CENTER, CENTER);
   textSize(w*0.03);
   fill('#588B8B');
   strokeWeight(0);
-  text('Mixer', 30*w/60, 32*h/60);
+  text('MIXER', 30*w/60, 30*h/60);
   fill('#FFFFFF');
   textSize(w*0.02);
-  text('1', 22.5*w/60, 37*h/60);
-  text('2', 25*w/60, 37*h/60);
-  text('3', 27.5*w/60, 37*h/60);
-  text('4', 30*w/60, 37*h/60);
+  text('1', 22.5*w/60, 34.5*h/60);
+  text('2', 25*w/60, 34.5*h/60);
+  text('3', 27.5*w/60, 34.5*h/60);
+  text('4', 30*w/60, 34.5*h/60);
   textSize(w*0.015);
-  text('Reverberation', 35*w/60, 37*h/60);
-  text('Delay', 35*w/60, 43*h/60);
-  text('Master LPF', 35*w/60, 49*h/60);
+  text('Reverberation', 35*w/60, 34.5*h/60);
+  text('Delay', 35*w/60, 40*h/60);
+  text('Master LPF', 35*w/60, 45.5*h/60);
 
-  text('Mute', 35*w/60, 55*h/60);
-  text('Solo', 35*w/60, 58*h/60);
+  text('Mute', 35*w/60, 52*h/60);
+  text('Solo', 35*w/60, 55*h/60);
   strokeWeight(w*0.003);
   stroke('rgba(135, 143, 155,.8)');
   noFill();
-  rect(21.5*w/60,53.5*h/60,17*w/60,6*h/60,10);
+  rect(21.5*w/60,50*h/60,17*w/60,7*h/60,10);
 
   // ------- Generation of Concentric Circles
 
