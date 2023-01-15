@@ -1,9 +1,9 @@
 // ------- P5 JS -----
 
-let w; // = windowWidth;  //1250
-let h; // = 900; //window.innerHeight
-let cl_bg = '#FFFBFF';  // Background Color
-let color_txt = '#000000'
+let w;      //windowWidth
+let h;      //windowHeight
+let cl_bg = '#FFFBFF';       //Background Color
+let color_txt = '#000000';   //Color of Text
 
 let gen_button;
 let play_button;
@@ -12,10 +12,7 @@ let state = false;
 
 let All_Synths = ['MonoSynth', 'Kick', 'Snare' ,'Synth','Hihat'];
 
-let x=0;
-
-let loc_dict = {}
-let loc_dict_txt = {}
+let loc_dict = {};
 
 let synthinps = [];
 let onsetsinps = [];
@@ -43,6 +40,8 @@ let interval_visualA_fixed;
 let interval_visualB_fixed;
 let interval_visualA_shift;
 let interval_visualB_shift;
+
+let TimerDelay=0;
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
@@ -116,7 +115,6 @@ function setup() {
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
   gen_button = createButton('Generate');
   gen_button.position(13*w/60, 27*h/60);
-  gen_button.size(4*w/60);
   gen_button.style('background-color', 'rgba(135, 143, 155,.5)');
   gen_button.style('color','#FFFFFF');
   gen_button.style('font-family: Bahnschrift');
@@ -261,11 +259,12 @@ function initialization(){
   bar_durationA = pulse_durationA*pulsesA;
   bar_durationB = pulse_durationB*pulsesB;
 
-  indexA_1 = 0;
-  indexA_2 = -1;
-  indexB_1 = 0;
-  indexB_2 = -1;
+  indexA_1 = -1;
+  indexA_2 = 0;
+  indexB_1 = -1;
+  indexB_2 = 0;
   first_cycleA = 0;
+  first_cycleB = 0;
 }
 function FixedCircle(x, y, onset, pulses, color1, color2) {
 
@@ -295,13 +294,13 @@ function VisualFix(track, pulses, color){
   let y_arc;
 
   if (track==0){
-    end = map(indexA_1,0,pulses,-90,270);
-    start = map(indexA_2,0,pulses,-90,270);
+    end = map(indexA_2,0,pulses,-90,270);
+    start = map(indexA_1,0,pulses,-90,270);
     x_arc = 15*w/60;
     y_arc = 45*h/60;
   }else if (track==2){
-    end = map(indexB_1,0,pulses,-90,270);
-    start = map(indexB_2,0,pulses,-90,270);
+    end = map(indexB_2,0,pulses,-90,270);
+    start = map(indexB_1,0,pulses,-90,270);
     x_arc = 45*w/60;
     y_arc = 45*h/60;
   }
@@ -311,15 +310,15 @@ function VisualFix(track, pulses, color){
   strokeCap(SQUARE);
   fill(color);
 
-  if((track==0 && !first_cycleA && indexA_1==0) || (track==2 && !first_cycleB && indexB_1==0)){
+  if((track==0 && !first_cycleA && indexA_1==-1) || (track==2 && !first_cycleB && indexB_1==-1)){
     noStroke();
     noFill();
   }
-  if((track==0 && first_cycleA && indexA_1==0) || (track==2 && first_cycleB && indexB_1==0)){
+  if((track==0 && first_cycleA && indexA_1==-1) || (track==2 && first_cycleB && indexB_1==-1)){
     noStroke();
     noFill();
   }
-  if ((normal==1 && indexA_1==0)||(normal==1 && indexB_1==0)||(first_cycleA && indexA_1==0)){
+  if ((normal==1 && indexA_1==-1)||(normal==1 && indexB_1==-1)||(first_cycleA && indexA_1==-1)){
     stroke(color);
     strokeWeight(0);
     strokeCap(SQUARE);
@@ -335,19 +334,19 @@ function VisualFixTimingA(){
   if (indexA == pulsesA+1){
     first_cycleA = 1;
     indexA = 0;
-    indexA_1 = 0;
-    indexA_2 = -1;
+    indexA_1 = -1;
+    indexA_2 = 0;
   } else if (indexA == pulsesA+1 && first_cycleA){
     first_cycleA = 0;
     indexA = 0;
-    indexA_1 = 0;
-    indexA_2 = -1;
+    indexA_1 = -1;
+    indexA_2 = 0;
   } else if(indexA == pulsesA && !first_cycleA){
     first_cycleA = 0;
     normal = 1;
     indexA = 0;
-    indexA_1 = 0;
-    indexA_2 = -1;
+    indexA_1 = -1;
+    indexA_2 = 0;
   }
 }
 function VisualFixTimingB(){
@@ -358,18 +357,18 @@ function VisualFixTimingB(){
   if (indexB == pulsesB+1){
     first_cycleB = 1;
     indexB = 0;
-    indexB_1 = 0;
-    indexB_2 = -1;
+    indexB_1 = -1;
+    indexB_2 = 0;
   } else if (indexB == pulsesB+1 && first_cycleB){
     first_cycleB = 0;
     indexB = 0;
-    indexB_1 = 0;
-    indexB_2 = -1;
+    indexB_1 = -1;
+    indexB_2 = 0;
   } else if(indexB == pulsesB && !first_cycleB){
     normal = 1;
     indexB = 0;
-    indexB_1 = 0;
-    indexB_2 = -1;
+    indexB_1 = -1;
+    indexB_2 = 0;
   }
 }
 
@@ -521,20 +520,21 @@ function stopTimer(){
   if (state) {
     normal = 0;
     indexA = 0;
-    indexA_1 = 0;
+    indexA_1 = -1;
     indexA_2 = 0;
     indexB = 0;
-    indexB_1 = 0;
+    indexB_1 = -1;
     indexB_2 = 0;
     actualbarA = 0;
     proportion_indexA = 0.8;
     actualbarB = 0;
     proportion_indexB = 0.8;
     first_cycleA = 0;
-    first_cycleB =0;
+    first_cycleB = 0;
   }
 }
 function start_aud_gui() {
+  TimerDelay = last_time_inst;
   if (state) {
     //console.log("state: true")
     //console.log("already playing")
@@ -542,9 +542,8 @@ function start_aud_gui() {
     //console.log("state false")
     SynthTypes = [synthinps[0].value(), synthinps[1].value(), synthinps[2].value(), synthinps[3].value()];
     //console.log('Call start_aud');
-    Tone.Transport.toggle()
+    Tone.Transport.toggle();
     start_aud();
-    //setTimeout( startTimer(), time_common_track)
     startTimer();
   }
 }

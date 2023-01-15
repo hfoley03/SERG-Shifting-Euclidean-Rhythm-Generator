@@ -1,18 +1,16 @@
 //Synths that will play the sound
 let synths = []
 
-let main_loop_interval = 2;// duration of looping
+let main_loop_interval = 8;// duration of looping
 
 
 let main_loop = new Tone.Loop(playNotes , main_loop_interval);
 let print_loop = new Tone.Loop(() => {console.log("loop")});
 
 let pause_flag = false;
-
 let time_instants_to_play = [];
 
 let synth_counter = 0;
-
 
 var bufferkick = new Tone.Buffer("https://audio.jukehost.co.uk/mazfEsXSvszmtRHKw3p3jRZtWyTsVt9H")
 var buffersnare = new Tone.Buffer("https://audio.jukehost.co.uk/0v0XCCA6hcBRKPxqXZ5Xr0hOZ5AcvxcF")
@@ -57,25 +55,27 @@ channel4.name = "Channel 4"
 
 let channelStrip = [channel1, channel2, channel3, channel4];
 
-
-
 //Functions for playing on the browser
 
+
+let last_time_inst;
 
 //This function creates the synths and sends them to the master
 function playNotes() {
   //console.log("playNotes")
   //synths = [];
   //time_common_track = Tone.now();
-  if (playNotesCount==0){
+  let time_common_track;
+  let last_track_note_duration;
+  let time_inst_to_play;
 
-    time_common_track  = Tone.context.currentTime+0.5;
+  if (playNotesCount==0){
+    time_common_track  = Tone.context.currentTime+0.1;
     playNotesCount += 1;
   }
   else {
     last_track_note_duration = finalMidiObject.tracks[0].notes[0].duration;
     //time_common_track = last_time_inst + last_track_note_duration;
-
     time_common_track = time_common_track + last_track_note_duration * pulsesA * length;
   }
 
@@ -123,8 +123,7 @@ function playNotes() {
         time_inst_to_play = time_common_track + note.time + 0.0001
         time_instants_to_play.push(time_inst_to_play);
         synth.triggerAttackRelease(note.name, note.duration, time_inst_to_play, note.velocity)
-        //console.log(time_inst_to_play);
-
+        //console.log('time_inst_to_play: ',time_inst_to_play);
       })
     }else{
       Tone.loaded().then(() => {
@@ -134,7 +133,6 @@ function playNotes() {
           synth.start( time_inst_to_play, 0, note.duration, note.velocity)
         })
       });
-
     }
 
     last_time_inst = time_inst_to_play;
@@ -142,10 +140,8 @@ function playNotes() {
     //for(let i = 0; i<time_instants_to_play.length-1;i++){console.log(time_instants_to_play[i+1]-time_instants_to_play[i])}
   })
 }
-
 // Initializes and starts and stops the audio, called from gui.js
 function start_aud() {
-
   state = true;
   Tone.context.resume()
   Tone.Transport.bpm.value = tempo_bpm;
@@ -155,7 +151,6 @@ function start_aud() {
   main_loop.interval = main_loop_interval
   //console.log(main_loop.interval)
   Tone.start().then(()=>{
-
     Tone.Transport.start();
     main_loop.start();
     //print_loop.start();
@@ -166,7 +161,7 @@ function stop_aud(){
   playNotesCount= 0;
   Tone.Transport.stop();
   console.log("stopAud")
-  stopTimer()
+  stopTimer();
   for (var i = 0; i < synths.length; i++) {
     synths[i].context._timeouts.cancel(0);
     synths[i].dispose();
