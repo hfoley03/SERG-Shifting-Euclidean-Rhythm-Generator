@@ -127,9 +127,7 @@ function playNotes() {
         })
       });
     }
-    last_time_inst = time_inst_to_play;
-    //console.log(last_time_inst)
-    for(let i = 0; i<time_instants_to_play.length-1;i++){console.log(time_instants_to_play[i+1]-time_instants_to_play[i])}
+    //for(let i = 0; i<time_instants_to_play.length-1;i++){console.log(time_instants_to_play[i+1]-time_instants_to_play[i])}
   })
 }
 
