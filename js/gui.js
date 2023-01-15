@@ -52,6 +52,11 @@ let Volume2;
 let Volume3;
 let Volume4;
 
+let Mute1;
+let Mute2;
+let Mute3;
+let Mute4;
+
 function windowResized() {
   resizeCanvas(windowWidth, h);
 }
@@ -171,14 +176,24 @@ function setup() {
   });
 
   // ---- Volume Slides
-  Volume1 = createSliderV('Volume1', 22*w/60, 40*h/60, w/60, 8*w/60, 0, 1);
+  Volume1 = createSliderV('Volume1', 22*w/60, 38.5*h/60, w/60, 8*w/60, 0, 1);
   Volume1.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume2 = createSliderV('Volume1', 24.5*w/60, 40*h/60, w/60, 8*w/60, 0, 1);
+  Volume2 = createSliderV('Volume1', 24.5*w/60, 38.5*h/60, w/60, 8*w/60, 0, 1);
   Volume2.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume3 = createSliderV('Volume1', 27*w/60, 40*h/60, w/60, 8*w/60, 0, 1);
+  Volume3 = createSliderV('Volume1', 27*w/60, 38.5*h/60, w/60, 8*w/60, 0, 1);
   Volume3.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume4 = createSliderV('Volume1', 29.5*w/60, 40*h/60, w/60, 8*w/60, 0, 1);
+  Volume4 = createSliderV('Volume1', 29.5*w/60, 38.5*h/60, w/60, 8*w/60, 0, 1);
   Volume4.setStyle({rounding: 5, trackWidth: 0.1});
+
+  // ---- Mute Selecotors
+  Mute1 = createCheckbox("Checkbox", 22*w/60, 54*h/60, w/60, w/60);
+  Mute1.setStyle({rounding: 5, trackWidth: 0.1});
+  Mute2 = createCheckbox("Checkbox", 24.5*w/60, 54*h/60, w/60, w/60);
+  Mute2.setStyle({rounding: 5, trackWidth: 0.1});
+  Mute3 = createCheckbox("Checkbox", 27*w/60, 54*h/60, w/60, w/60);
+  Mute3.setStyle({rounding: 5, trackWidth: 0.1});
+  Mute4 = createCheckbox("Checkbox", 29.5*w/60, 54*h/60, w/60, w/60);
+  Mute4.setStyle({rounding: 5, trackWidth: 0.1});
 
 
   //console.log(finalMidiObject.tracks)
@@ -294,10 +309,10 @@ function draw() {
   text('Mixer', 30*w/60, 32*h/60);
   fill('#FFFFFF');
   textSize(w*0.02);
-  text('1', 22.5*w/60, 38*h/60);
-  text('2', 25*w/60, 38*h/60);
-  text('3', 27.5*w/60, 38*h/60);
-  text('4', 30*w/60, 38*h/60);
+  text('1', 22.5*w/60, 37*h/60);
+  text('2', 25*w/60, 37*h/60);
+  text('3', 27.5*w/60, 37*h/60);
+  text('4', 30*w/60, 37*h/60);
 
   // ------- Generation of Concentric Circles
 
