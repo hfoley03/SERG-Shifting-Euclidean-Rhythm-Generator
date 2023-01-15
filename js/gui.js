@@ -4,6 +4,7 @@ let h = 700;      //windowHeight
 let cl_bg = '#FFFBFF';       //Background Color
 let color_txt = '#000000';   //Color of Text
 
+//Harry is a dummmy and this is his dummy commit
 
 let phase_shift_amount_inp;
 let phase_shift_period_inp;
