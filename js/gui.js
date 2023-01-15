@@ -184,13 +184,13 @@ function setup() {
   });
 
   // ---- Volume Slides
-  Volume1 = createSliderV('Volume1', 22*w/60, 38.5*h/60, w/60, 8*w/60, 0, 1);
+  Volume1 = createSliderV('Volume1', 22*w/60, 38.5*h/60, w/60, 8*w/60, -45, 0);
   Volume1.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume2 = createSliderV('Volume1', 24.5*w/60, 38.5*h/60, w/60, 8*w/60, 0, 1);
+  Volume2 = createSliderV('Volume1', 24.5*w/60, 38.5*h/60, w/60, 8*w/60, -45, 0);
   Volume2.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume3 = createSliderV('Volume1', 27*w/60, 38.5*h/60, w/60, 8*w/60, 0, 1);
+  Volume3 = createSliderV('Volume1', 27*w/60, 38.5*h/60, w/60, 8*w/60, -45, 0);
   Volume3.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume4 = createSliderV('Volume1', 29.5*w/60, 38.5*h/60, w/60, 8*w/60, 0, 1);
+  Volume4 = createSliderV('Volume1', 29.5*w/60, 38.5*h/60, w/60, 8*w/60, -45, 0);
   Volume4.setStyle({rounding: 5, trackWidth: 0.1});
 
   // ---- Mute Selecotors
@@ -309,6 +309,17 @@ function draw() {
     stop_aud();
   }
 
+  if(Mute1.isPressed){
+    console.log("mute 1")
+  }
+
+  if (Volume1.isChanged) {channel1.volume.value = Math.round(Volume1.val)}
+  if (Volume2.isChanged) {channel2.volume.value = Math.round(Volume2.val)}
+  if (Volume3.isChanged) {channel3.volume.value = Math.round(Volume3.val)}
+  if (Volume4.isChanged) {channel4.volume.value = Math.round(Volume4.val)}
+
+
+    // ------- Mixer - Control Volume BOX
   if(tutorial_button.isPressed){
     toggleTutorial();
   }

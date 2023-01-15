@@ -13,13 +13,8 @@ var bufferhihat = new Tone.Buffer("https://audio.jukehost.co.uk/Z3t7DblT22VAC0dD
 var playNotesCount = 0; //this helps to reset the common time for tracks
 
 // Audio Effects
-let volume1 = -6;
-let volume2 = -6;
-let volume3 = -6;
-let volume4 = -6;
-
 let reverbWet = 0.3;
-let delay1Wet = 0.2;
+let delay1Wet = 0.0;
 let delay2Wet = 0.0;
 
 
@@ -49,10 +44,11 @@ let chorus = new Tone.Chorus({
   spread : 90}).connect(feedbackDelay1);
 
 let limiter = new Tone.Limiter(-2).connect(chorus);
-let channel1 = new Tone.Channel(volume1, 0.5).connect(limiter);
-let channel2 = new Tone.Channel(volume2, -0.5).connect(limiter);
-let channel3 = new Tone.Channel(volume3, 0.75).connect(limiter);
-let channel4 = new Tone.Channel(volume4, -0.75).connect(limiter);
+let channel1 = new Tone.Channel(-6, 0.5).connect(limiter);
+let channel2 = new Tone.Channel(-6, -0.5).connect(limiter);
+let channel3 = new Tone.Channel(-6, 0.75).connect(limiter);
+let channel4 = new Tone.Channel(-6, -0.75).connect(limiter);
+
 
 channel1.name = "Channel 1"
 channel2.name = "Channel 2"
@@ -66,13 +62,14 @@ let channelStrip = [channel1, channel2, channel3, channel4];
 
 //This function creates the synths and sends them to the master
 function playNotes() {
-
   //check if the current time needs to reset or continue from where it is left
+
   if (playNotesCount==0){
     time_common_track  = Tone.context.currentTime + 2;
     playNotesCount += 1;
   }
   else {
+
     last_track_note_duration = finalMidiObject.tracks[0].notes[0].duration; //gets the duration of each note for the first track
     time_common_track = time_common_track + last_track_note_duration * pulsesA * length; //the length of the midi file is calculated
     //and added to the previous loop's starting time. This way we can track the start time for each loop's first note
@@ -80,9 +77,9 @@ function playNotes() {
 
   finalMidiObject.tracks.forEach((track, index) => {
 
-    console.log(Tone.context.currentTime);
+    //console.log(Tone.context.currentTime);
 
-    console.log(channelStrip[index]);
+    //console.log(channelStrip[index]);
     synth_type = SynthTypes[index];
 
 
