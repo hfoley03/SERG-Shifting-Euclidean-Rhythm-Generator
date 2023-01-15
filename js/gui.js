@@ -309,6 +309,10 @@ function draw() {
     stop_aud();
   }
 
+  if(tutorial_button.isPressed){
+    toggleTutorial();
+  }
+
   // ------- Mixer - Control Volume BOX
   strokeWeight(w*0.003);
   stroke('rgba(135, 143, 155,.5)');
