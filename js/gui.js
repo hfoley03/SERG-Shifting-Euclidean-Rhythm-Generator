@@ -1,7 +1,7 @@
 // ------- P5 JS -----
 
 let w;      //windowWidth
-let h;      //windowHeight
+let h = 700;      //windowHeight
 let cl_bg = '#FFFBFF';       //Background Color
 let color_txt = '#000000';   //Color of Text
 
@@ -41,19 +41,21 @@ let interval_visualB_fixed;
 let interval_visualA_shift;
 let interval_visualB_shift;
 
-let TimerDelay=0;
+let Volume1;
+let Volume2;
+let Volume3;
+let Volume4;
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+  resizeCanvas(windowWidth, h);
 }
 
 function setup() {
-  createCanvas(windowWidth,windowHeight);
+  createCanvas(windowWidth,h);
   angleMode(DEGREES);
 
   w = width;
-  h = height;
-
+  gui = createGui();
   // ---- Selection Synth type by the user
   let synth_x = 15*w/60+10;
   let synth_y = 18*h/60-5;
@@ -124,48 +126,41 @@ function setup() {
   tempo_bpm_inp.size(22);
 
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
-  gen_button = createButton('Generate');
-  gen_button.position(13*w/60, 27*h/60);
-  gen_button.style('background-color', 'rgba(135, 143, 155,.5)');
-  gen_button.style('color','#FFFFFF');
-  gen_button.style('font-family: Bahnschrift');
-  gen_button.style('border-color', 'rgba(135, 143, 155,.25)');
-  gen_button.style('border-radius' , 10 + '%');
-  gen_button.style('z-index',  100);
-  gen_button.mousePressed(function() {
-    clear();
-    stop_aud();
-    phaseShiftAmount = parseInt(phase_shift_amount_inp.value());         // How many pulses is each shift
-    phaseShiftPeriod = parseInt(phase_shift_amount_inp.value());         // After how many bars does a shift occur
-    length = parseInt(length_inp.value());                               // Length of total piece
-    onsetsA = parseInt(onsetsinps[0].value());
-    pulsesA = parseInt(onsetsinps[1].value());
-    onsetsB = parseInt(onsetsinps[2].value());
-    pulsesB = parseInt(onsetsinps[3].value());
-    tempo_bpm = parseInt(tempo_bpm_inp.value());
-    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm);
-    initialization();
+  gen_button = createButton('Generate', 13*w/60, 27*h/60,w/60,h/60);
+  gen_button.setStyle({
+    fillBg:'rgba(135, 143, 155,.5)',
+    rounding: 10,
+    font:'Bahnschrift',
+    fillLabel:'#FFFFFF',
+    strokeBg:'rgba(135, 143, 155,.25)',
   });
 
   // ---- Play button
-  play_button = createButton('&#9658');
-  play_button.position(29.5*w/60, 27*h/60);
-  play_button.style('background-color', 'rgba(135, 143, 155,.5)');
-  play_button.style('color','#FFFFFF');
-  play_button.style('font-family', 'Bahnschrift');
-  play_button.style('border-color', 'rgba(135, 143, 155,.25)');
-  play_button.style('border-radius' , 10+'%');
-  play_button.mousePressed(function() {start_aud_gui();})
+  play_button = createButton('&#9658',29.5*w/60, 27*h/60);
+  play_button.setStyle({
+    fillBg:'rgba(135, 143, 155,.5)',
+    rounding: 10,
+    font:'Bahnschrift',
+    fillLabel:'#FFFFFF',
+    strokeBg:'rgba(135, 143, 155,.25)',
+  });
 
   // ---- Stop button
-  stop_button = createButton('&#9209');
-  stop_button.position(44.5*w/60, 27*h/60);
-  stop_button.style('background-color','rgba(135, 143, 155,.5)');
-  stop_button.style('color','#FFFFFF');
-  stop_button.style('font-family','Segoe UI Symbol');
-  stop_button.style('border-color','rgba(135, 143, 155,.25)');
-  stop_button.style('border-radius' , 10+'%');
-  stop_button.mousePressed(function(){stop_aud()});
+  stop_button = createButton('&#9209',44.5*w/60, 27*h/60);
+  stop_button.setStyle({
+    fillBg:'rgba(135, 143, 155,.5)',
+    rounding: 10,
+    font:'Bahnschrift',
+    fillLabel:'#FFFFFF',
+    strokeBg:'rgba(135, 143, 155,.25)',
+  });
+
+  // ---- Volume Slides
+  rotate(90)
+  Volume1 = createSlider(0, 1, 1,0.02);
+  Volume1.position(22*w/60, 45*h/60);
+  Volume1.style('width', 8*w/60+'px');
+  Volume1.style('transform', 'rotate(-90deg)');
 
   //console.log(finalMidiObject.tracks)
   //console.log("Shift_binary1 : "+GetBinaryShiftedOnset(1));
@@ -175,8 +170,8 @@ function setup() {
 
 function draw() {
   background(cl_bg);
+  drawGui();
   w = width;
-  h = height;
 
   fill('#0D3E1D');
   textSize(w*0.04);
@@ -245,6 +240,46 @@ function draw() {
   text('Piece length', xx3, yy+40);
   text('Tempo (BPM)', xx3, yy+60);
 
+  // ----- Buttons
+  if (gen_button.isPressed){
+    clear();
+    stop_aud();
+    phaseShiftAmount = parseInt(phase_shift_amount_inp.value());         // How many pulses is each shift
+    phaseShiftPeriod = parseInt(phase_shift_amount_inp.value());         // After how many bars does a shift occur
+    length = parseInt(length_inp.value());                               // Length of total piece
+    onsetsA = parseInt(onsetsinps[0].value());
+    pulsesA = parseInt(onsetsinps[1].value());
+    onsetsB = parseInt(onsetsinps[2].value());
+    pulsesB = parseInt(onsetsinps[3].value());
+    tempo_bpm = parseInt(tempo_bpm_inp.value());
+    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm);
+    initialization();
+  }
+  if(play_button.isPressed){
+    start_aud_gui();
+  }
+  if(stop_button.isPressed){
+    stop_aud();
+  }
+
+  // ------- Mixer - Control Volume BOX
+  strokeWeight(w*0.003);
+  stroke('rgba(135, 143, 155,.5)');
+  fill('rgba(135, 143, 155,.5)');
+  rect(22*w/60,34*h/60,16*w/60,28*h/60,10);
+
+  textAlign(CENTER, CENTER);
+  textSize(w*0.03);
+  fill('#588B8B');
+  strokeWeight(0);
+  text('Mixer', 30*w/60, 32*h/60);
+  fill('#FFFFFF');
+  textSize(w*0.02);
+  text('1', 24*w/60, 38*h/60);
+  text('2', 26.5*w/60, 38*h/60);
+  text('3', 29*w/60, 38*h/60);
+  text('4', 31.5*w/60, 38*h/60);
+
   // ------- Generation of Concentric Circles
 
   let cl1 = 'rgba(200, 85, 61,1)';       // color onsets Track 1
@@ -262,21 +297,6 @@ function draw() {
   FixedCircle(45*w/60, 45*h/60, binaryRhythmB, pulsesB, cl1, cl2);      // Track 3  Fixed Circle
   VisualShift(3, cl3, cl4);                                         // Visual Track 4 Shifting circle
   VisualFix(2, pulsesB, cl5);                                        // Visual Actual pulse playing Track 3-4
-
-  // ------- Mixer - Control Volume BOX
-  strokeWeight(w*0.003);
-  stroke('rgba(135, 143, 155,.5)');
-  fill('rgba(135, 143, 155,.5)');
-  rect(24*w/60,35*h/60,12*w/60,20*h/60,10);
-
-  textAlign(CENTER, CENTER);
-  textSize(w*0.03);
-  fill('#588B8B');
-  strokeWeight(0);
-  text('Mixer', 30*w/60, 33*h/60);
-  fill(color_txt);
-  textSize(w*0.015);
-
 
 }
 // ----- Functions for the visuals for the fixed circles  -----
