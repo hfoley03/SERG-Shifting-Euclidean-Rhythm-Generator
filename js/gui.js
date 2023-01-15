@@ -3,7 +3,7 @@ let w;      //windowWidth
 let h = 800;      //windowHeight
 let cl_bg = '#FFFBFF';       //Background Color
 let color_txt = '#000000';   //Color of Text
-
+//Hi im sebastian
 
 let phase_shift_amount_inp;
 let phase_shift_period_inp;
