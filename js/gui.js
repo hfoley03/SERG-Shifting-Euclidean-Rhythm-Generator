@@ -60,7 +60,7 @@ let Solo1, Solo2, Solo3, Solo4;
 let Reverb;
 let Delay1;
 let Delay2;
-let alpha1, alpha2, alpha3, alpha4;
+let alpha1 = 0.5, alpha2 = 0.5, alpha3 = 0.5, alpha4 = 0.5;
 
 function windowResized() {
   resizeCanvas(windowWidth, h);
@@ -185,13 +185,13 @@ function setup() {
   });
 
   // ---- Volume Sliders
-  Volume1 = createSliderV('Volume1', 22*w/60, 36*h/60, w/60, 8*w/60, -45, 0);
+  Volume1 = createSliderV('Volume1', 22*w/60, 36*h/60, w/60, 8*w/60, -30, 0);
   Volume1.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume2 = createSliderV('Volume2', 24.5*w/60, 36*h/60, w/60, 8*w/60, -45, 0);
+  Volume2 = createSliderV('Volume2', 24.5*w/60, 36*h/60, w/60, 8*w/60, -30, 0);
   Volume2.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume3 = createSliderV('Volume3', 27*w/60, 36*h/60, w/60, 8*w/60, -45, 0);
+  Volume3 = createSliderV('Volume3', 27*w/60, 36*h/60, w/60, 8*w/60, -30, 0);
   Volume3.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume4 = createSliderV('Volume4', 29.5*w/60, 36*h/60, w/60, 8*w/60, -45, 0);
+  Volume4 = createSliderV('Volume4', 29.5*w/60, 36*h/60, w/60, 8*w/60, -30, 0);
   Volume4.setStyle({rounding: 5, trackWidth: 0.1});
 
   // ---- Mute Selecotors
@@ -325,19 +325,19 @@ function draw() {
   }
   if (Volume1.isChanged){
     channel1.volume.value = Math.round(Volume1.val);
-    alpha1 = map(Volume1.val,-45,0,0,1);
+    alpha1 = map(Volume1.val,-30,0,0,1);
   }
   if (Volume2.isChanged){
     channel2.volume.value = Math.round(Volume2.val);
-    alpha2 = map(Volume2.val,-45,0,0,1);
+    alpha2 = map(Volume2.val,-30,0,0,1);
   }
   if (Volume3.isChanged){
     channel3.volume.value = Math.round(Volume3.val);
-    alpha3 = map(Volume3.val,-45,0,0,1);
+    alpha3 = map(Volume3.val,-30,0,0,1);
   }
   if (Volume4.isChanged){
     channel4.volume.value = Math.round(Volume4.val);
-    alpha4 = map(Volume4.val,-45,0,0,1);
+    alpha4 = map(Volume4.val,-30,0,0,1);
   }
 
   channel1.mute = Mute1.val
