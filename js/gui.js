@@ -356,6 +356,7 @@ function draw() {
 
   // ------- Tutorial
   if(tutorial_button.isPressed){
+    console.log('a')
     toggleTutorial();
   }
 
