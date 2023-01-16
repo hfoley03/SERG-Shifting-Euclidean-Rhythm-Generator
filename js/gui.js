@@ -14,6 +14,8 @@ let phase_shift_amount_inp;
 let phase_shift_period_inp;
 let length_inp;
 let tempo_bpm_inp;
+let scaleTypeSelect;
+let rootNoteSelect;
 
 let gen_button;
 let play_button;
@@ -30,10 +32,8 @@ let loc_dict = {};
 let synthinps = [];
 let onsetsinps = [];
 
-let pulse_durationA;
-let pulse_durationB;
-let bar_durationA;
-let bar_durationB;
+let pulse_durationA, pulse_durationB;
+let bar_durationA, bar_durationB;
 
 let first_cycleA = 0;
 let first_cycleB = 0;
@@ -44,10 +44,8 @@ let actualbarA = 0;
 let actualbarB = 0;
 let proportion_indexA = 0.8;
 let proportion_indexB = 0.8;
-let indexA_1;
-let indexA_2;
-let indexB_1;
-let indexB_2;
+let indexA_1, indexA_2;
+let indexB_1, indexB_2;
 
 let interval_visualA_fixed;
 let interval_visualB_fixed;
@@ -98,11 +96,13 @@ function setup() {
     synthinps.push(tmp_synth)
   }
 
+
   // ----- Inputs of Onsets and Pulses for the Euclidean Rhythm
   let x_onsets = 15*w/60+10;
   let y_onsets = 13*h/60;
   let onsets_pulses = [onsetsA,pulsesA, onsetsB, pulsesB];
   let onsets_pulses_str = ["onsetsA","pulsesA", "onsetsB", "pulsesB"];
+
   for(let i = 1; i<=4; i++){
     let tmp_onsets_str = onsets_pulses_str[i-1];
     let tmp_onsets = window[tmp_onsets_str];
@@ -128,40 +128,38 @@ function setup() {
     onsetsinps.push(tmp_onsets);
   }
 
-  // ----- Inputs of lenght of piece, shifting amount and shifting period
 
-
+  // ----- Inputs of lenght of piece, shifting amount and shifting period, Tempo, Root, Scale
   let x_inputs = 49*w/60;
   let y_inputs = 13*h/60-2;
 
-
   phase_shift_amount_inp = createInput(phaseShiftAmount.toString());
   phase_shift_amount_inp.position(x_inputs,y_inputs);
-  phase_shift_amount_inp.size(22);
+  phase_shift_amount_inp.size(32);
 
   phase_shift_period_inp = createInput(phaseShiftPeriod.toString());
   phase_shift_period_inp.position(x_inputs,y_inputs+22);
-  phase_shift_period_inp.size(22);
+  phase_shift_period_inp.size(32);
 
   length_inp = createInput(length.toString());
   length_inp.position(x_inputs,y_inputs+44);
-  length_inp.size(22);
+  length_inp.size(32);
 
   tempo_bpm_inp = createInput(tempo_bpm.toString());
   tempo_bpm_inp.position(x_inputs,y_inputs+66);
-  tempo_bpm_inp.size(22);
-
-  scaleTypeSelect = createSelect();
-  scaleTypeSelect.option("Major");scaleTypeSelect.option("Minor");scaleTypeSelect.option("Melodic Minor");
-  scaleTypeSelect.size(40)
-  scaleTypeSelect.position(x_inputs,y_inputs+88);
+  tempo_bpm_inp.size(32);
 
   rootNoteSelect = createSelect();
-  rootNoteSelect.option("C");rootNoteSelect.option("C#");rootNoteSelect.option("D");rootNoteSelect.option("D#");rootNoteSelect.option("E");
+  rootNoteSelect.option("C","D");rootNoteSelect.option("C#");rootNoteSelect.option("D");rootNoteSelect.option("D#");rootNoteSelect.option("E");
   rootNoteSelect.option("F");rootNoteSelect.option("F#");rootNoteSelect.option("F#");rootNoteSelect.option("G");rootNoteSelect.option("G#");
   rootNoteSelect.option("A");rootNoteSelect.option("A#");rootNoteSelect.option("B#");
   rootNoteSelect.size(40)
-  rootNoteSelect.position(x_inputs,y_inputs+110);
+  rootNoteSelect.position(x_inputs,y_inputs+88);
+
+  scaleTypeSelect = createSelect();
+  scaleTypeSelect.option("Major");scaleTypeSelect.option("Minor");scaleTypeSelect.option("Melodic Minor");
+  scaleTypeSelect.size(60)
+  scaleTypeSelect.position(x_inputs,y_inputs+108);
 
   box2nd = createCheckbox("2nd", x_inputs,y_inputs+132 , w/80, w/80);
   box2nd.setStyle({rounding: 5});
@@ -182,40 +180,34 @@ function setup() {
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
   gen_button = createButton('GENERATE', 12*w/60, 24*h/60,6*w/60,2*h/60);
   gen_button.setStyle({
-    fillBg:color('rgba(135, 143, 155,.5)'),
+    fillBg:color('#85898F'),
     rounding: 5,
     font:'Bahnschrift',
     textSize: w/60,
     fillLabel:color('#FFFFFF'),
-    fillLabelHover:color('rgba(135, 143, 155,1)'),
-    strokeBg:color('rgba(135, 143, 155,.25)'),
-    strokeBgHover:color('rgba(135, 143, 155,.7)')
+    fillLabelHover:color('#4E5258'),
+    fillLabelActive:color('#4E5258'),
+    strokeBg:color('#4E5258')
   });
 
   // ---- Play button
   play_button = createButton('PLAY',27*w/60, 24*h/60,6*w/60,2*h/60);
   play_button.setStyle({
-    fillBg:color('rgba(135, 143, 155,.5)'),
+    fillBg:color('#85898F'),
     rounding: 5,
-    font:'Bahnschrift',
-    textSize: w/60,
-    fillLabel:color('#FFFFFF'),
-    fillLabelHover:color('rgba(135, 143, 155,1)'),
-    strokeBg:color('rgba(135, 143, 155,.25)'),
-    strokeBgHover:color('rgba(135, 143, 155,.7)')
+    font:'Bahnschrift', textSize: w/60,
+    fillLabel:color('#FFFFFF'), fillLabelHover:color('#4E5258'), fillLabelActive:color('#4E5258'),
+    strokeBg:color('#4E5258')
   });
 
   // ---- Stop button
   stop_button = createButton('STOP',42*w/60, 24*h/60,6*w/60,2*h/60);
   stop_button.setStyle({
-    fillBg:color('rgba(135, 143, 155,.5)'),
+    fillBg:color('#85898F'),
     rounding: 5,
-    font:'Bahnschrift',
-    textSize: w/60,
-    fillLabel:color('#FFFFFF'),
-    fillLabelHover:color('rgba(135, 143, 155,1)'),
-    strokeBg:color('rgba(135, 143, 155,.25)'),
-    strokeBgHover:color('rgba(135, 143, 155,.7)')
+    font:'Bahnschrift', textSize: w/60,
+    fillLabel:color('#FFFFFF'), fillLabelHover:color('#4E5258'), fillLabelActive:color('#4E5258'),
+    strokeBg:color('#4E5258')
   });
 
   // ---- Volume Sliders
@@ -229,26 +221,75 @@ function setup() {
   Volume4.setStyle({rounding: 5, trackWidth: 0.1});
 
   // ---- Mute Selecotors
-  Mute1 = createCheckbox("Checkbox", 22*w/60, 51*h/60, w/60, w/60);
-  Mute1.setStyle({rounding: 5});
-  Mute2 = createCheckbox("Checkbox", 24.5*w/60, 51*h/60, w/60, w/60);
-  Mute2.setStyle({rounding: 5});
-  Mute3 = createCheckbox("Checkbox", 27*w/60, 51*h/60, w/60, w/60);
-  Mute3.setStyle({rounding: 5});
-  Mute4 = createCheckbox("Checkbox", 29.5*w/60, 51*h/60, w/60, w/60);
-  Mute4.setStyle({rounding: 5});
+  Mute1 = createToggle("M", 22*w/60, 51*h/60, w/60, w/60);
+  Mute1.setStyle({
+    textSize:w/60,
+    rounding: 5,
+    fillLabelOn:color('#FFFFFF'),fillLabelOnHover:color('#FFFFFF'),fillLabelOnActive:color('#FFFFFF'),
+    fillBgOn:color('rgba(254, 95, 85,1)'),
+    fillBgOnHover:color('rgba(254, 95, 85,.5)'),
+    fillBgOnActive:color('rgba(254, 95, 85,.3)')});
 
+  Mute2 = createToggle("M", 24.5*w/60, 51*h/60, w/60, w/60);
+  Mute2.setStyle({
+    textSize:w/60,
+    rounding: 5,
+    fillLabelOn:color('#FFFFFF'),fillLabelOnHover:color('#FFFFFF'),fillLabelOnActive:color('#FFFFFF'),
+    fillBgOn:color('rgba(254, 95, 85,1)'),
+    fillBgOnHover:color('rgba(254, 95, 85,.5)'),
+    fillBgOnActive:color('rgba(254, 95, 85,.3)')});
+
+  Mute3 = createToggle("M", 27*w/60, 51*h/60, w/60, w/60);
+  Mute3.setStyle({
+    textSize:w/60,
+    rounding: 5,
+    fillLabelOn:color('#FFFFFF'),fillLabelOnHover:color('#FFFFFF'),fillLabelOnActive:color('#FFFFFF'),
+    fillBgOn:color('rgba(254, 95, 85,1)'),
+    fillBgOnHover:color('rgba(254, 95, 85,.5)'),
+    fillBgOnActive:color('rgba(254, 95, 85,.3)')});
+  Mute4 = createToggle("M", 29.5*w/60, 51*h/60, w/60, w/60);
+  Mute4.setStyle({
+    textSize:w/60,
+    rounding: 5,
+    fillLabelOn:color('#FFFFFF'),fillLabelOnHover:color('#FFFFFF'),fillLabelOnActive:color('#FFFFFF'),
+    fillBgOn:color('rgba(254, 95, 85,1)'),
+    fillBgOnHover:color('rgba(254, 95, 85,.5)'),
+    fillBgOnActive:color('rgba(254, 95, 85,.3)')});
 
 
   // ---- Solo Selectors
-  Solo1 = createCheckbox("Checkbox", 22*w/60, 54*h/60, w/60, w/60);
-  Solo1.setStyle({rounding: 5});
-  Solo2 = createCheckbox("Checkbox", 24.5*w/60, 54*h/60, w/60, w/60);
-  Solo2.setStyle({rounding: 5});
-  Solo3 = createCheckbox("Checkbox", 27*w/60, 54*h/60, w/60, w/60);
-  Solo3.setStyle({rounding: 5});
-  Solo4 = createCheckbox("Checkbox", 29.5*w/60, 54*h/60, w/60, w/60);
-  Solo4.setStyle({rounding: 5});
+  Solo1 = createToggle("S", 22*w/60, 54*h/60, w/60, w/60);
+  Solo1.setStyle({
+    textSize:w/60,
+    rounding: 5,
+    fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
+    fillBgOn:color('rgba(170, 250, 200,1)'),
+    fillBgOnHover:color('rgba(170, 250, 200,.5)'),
+    fillBgOnActive:color('rgba(170, 250, 200,.3)')});
+  Solo2 = createToggle("S", 24.5*w/60, 54*h/60, w/60, w/60);
+  Solo2.setStyle({
+    textSize:w/60,
+    rounding: 5,
+    fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
+    fillBgOn:color('rgba(170, 250, 200,1)'),
+    fillBgOnHover:color('rgba(170, 250, 200,.5)'),
+    fillBgOnActive:color('rgba(170, 250, 200,.3)')});
+  Solo3 = createToggle("S", 27*w/60, 54*h/60, w/60, w/60);
+  Solo3.setStyle({
+    textSize:w/60,
+    rounding: 5,
+    fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
+    fillBgOn:color('rgba(170, 250, 200,1)'),
+    fillBgOnHover:color('rgba(170, 250, 200,.5)'),
+    fillBgOnActive:color('rgba(170, 250, 200,.3)')});
+  Solo4 = createToggle("S", 29.5*w/60, 54*h/60, w/60, w/60);
+  Solo4.setStyle({
+    textSize:w/60,
+    rounding: 5,
+    fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
+    fillBgOn:color('rgba(170, 250, 200,1)'),
+    fillBgOnHover:color('rgba(170, 250, 200,.5)'),
+    fillBgOnActive:color('rgba(170, 250, 200,.3)')});
 
   // ---- Effects Sliders
   Reverb = createSlider('Reverb', 32*w/60, 36*h/60, 6*w/60, w/60, 0, 1);
@@ -259,8 +300,6 @@ function setup() {
   Delay2.setStyle({rounding: 5, trackWidth: 0.1});
 
   tutorial_button = createButton("?",54*w/60, 5*h/60,2*w/60,2*h/60);
-
-
 
   initialization();
 }
