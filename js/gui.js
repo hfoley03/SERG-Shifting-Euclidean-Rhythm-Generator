@@ -148,8 +148,8 @@ function setup() {
   tempo_bpm_inp.size(32);
 
   rootNoteSelect = createSelect();
-  rootNoteSelect.option("C","D");rootNoteSelect.option("C#");rootNoteSelect.option("D");rootNoteSelect.option("D#");rootNoteSelect.option("E");
-  rootNoteSelect.option("F");rootNoteSelect.option("F#");rootNoteSelect.option("F#");rootNoteSelect.option("G");rootNoteSelect.option("G#");
+  rootNoteSelect.option("C");rootNoteSelect.option("C#");rootNoteSelect.option("D");rootNoteSelect.option("D#");rootNoteSelect.option("E");
+  rootNoteSelect.option("F");rootNoteSelect.option("F#");rootNoteSelect.option("G");rootNoteSelect.option("G#");
   rootNoteSelect.option("A");rootNoteSelect.option("A#");rootNoteSelect.option("B#");
   rootNoteSelect.size(40)
   rootNoteSelect.position(x_inputs,y_inputs+88);
@@ -171,9 +171,8 @@ function setup() {
   box6th.setStyle({rounding: 5});
   box7th = createCheckbox("7th", x_inputs+100,y_inputs+132 , w/80, w/80);
   box7th.setStyle({rounding: 5});
-  colorAmtSlider =  createSlider('Color Amt Slider', x_inputs, y_inputs+154,8*w/60,w/60);
+  colorAmtSlider =  createSlider('Color Amt Slider', x_inputs, y_inputs+154,8*w/60,w/60, 1, 0);
   colorAmtSlider.setStyle({rounding: 5, trackWidth: 0.1});
-
 
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
   gen_button = createButton('GENERATE', 12*w/60, 24*h/60,6*w/60,2*h/60);
@@ -410,7 +409,7 @@ function draw() {
     onsetsB = parseInt(onsetsinps[2].value());
     pulsesB = parseInt(onsetsinps[3].value());
     tempo_bpm = parseInt(tempo_bpm_inp.value());
-    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeSelect.value(),rootNoteSelect.value());
+    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeSelect.value(), rootNoteSelect.value());
     initialization();
   }
   if(play_button.isPressed){
@@ -450,8 +449,20 @@ function draw() {
   if(Delay1.isChanged){feedbackDelay1.wet.value = Delay1.val}
   if(Delay2.isChanged){feedbackDelay2.wet.value = Delay2.val}
 
+  userSelected[1] = box2nd.val
+  userSelected[2] = box3rd.val
+  userSelected[3] = box4th.val
+  userSelected[4] = box5th.val
+  userSelected[5] = box6th.val
+  userSelected[6] = box7th.val
 
-  // ------- Mixer - Control Volume BOX
+  if (colorAmtSlider.isChanged) {
+    colorAmt = colorAmtSlider.val;
+  }
+
+
+
+    // ------- Mixer - Control Volume BOX
   strokeWeight(w*0.003);
   stroke('rgba(135, 143, 155,.5)');
   fill('rgba(135, 143, 155,.5)');
