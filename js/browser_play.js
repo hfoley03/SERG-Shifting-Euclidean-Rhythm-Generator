@@ -1,4 +1,5 @@
 //Synths that will play the sound
+//comment
 let synths = []
 let main_loop_interval = 2;// duration of looping
 let main_loop = new Tone.Loop(playNotes , main_loop_interval);

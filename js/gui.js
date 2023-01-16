@@ -1,4 +1,5 @@
 // ------- P5 JS -----
+//comment
 let w;        //windowWidth
 let h = 800;  //windowHeight
 let cl_bg = '#FFFBFF';       //Background Color
