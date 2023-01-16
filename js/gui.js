@@ -62,9 +62,9 @@ let Solo1;
 let Solo2;
 let Solo3;
 let Solo4;
-let Delay;
+let Delay1;
 let Reverb;
-let MasterLPF;
+let Delay2;
 
 function windowResized() {
   resizeCanvas(windowWidth, h);
@@ -191,11 +191,11 @@ function setup() {
   // ---- Volume Sliders
   Volume1 = createSliderV('Volume1', 22*w/60, 36*h/60, w/60, 8*w/60, -45, 0);
   Volume1.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume2 = createSliderV('Volume1', 24.5*w/60, 36*h/60, w/60, 8*w/60, -45, 0);
+  Volume2 = createSliderV('Volume2', 24.5*w/60, 36*h/60, w/60, 8*w/60, -45, 0);
   Volume2.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume3 = createSliderV('Volume1', 27*w/60, 36*h/60, w/60, 8*w/60, -45, 0);
+  Volume3 = createSliderV('Volume3', 27*w/60, 36*h/60, w/60, 8*w/60, -45, 0);
   Volume3.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume4 = createSliderV('Volume1', 29.5*w/60, 36*h/60, w/60, 8*w/60, -45, 0);
+  Volume4 = createSliderV('Volume3', 29.5*w/60, 36*h/60, w/60, 8*w/60, -45, 0);
   Volume4.setStyle({rounding: 5, trackWidth: 0.1});
 
   // ---- Mute Selecotors
@@ -219,12 +219,12 @@ function setup() {
   Solo4.setStyle({rounding: 5});
 
   // ---- Effects Sliders
-  Reverb = createSlider('Volume1', 32*w/60, 36*h/60, 6*w/60, w/60, 0, 1);
+  Reverb = createSlider('Reverb', 32*w/60, 36*h/60, 6*w/60, w/60, 0, 1);
   Reverb.setStyle({rounding: 5, trackWidth: 0.1});
-  Delay = createSlider('Volume1', 32*w/60, 41.5*h/60, 6*w/60, w/60, 0, 1);
-  Delay.setStyle({rounding: 5, trackWidth: 0.1});
-  MasterLPF = createSlider('Volume1', 32*w/60, 47*h/60, 6*w/60, w/60, 0, 1);
-  MasterLPF.setStyle({rounding: 5, trackWidth: 0.1});
+  Delay1 = createSlider('Delay1', 32*w/60, 41.5*h/60, 6*w/60, w/60, 0, 1);
+  Delay1.setStyle({rounding: 5, trackWidth: 0.1});
+  Delay2 = createSlider('Delay2', 32*w/60, 47*h/60, 6*w/60, w/60, 0, 1);
+  Delay2.setStyle({rounding: 5, trackWidth: 0.1});
 
   tutorial_button = createButton("?",54*w/60, 5*h/60,2*w/60,2*h/60);
 
@@ -345,7 +345,14 @@ function draw() {
   channel3.mute = Mute3.val
   channel4.mute = Mute4.val
 
+  channel1.solo = Solo1.val
+  channel2.solo = Solo2.val
+  channel3.solo = Solo3.val
+  channel4.solo = Solo4.val
 
+  if(Reverb.isChanged){reverb.wet.value = Reverb.val}
+  if(Delay1.isChanged){feedbackDelay1.wet.value = Delay1.val}
+  if(Delay2.isChanged){feedbackDelay2.wet.value = Delay2.val}
 
   // ------- Mixer - Control Volume BOX
   if(tutorial_button.isPressed){
@@ -370,9 +377,9 @@ function draw() {
   text('3', 27.5*w/60, 34.5*h/60);
   text('4', 30*w/60, 34.5*h/60);
   textSize(w*0.015);
-  text('Reverberation', 35*w/60, 34.5*h/60);
-  text('Delay', 35*w/60, 40*h/60);
-  text('Master LPF', 35*w/60, 45.5*h/60);
+  text('Reverb', 35*w/60, 34.5*h/60);
+  text('Delay 1/4th', 35*w/60, 40*h/60);
+  text('Delay 1/8th', 35*w/60, 45.5*h/60);
 
   text('Mute', 35*w/60, 52*h/60);
   text('Solo', 35*w/60, 55*h/60);
