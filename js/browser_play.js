@@ -12,25 +12,29 @@ var bufferhihat = new Tone.Buffer("https://audio.jukehost.co.uk/Z3t7DblT22VAC0dD
 
 var playNotesCount = 0; //this helps to reset the common time for tracks
 
+// Audio Effects
+let reverbWet = 0.3;
+let delay1Wet = 0.0;
+let delay2Wet = 0.0;
 
 
 //connect effects to each other
 const reverb = new Tone.Reverb({
   decay : 3 ,
   preDelay : 0.08,
-  wet: 0.1
+  wet: reverbWet
 }).toDestination();
 
 const feedbackDelay2 = new Tone.PingPongDelay({
   delayTime : "4n",
   feedback : 0.2,
-  wet: 0.0
+  wet: delay2Wet
 }).connect(reverb);
 
 const feedbackDelay1 = new Tone.FeedbackDelay({
   delayTime : "8n" ,
   feedback : 0.2,
-  wet: 0.0
+  wet: delay1Wet
 }).connect(feedbackDelay2);
 
 let chorus = new Tone.Chorus({

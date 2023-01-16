@@ -23,6 +23,7 @@ let state = false;
 let tutorial;
 let tutorial_state = false;
 
+
 let All_Synths = ['MonoSynth', 'Kick', 'Snare' ,'Synth','Hihat'];
 
 let loc_dict = {};
@@ -203,6 +204,8 @@ function setup() {
   Mute3.setStyle({rounding: 5});
   Mute4 = createCheckbox("Checkbox", 29.5*w/60, 51*h/60, w/60, w/60);
   Mute4.setStyle({rounding: 5});
+
+
 
   // ---- Solo Selectors
   Solo1 = createCheckbox("Checkbox", 22*w/60, 54*h/60, w/60, w/60);
@@ -745,10 +748,19 @@ function generateFlag(){
 
 function toggleTutorial() {
   if (!tutorial_state) {
+    //background(1)
+    tutorial.background(255, 255, 255, 100);
+    tutorial.fill(0,0,0,150);
+    tutorial.textSize(10);
+    tutorial.textAlign(CENTER,CENTER);
+    tutorial.text("This is a play button hihi", w/2, h/2);
     tutorial_state=true;
     tutorial.clear();
   }
   else{
+    //background(100)
+
+    tutorial.clear();
     tutorial_state=false;
     tutorial.text("This is a play button hihi", w/2, h/2);
   }
