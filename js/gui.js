@@ -64,6 +64,8 @@ let Delay1;
 let Delay2;
 let alpha1 = 0.5, alpha2 = 0.5, alpha3 = 0.5, alpha4 = 0.5;
 
+let draw_flag = false;
+
 function windowResized() {
   resizeCanvas(windowWidth, h);
 }
@@ -238,6 +240,16 @@ function draw() {
   image(tutorial, 0, 0);
 
   w = width;
+  //console.log('first', first_time_inst_play)
+  //console.log(Tone.context.currentTime)
+
+  if(draw_flag == false && first_time_inst_play - 0.4 < Tone.context.currentTime ){
+
+    startTimer();
+    console.log('the conditions met')
+    draw_flag = true;
+
+  }
 
   fill('#0D3E1D');
   textSize(w*0.04);
@@ -311,7 +323,7 @@ function draw() {
     clear();
     stop_aud();
     phaseShiftAmount = parseInt(phase_shift_amount_inp.value());         // How many pulses is each shift
-    phaseShiftPeriod = parseInt(phase_shift_amount_inp.value());         // After how many bars does a shift occur
+    phaseShiftPeriod = parseInt(phase_shift_period_inp.value());         // After how many bars does a shift occur
     length = parseInt(length_inp.value());                               // Length of total piece
     onsetsA = parseInt(onsetsinps[0].value());
     pulsesA = parseInt(onsetsinps[1].value());
@@ -702,6 +714,8 @@ function startTimer(){
     interval_visualB_shift = setInterval(VisualShiftTimingB,bar_durationB*1000);
 }
 function stopTimer(){
+    draw_flag = false;
+    first_time_inst_play = 9999999999
     clearInterval(interval_visualA_fixed);
     clearInterval(interval_visualB_fixed);
     clearInterval(interval_visualA_shift);
@@ -732,7 +746,7 @@ function start_aud_gui() {
     //console.log('Call start_aud');
     //Tone.Transport.toggle();
     start_aud();
-    startTimer();
+    //startTimer();
   }
 }
 

@@ -18,6 +18,8 @@ let reverbWet = 0.3;
 let delay1Wet = 0.0;
 let delay2Wet = 0.0;
 
+let first_time_inst_play = 9999999999;
+
 
 //connect effects to each other
 const reverb = new Tone.Reverb({
@@ -67,6 +69,7 @@ function playNotes() {
 
   if (playNotesCount==0){
     time_common_track  = Tone.context.currentTime + 2;
+    first_time_inst_play = time_common_track;
     playNotesCount += 1;
   }
   else {
@@ -112,13 +115,13 @@ function playNotes() {
     }
 
     //create a synth for each track
-    console.log(synth)
+    //console.log(synth)
     synths.push(synth)
 
     if (synth_type == "MonoSynth"){
       track.notes.forEach(note => {
         time_inst_to_play = time_common_track + note.time + 0.0001 // when the play event of the note will be scheduled
-        time_instants_to_play.push(time_inst_to_play);
+        //time_instants_to_play.push(time_inst_to_play);
         synth.triggerAttackRelease(note.name, note.duration, time_inst_to_play, note.velocity) //play the sample at specific time and params
 
       })
@@ -126,7 +129,7 @@ function playNotes() {
       Tone.loaded().then(() => {
         track.notes.forEach(note => {
           time_inst_to_play = time_common_track + note.time + 0.0001 // when the play event of the note will be scheduled
-          time_instants_to_play.push(time_inst_to_play);
+          //time_instants_to_play.push(time_inst_to_play);
           synth.start( time_inst_to_play, 0, note.duration, note.velocity) //play the sample at specific time and params
         })
       });
