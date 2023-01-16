@@ -106,9 +106,11 @@ function setup() {
   for(let i = 1; i<=4; i++){
     let tmp_onsets_str = onsets_pulses_str[i-1];
     let tmp_onsets = window[tmp_onsets_str];
+
     if (i==1 || i==3){
       tmp_onsets = createInput(onsets_pulses[i-1]);
       tmp_onsets.size(32);
+
     }
     else{
       tmp_onsets = createSelect();
@@ -150,8 +152,8 @@ function setup() {
   tempo_bpm_inp.size(32);
 
   rootNoteSelect = createSelect();
-  rootNoteSelect.option("C","D");rootNoteSelect.option("C#");rootNoteSelect.option("D");rootNoteSelect.option("D#");rootNoteSelect.option("E");
-  rootNoteSelect.option("F");rootNoteSelect.option("F#");rootNoteSelect.option("F#");rootNoteSelect.option("G");rootNoteSelect.option("G#");
+  rootNoteSelect.option("C");rootNoteSelect.option("C#");rootNoteSelect.option("D");rootNoteSelect.option("D#");rootNoteSelect.option("E");
+  rootNoteSelect.option("F");rootNoteSelect.option("F#");rootNoteSelect.option("G");rootNoteSelect.option("G#");
   rootNoteSelect.option("A");rootNoteSelect.option("A#");rootNoteSelect.option("B#");
   rootNoteSelect.size(40)
   rootNoteSelect.position(x_inputs2,y_inputs2);
@@ -173,9 +175,8 @@ function setup() {
   box6th.setStyle({rounding: 5});
   box7th = createCheckbox("7th", x_inputs2+100,y_inputs2+40, w/80, w/80);
   box7th.setStyle({rounding: 5});
-  colorAmtSlider =  createSlider('Color Amt Slider', x_inputs2, y_inputs2+60, 8*w/60, w/60);
+  colorAmtSlider =  createSlider('Color Amt Slider', x_inputs, y_inputs+154,8*w/60,w/60, 1, 0);
   colorAmtSlider.setStyle({rounding: 5, trackWidth: 0.1});
-
 
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
   gen_button = createButton('GENERATE', 12*w/60, 24*h/60,6*w/60,2*h/60);
@@ -229,6 +230,7 @@ function setup() {
     fillBgOn:color('rgba(254, 95, 85,1)'),
     fillBgOnHover:color('rgba(254, 95, 85,.5)'),
     fillBgOnActive:color('rgba(254, 95, 85,.3)')});
+
   Mute2 = createToggle("M", 24.5*w/60, 51*h/60, w/60, w/60);
   Mute2.setStyle({
     textSize:w/60,
@@ -310,7 +312,10 @@ function draw() {
 
   w = width;
 
+
   //reposition();
+
+
 
   //console.log('first', first_time_inst_play)
   //console.log(Tone.context.currentTime)
@@ -422,7 +427,7 @@ function draw() {
     onsetsB = parseInt(onsetsinps[2].value());
     pulsesB = parseInt(onsetsinps[3].value());
     tempo_bpm = parseInt(tempo_bpm_inp.value());
-    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeSelect.value(),rootNoteSelect.value());
+    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeSelect.value(), rootNoteSelect.value());
     initialization();
   }
   if(play_button.isPressed){
@@ -462,8 +467,20 @@ function draw() {
   if(Delay1.isChanged){feedbackDelay1.wet.value = Delay1.val}
   if(Delay2.isChanged){feedbackDelay2.wet.value = Delay2.val}
 
+  userSelected[1] = box2nd.val
+  userSelected[2] = box3rd.val
+  userSelected[3] = box4th.val
+  userSelected[4] = box5th.val
+  userSelected[5] = box6th.val
+  userSelected[6] = box7th.val
 
-  // ------- Mixer - Control Volume BOX
+  if (colorAmtSlider.isChanged) {
+    colorAmt = colorAmtSlider.val;
+  }
+
+
+
+    // ------- Mixer - Control Volume BOX
   strokeWeight(w*0.003);
   stroke('rgba(135, 143, 155,.5)');
   fill('rgba(135, 143, 155,.5)');
@@ -906,5 +923,92 @@ function reposition(){
   tempo_bpm_inp.position(x_inputs,y_inputs+66);
   scaleTypeSelect.position(x_inputs,y_inputs+88);
   rootNoteSelect.position(x_inputs,y_inputs+110);
+
+  gen_button.x = 12*w/60
+  gen_button.y = 24*h/60
+
+
+  play_button.x = 27*w/60
+  play_button.y = 24*h/60
+
+
+  stop_button.x = 42*w/60
+  stop_button.y = 24*h/60
+
+
+  tutorial_button.x = 54*w/60
+  tutorial_button.y = 5*h/60
+
+  Volume1.x = 22*w/60
+  Volume1.y = 36*h/60
+
+  Volume2.x = 24.5*w/60
+  Volume2.y = 36*h/60
+
+  Volume3.x = 27*w/60
+  Volume3.y = 36*h/60
+
+  Volume4.x = 29.5*w/60
+  Volume4.y = 36*h/60
+
+  Mute1.x = 22*w/60
+  Mute1.y = 51*h/60
+
+  Mute2.x = 24.5*w/60
+  Mute2.y = 51*h/60
+
+  Mute3.x = 27*w/60
+  Mute3.y = 51*h/60
+
+  Mute4.x = 29.5*w/60
+  Mute4.y = 51*h/60
+
+
+
+  Solo1.x = 22*w/60
+  Solo1.y = 54*h/60
+
+  Solo2.x = 24.5*w/60
+  Solo2.y = 54*h/60
+
+  Solo3.x = 27*w/60
+  Solo3.y = 54*h/60
+
+  Solo4.x = 29.5*w/60
+  Solo4.y = 54*h/60
+
+
+  Reverb.x = 32*w/60
+  Reverb.y = 36*h/60
+
+
+  Delay1.x = 32*w/60
+  Delay1.y = 41.5*h/60
+
+  Delay2.x = 32*w/60
+  Delay2.y = 41.5*h/60
+
+
+  box2nd.x = x_inputs
+  box2nd.y = y_inputs+132
+
+  box3rd.x = x_inputs + 20
+  box3rd.y = y_inputs+132
+
+  box4th.x = x_inputs + 40
+  box4th.y = y_inputs+132
+
+  box5th.x = x_inputs + 60
+  box5th.y = y_inputs+132
+
+  box6th.x = x_inputs + 80
+  box6th.y = y_inputs+132
+
+  box7th.x = x_inputs + 100
+  box7th.y = y_inputs+132
+
+
+  colorAmtSlider.x = x_inputs+100
+  colorAmtSlider.y = y_inputs+154
 
 }

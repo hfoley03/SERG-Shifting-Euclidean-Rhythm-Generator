@@ -34,9 +34,8 @@ let midiObject;
 let finalMidiObject;
 
 let velAmount = 0.4 // Pushed from GUI Slider range [0.05 - 0.45]
-let rootNote = "G"; // Pushed from GUI drop down menu of all notes
-let userSelected = [3,5,7] // Pushed from GUI, series of tick boxes
-
+let userSelected = [true,false,false,false,false,false,false]// Pushed from GUI, series of tick boxes
+let colorAmt = 0.5
 let keys = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ]
 let major = [2,2,1,2,2,2,1];
 let minor = [2,1,2,2,1,2,2];
@@ -46,14 +45,15 @@ let scaleType = {"Major": major, "Minor": minor, "Melodic Minor": melodicMinor}
 
 generateMidi(onsetsA = 4, pulsesA = 8, onsetsB = 3, pulsesB = 8, tempo_bpm = 100, "Major" , "C");
 
-function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeName, rootNote){
+function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeName, rootNote_){
   // Variables that could change by user
   console.log("Generate Midi")
   mode = 1;                               // Play mode (not used)
-  let scaleCalculated = calcScale(rootNote, scaleType[scaleTypeName])
-  console.log(scaleCalculated)
+  let scaleCalculated = calcScale(rootNote_, scaleType[scaleTypeName])
+  console.log("calc scale: " + scaleCalculated)
+  console.log("root: " + rootNote_)
   scale_ = userSelectedNotes(userSelected, scaleCalculated)
-  console.log(scale_)
+  console.log("user's scale: " + scale_)
   midiInProgress = new Midi();
   midiInProgress.name = "My Bloody Nightmare"
   track1 = midiInProgress.addTrack()      // track/player 1, no shifting, base rhythm
@@ -201,11 +201,11 @@ function phaseAndCompose(midiInProgress,phaseShiftAmount, phaseShiftPeriod,lengt
 }
 
 function pitch(){
-  if (Math.random() > 0.5){
+  if (Math.random() > colorAmt){
     return get_random(scale_)
   }
   else {
-    return rootNote  }
+    return scale_[0]  }
 }
 
 function get_random (list) {
@@ -255,7 +255,9 @@ function calcScale(key,intervals){
 function userSelectedNotes(userSelected, scaleCalculated){
   let flavourNotes = []
   for (let i=0; i < userSelected.length; i++) {
-    flavourNotes[i] = scaleCalculated[userSelected[i]-1]
+    if(userSelected[i]==true) {
+      flavourNotes.push(scaleCalculated[i])
+    }
   }
   return flavourNotes;
 }
