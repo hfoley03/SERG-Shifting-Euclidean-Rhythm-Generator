@@ -1,5 +1,4 @@
 // ------- P5 JS -----
-//dummy
 let w;        //windowWidth
 let h = 900;  //windowHeight
 let cl_bg = '#FFFBFF';       //Background Color
@@ -164,24 +163,7 @@ function setup() {
   scaleTypeSelect.size(60)
   scaleTypeSelect.position(x_inputs2,y_inputs2+20);
 
-  /*
-  *   box2nd = createCheckbox("2nd", x_inputs2,y_inputs2+40 , w/80, w/80);
-  box2nd.setStyle({rounding: 5});
-  box3rd = createCheckbox("3rd", x_inputs2+20, y_inputs2+40, w/80, w/80);
-  box3rd.setStyle({rounding: 5});
-  box4th = createCheckbox("4th", x_inputs2+40,y_inputs2+40, w/80, w/80);
-  box4th.setStyle({rounding: 5});
-  box5th = createCheckbox("5th", x_inputs2+60,y_inputs2+40, w/80, w/80);
-  box5th.setStyle({rounding: 5});
-  box6th = createCheckbox("6th", x_inputs2+80,y_inputs2+40, w/80, w/80);
-  box6th.setStyle({rounding: 5});
-  box7th = createCheckbox("7th", x_inputs2+100,y_inputs2+40, w/80, w/80);
-  box7th.setStyle({rounding: 5});
-  * */
-
-  //box2nd = createCheckbox("2nd", x_inputs,, w/80, w/80);
-  //box2nd.setStyle({rounding: 5});
-  box2nd = createToggle("2", x_inputs, y_inputs+132 , w/60, w/60);
+  box2nd = createToggle("2", x_inputs2,y_inputs2+40 , w/60, w/60);
   box2nd.setStyle({
     textSize:w/60,
     rounding: 5,
@@ -189,7 +171,7 @@ function setup() {
     fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
-  box3rd = createToggle("3", x_inputs + 20, y_inputs+132 , w/60, w/60);
+  box3rd = createToggle("3", x_inputs2+20, y_inputs2+40 , w/60, w/60);
   box3rd.setStyle({
     textSize:w/60,
     rounding: 5,
@@ -197,7 +179,7 @@ function setup() {
     fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
-  box4th = createToggle("4", x_inputs + 30, y_inputs+132 , w/60, w/60);
+  box4th = createToggle("4", x_inputs2+40, y_inputs2+40 , w/60, w/60);
   box4th.setStyle({
     textSize:w/60,
     rounding: 5,
@@ -205,7 +187,7 @@ function setup() {
     fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
-  box5th = createToggle("5", x_inputs + 40, y_inputs+132 , w/60, w/60);
+  box5th = createToggle("5", x_inputs2+60, y_inputs2+40 , w/60, w/60);
   box5th.setStyle({
     textSize:w/60,
     rounding: 5,
@@ -213,7 +195,7 @@ function setup() {
     fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
-  box6th = createToggle("6", x_inputs + 50, y_inputs+132 , w/60, w/60);
+  box6th = createToggle("6", x_inputs2+80, y_inputs2+40 , w/60, w/60);
   box6th.setStyle({
     textSize:w/60,
     rounding: 5,
@@ -221,7 +203,7 @@ function setup() {
     fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
-  box7th = createToggle("7", x_inputs + 60, y_inputs+132 , w/60, w/60);
+  box7th = createToggle("7",x_inputs2+100, y_inputs2+40 , w/60, w/60);
   box7th.setStyle({
     textSize:w/60,
     rounding: 5,
