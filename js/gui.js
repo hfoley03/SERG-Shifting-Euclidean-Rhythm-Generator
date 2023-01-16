@@ -515,6 +515,10 @@ function draw() {
     colorAmt = colorAmtSlider.val;
   }
 
+  if (velAmtSlider.isChanged) {
+    velAmount = velAmtSlider.val;
+    console.log(velAmount)
+  }
 
 
     // ------- Mixer - Control Volume BOX
