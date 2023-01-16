@@ -83,7 +83,7 @@ function setup() {
     let tmp_synth_str = "tr" + i + "_synth";
     let tmp_synth = window[tmp_synth_str];
     tmp_synth = createSelect();
-    tmp_synth.position(synth_x,synth_y+20*(i-1)+1);
+    if(i==1 || i == 2) tmp_synth.position(synth_x,synth_y+20*(i-1)+1);
     if(i==3 || i==4){
       tmp_synth.position(synth_x+15*w/60,synth_y+20*(i-3)+1);
     }
@@ -158,6 +158,21 @@ function setup() {
   scaleTypeSelect.option("Major");scaleTypeSelect.option("Minor");scaleTypeSelect.option("Melodic Minor");
   scaleTypeSelect.size(60)
   scaleTypeSelect.position(x_inputs,y_inputs+108);
+
+  box2nd = createCheckbox("2nd", x_inputs,y_inputs+132 , w/80, w/80);
+  box2nd.setStyle({rounding: 5});
+  box3rd = createCheckbox("3rd", x_inputs+20,y_inputs+132 , w/80, w/80);
+  box3rd.setStyle({rounding: 5});
+  box4th = createCheckbox("4th", x_inputs+40,y_inputs+132 , w/80, w/80);
+  box4th.setStyle({rounding: 5});
+  box5th = createCheckbox("5th", x_inputs+60,y_inputs+132 , w/80, w/80);
+  box5th.setStyle({rounding: 5});
+  box6th = createCheckbox("6th", x_inputs+80,y_inputs+132 , w/80, w/80);
+  box6th.setStyle({rounding: 5});
+  box7th = createCheckbox("7th", x_inputs+100,y_inputs+132 , w/80, w/80);
+  box7th.setStyle({rounding: 5});
+  colorAmtSlider =  createSlider('Color Amt Slider', x_inputs, y_inputs+154,8*w/60,w/60);
+  colorAmtSlider.setStyle({rounding: 5, trackWidth: 0.1});
 
 
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
@@ -293,7 +308,14 @@ function draw() {
 
   image(tutorial, 0, 0);
 
+
   w = width;
+
+
+  reposition();
+
+
+
   //console.log('first', first_time_inst_play)
   //console.log(Tone.context.currentTime)
 
@@ -372,7 +394,9 @@ function draw() {
   text('Piece length', xx3, yy+40);
   text('Tempo (BPM)', xx3, yy+60);
   text('Scale Type', xx3, yy+80)
-  text('Root Note', xx3, yy+100)
+  text('Root Note', xx3, yy+110)
+  text('Color Notes', xx3, yy+132)
+  text('Color Amount', xx3, yy+154)
 
   // ----- Buttons
   if (gen_button.isPressed){
@@ -386,7 +410,7 @@ function draw() {
     onsetsB = parseInt(onsetsinps[2].value());
     pulsesB = parseInt(onsetsinps[3].value());
     tempo_bpm = parseInt(tempo_bpm_inp.value());
-    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeSelect.value());
+    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeSelect.value(),rootNoteSelect.value());
     initialization();
   }
   if(play_button.isPressed){
@@ -827,4 +851,48 @@ function toggleTutorial() {
     tutorial.clear();
     tutorial_state=false;
   }
+}
+
+
+
+function reposition(){
+
+  // Positioning when resizes
+
+  synth_x = 15 * w / 60 + 10;
+  synth_y = 16 * h / 60 + 1;
+
+
+  for (i = 1; i <= 4; i++) {
+    tmp_synth = synthinps[i-1]
+    if(i==1 || i ==2) tmp_synth.position(synth_x, synth_y + 20 * (i - 1) + 1);
+    if (i == 3 || i == 4) {
+      tmp_synth.position(synth_x + 15 * w / 60, synth_y + 20 * (i - 3) + 1);
+    }
+  }
+
+
+  let x_onsets = 15*w/60+10;
+  let y_onsets = 13*h/60;
+  for(let i = 1; i<=4; i++){
+    let tmp_onsets = onsetsinps[i-1]
+
+    if(i == 1 || i == 2) {
+      tmp_onsets.position(x_onsets, y_onsets + 22 * (i - 1));
+    }
+    else{
+      tmp_onsets.position(x_onsets+15*w/60, y_onsets + 22 * (i - 3));
+    }
+  }
+
+  let x_inputs = 49*w/60;
+  let y_inputs = 13*h/60-2;
+  phase_shift_amount_inp.position(x_inputs,y_inputs);
+
+  phase_shift_period_inp.position(x_inputs,y_inputs+22);
+  length_inp.position(x_inputs,y_inputs+44);
+  tempo_bpm_inp.position(x_inputs,y_inputs+66);
+  scaleTypeSelect.position(x_inputs,y_inputs+88);
+  rootNoteSelect.position(x_inputs,y_inputs+110);
+
 }
