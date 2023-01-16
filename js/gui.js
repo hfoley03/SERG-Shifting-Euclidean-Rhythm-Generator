@@ -358,10 +358,6 @@ function draw() {
   if(Delay1.isChanged){feedbackDelay1.wet.value = Delay1.val}
   if(Delay2.isChanged){feedbackDelay2.wet.value = Delay2.val}
 
-  // ------- Tutorial
-  if(tutorial_button.isPressed){
-    toggleTutorial();
-  }
 
   // ------- Mixer - Control Volume BOX
   strokeWeight(w*0.003);
@@ -755,14 +751,13 @@ function toggleTutorial() {
     tutorial.textSize(10);
     tutorial.textAlign(CENTER,CENTER);
     tutorial.text("This is a play button hihi", w/2, h/2);
-    tutorial_state=true;
-    tutorial.clear();
+    tutorial_state = true;
+    console.log('a')
   }
   else{
     //background(100)
 
     tutorial.clear();
     tutorial_state=false;
-    tutorial.text("This is a play button hihi", w/2, h/2);
   }
 }
