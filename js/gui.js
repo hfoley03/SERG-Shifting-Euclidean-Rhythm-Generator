@@ -106,9 +106,11 @@ function setup() {
   for(let i = 1; i<=4; i++){
     let tmp_onsets_str = onsets_pulses_str[i-1];
     let tmp_onsets = window[tmp_onsets_str];
+
     if (i==1 || i==3){
       tmp_onsets = createInput(onsets_pulses[i-1]);
       tmp_onsets.size(32);
+
     }
     else{
       tmp_onsets = createSelect();
@@ -850,6 +852,7 @@ function generateFlag(){
 
 function toggleTutorial() {
   if (!tutorial_state) {
+    //background(1)
     tutorial.background(255, 255, 255, 100);
     tutorial.fill(0,0,0,150);
     tutorial.textSize(10);
@@ -859,6 +862,8 @@ function toggleTutorial() {
     console.log('a')
   }
   else{
+    //background(100)
+
     tutorial.clear();
     tutorial_state=false;
   }
@@ -905,5 +910,92 @@ function reposition(){
   tempo_bpm_inp.position(x_inputs,y_inputs+66);
   scaleTypeSelect.position(x_inputs,y_inputs+88);
   rootNoteSelect.position(x_inputs,y_inputs+110);
+
+  gen_button.x = 12*w/60
+  gen_button.y = 24*h/60
+
+
+  play_button.x = 27*w/60
+  play_button.y = 24*h/60
+
+
+  stop_button.x = 42*w/60
+  stop_button.y = 24*h/60
+
+
+  tutorial_button.x = 54*w/60
+  tutorial_button.y = 5*h/60
+
+  Volume1.x = 22*w/60
+  Volume1.y = 36*h/60
+
+  Volume2.x = 24.5*w/60
+  Volume2.y = 36*h/60
+
+  Volume3.x = 27*w/60
+  Volume3.y = 36*h/60
+
+  Volume4.x = 29.5*w/60
+  Volume4.y = 36*h/60
+
+  Mute1.x = 22*w/60
+  Mute1.y = 51*h/60
+
+  Mute2.x = 24.5*w/60
+  Mute2.y = 51*h/60
+
+  Mute3.x = 27*w/60
+  Mute3.y = 51*h/60
+
+  Mute4.x = 29.5*w/60
+  Mute4.y = 51*h/60
+
+
+
+  Solo1.x = 22*w/60
+  Solo1.y = 54*h/60
+
+  Solo2.x = 24.5*w/60
+  Solo2.y = 54*h/60
+
+  Solo3.x = 27*w/60
+  Solo3.y = 54*h/60
+
+  Solo4.x = 29.5*w/60
+  Solo4.y = 54*h/60
+
+
+  Reverb.x = 32*w/60
+  Reverb.y = 36*h/60
+
+
+  Delay1.x = 32*w/60
+  Delay1.y = 41.5*h/60
+
+  Delay2.x = 32*w/60
+  Delay2.y = 41.5*h/60
+
+
+  box2nd.x = x_inputs
+  box2nd.y = y_inputs+132
+
+  box3rd.x = x_inputs + 20
+  box3rd.y = y_inputs+132
+
+  box4th.x = x_inputs + 40
+  box4th.y = y_inputs+132
+
+  box5th.x = x_inputs + 60
+  box5th.y = y_inputs+132
+
+  box6th.x = x_inputs + 80
+  box6th.y = y_inputs+132
+
+  box7th.x = x_inputs + 100
+  box7th.y = y_inputs+132
+
+
+  colorAmtSlider.x = x_inputs+100
+  colorAmtSlider.y = y_inputs+154
 
 }
