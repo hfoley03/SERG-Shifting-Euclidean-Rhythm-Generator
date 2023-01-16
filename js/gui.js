@@ -345,13 +345,6 @@ function draw() {
   channel3.mute = Mute3.val
   channel4.mute = Mute4.val
 
-
-
-  // ------- Mixer - Control Volume BOX
-  if(tutorial_button.isPressed){
-    toggleTutorial();
-  }
-
   // ------- Mixer - Control Volume BOX
   strokeWeight(w*0.003);
   stroke('rgba(135, 143, 155,.5)');
@@ -390,15 +383,20 @@ function draw() {
   let cl5 = 'rgba(191, 192, 192,0.2)'; // color pulses Track 2
 
   // top-left
-  FixedCircle(10*w/60, 45*h/60, binaryRhythmA, pulsesA, cl1, cl2);      // Track 1 Fixed Circle
-  VisualShift(1, cl3, cl4);                                         // Visual Track 2 Shifting circle
-  VisualFix(0, pulsesA, cl5);                                        // Visual Actual pulse playing Track 1-2
+  FixedCircle(0, cl1, cl2);      // Track 1 Fixed Circle
+  VisualShift(1, cl3, cl4);      // Visual Track 2 Shifting circle
+  VisualFix(0, pulsesA, cl5);    // Visual Actual pulse playing Track 1-2
 
   // Top-right
-  FixedCircle(50*w/60, 45*h/60, binaryRhythmB, pulsesB, cl1, cl2);      // Track 3  Fixed Circle
-  VisualShift(3, cl3, cl4);                                         // Visual Track 4 Shifting circle
-  VisualFix(2, pulsesB, cl5);                                        // Visual Actual pulse playing Track 3-4
+  FixedCircle(2, cl1, cl2);      // Track 3  Fixed Circle
+  VisualShift(3, cl3, cl4);      // Visual Track 4 Shifting circle
+  VisualFix(2, pulsesB, cl5);    // Visual Actual pulse playing Track 3-4
 
+
+  // ------- Tutorial section
+  if(tutorial_button.isPressed){
+    toggleTutorial();
+  }
 }
 // ----- Functions for the visuals for the fixed circles  -----
 
@@ -415,24 +413,49 @@ function initialization(){
   first_cycleA = 0;
   first_cycleB = 0;
 }
-function FixedCircle(x, y, onset, pulses, color1, color2) {
-
+function FixedCircle(track, color1, color2) {
+  let pulses;
+  let onset;
+  let x_c;
+  let y_c;
   let r2 = 12*w/60;
-  strokeWeight(w*0.002);
 
+  if (track == 0){
+    onset= binaryRhythmA;
+    pulses = pulsesA;
+    x_c = 10*w/60;
+    y_c = 45*h/60;
+    noStroke();
+    fill(color_txt);
+    for (let i = 0; i < pulses; i++) {
+      text(i+1,(x_c*0.7)*cos(-90+(360/pulses)*(i+1/2))+x_c, (y_c/4)*sin(-90+(360/pulses)*(i+1/2))+y_c);
+    }
+  }else if (track == 2){
+    onset= binaryRhythmB;
+    pulses = pulsesB;
+    x_c = 50*w/60;
+    y_c = 45*h/60;
+    noStroke();
+    fill(color_txt);
+    for (let i = 0; i < pulses; i++) {
+      text(i+1,(x_c*0.13)*cos(-90+(360/pulses)*(i+1/2))+x_c, (y_c/4)*sin(-90+(360/pulses)*(i+1/2))+y_c);
+    }
+  }
+
+  strokeWeight(w*0.002);
   for (let i = 0; i < pulses; i++) {
     if (onset[i] == 1) {
       stroke(cl_bg);
       fill(color1);
-      arc(x, y, r2, r2, -90+360/pulses*i, -90+360/pulses*(i+1), PIE);
+      arc(x_c, y_c, r2, r2, -90+360/pulses*i, -90+360/pulses*(i+1), PIE);
       fill(cl_bg);
-      arc(x, y, r2 - 1.5*w/60, r2 - 1.5*w/60, 0, 360, PIE);
+      arc(x_c, y_c, r2 - 1.5*w/60, r2 - 1.5*w/60, 0, 360, PIE);
     } else {
       stroke(cl_bg);
       fill(color2);
-      arc(x, y, r2, r2, -90+360/pulses*i, -90+360/pulses*(i+1), PIE);
+      arc(x_c, y_c, r2, r2, -90+360/pulses*i, -90+360/pulses*(i+1), PIE);
       fill(cl_bg);
-      arc(x, y, r2-1.5*w/60, r2-1.5*w/60, 0, 360, PIE);
+      arc(x_c, y_c, r2-1.5*w/60, r2-1.5*w/60, 0, 360, PIE);
     }
   }
 }
