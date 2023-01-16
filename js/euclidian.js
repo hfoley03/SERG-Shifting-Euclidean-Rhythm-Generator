@@ -44,9 +44,9 @@ let melodicMinor = [2,1,2,2,2,2,1];
 
 let scaleType = {"Major": major, "Minor": minor, "Melodic Minor": melodicMinor}
 
-generateMidi(onsetsA = 4, pulsesA = 8, onsetsB = 3, pulsesB = 8, tempo_bpm = 100, "Major" );
+generateMidi(onsetsA = 4, pulsesA = 8, onsetsB = 3, pulsesB = 8, tempo_bpm = 100, "Major" , "C");
 
-function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeName){
+function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeName, rootNote){
   // Variables that could change by user
   console.log("Generate Midi")
   mode = 1;                               // Play mode (not used)
