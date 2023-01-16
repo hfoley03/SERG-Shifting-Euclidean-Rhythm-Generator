@@ -215,6 +215,9 @@ function setup() {
   colorAmtSlider =  createSlider('Color Amt Slider', x_inputs, y_inputs+154,8*w/60,w/60, 1, 0);
   colorAmtSlider.setStyle({rounding: 5, trackWidth: 0.1});
 
+  velAmtSlider =  createSlider('Velocity Amount Slider', x_inputs, y_inputs+200,8*w/60,w/60,);
+  velAmtSlider.setStyle({rounding: 5, trackWidth: 0.1});
+
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
   gen_button = createButton('GENERATE', 12*w/60, 24*h/60,6*w/60,2*h/60);
   gen_button.setStyle({
