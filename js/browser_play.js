@@ -1,4 +1,5 @@
 //Synths that will play the sound
+//comment
 let synths = []
 let main_loop_interval = 2;// duration of looping
 let main_loop = new Tone.Loop(playNotes , main_loop_interval);
@@ -16,6 +17,8 @@ var playNotesCount = 0; //this helps to reset the common time for tracks
 let reverbWet = 0.3;
 let delay1Wet = 0.0;
 let delay2Wet = 0.0;
+
+let first_time_inst_play = 9999999999;
 
 
 //connect effects to each other
@@ -44,10 +47,10 @@ let chorus = new Tone.Chorus({
   spread : 90}).connect(feedbackDelay1);
 
 let limiter = new Tone.Limiter(-2).connect(chorus);
-let channel1 = new Tone.Channel(-6, 0.5).connect(limiter);
-let channel2 = new Tone.Channel(-6, -0.5).connect(limiter);
-let channel3 = new Tone.Channel(-6, 0.75).connect(limiter);
-let channel4 = new Tone.Channel(-6, -0.75).connect(limiter);
+let channel1 = new Tone.Channel(-15, 0.5).connect(limiter);
+let channel2 = new Tone.Channel(-15, -0.5).connect(limiter);
+let channel3 = new Tone.Channel(-15, 0.75).connect(limiter);
+let channel4 = new Tone.Channel(-15, -0.75).connect(limiter);
 
 
 channel1.name = "Channel 1"
@@ -66,6 +69,7 @@ function playNotes() {
 
   if (playNotesCount==0){
     time_common_track  = Tone.context.currentTime + 2;
+    first_time_inst_play = time_common_track;
     playNotesCount += 1;
   }
   else {
@@ -111,13 +115,13 @@ function playNotes() {
     }
 
     //create a synth for each track
-    console.log(synth)
+    //console.log(synth)
     synths.push(synth)
 
     if (synth_type == "MonoSynth"){
       track.notes.forEach(note => {
         time_inst_to_play = time_common_track + note.time + 0.0001 // when the play event of the note will be scheduled
-        time_instants_to_play.push(time_inst_to_play);
+        //time_instants_to_play.push(time_inst_to_play);
         synth.triggerAttackRelease(note.name, note.duration, time_inst_to_play, note.velocity) //play the sample at specific time and params
 
       })
@@ -125,7 +129,7 @@ function playNotes() {
       Tone.loaded().then(() => {
         track.notes.forEach(note => {
           time_inst_to_play = time_common_track + note.time + 0.0001 // when the play event of the note will be scheduled
-          time_instants_to_play.push(time_inst_to_play);
+          //time_instants_to_play.push(time_inst_to_play);
           synth.start( time_inst_to_play, 0, note.duration, note.velocity) //play the sample at specific time and params
         })
       });

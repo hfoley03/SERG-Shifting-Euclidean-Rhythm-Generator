@@ -60,7 +60,9 @@ let Solo1, Solo2, Solo3, Solo4;
 let Reverb;
 let Delay1;
 let Delay2;
-let alpha1, alpha2, alpha3, alpha4;
+let alpha1 = 0.5, alpha2 = 0.5, alpha3 = 0.5, alpha4 = 0.5;
+
+let draw_flag = false;
 
 function windowResized() {
   resizeCanvas(windowWidth, h);
@@ -145,6 +147,19 @@ function setup() {
   tempo_bpm_inp.position(x_inputs,y_inputs+66);
   tempo_bpm_inp.size(22);
 
+  scaleTypeSelect = createSelect();
+  scaleTypeSelect.option("Major");scaleTypeSelect.option("Minor");scaleTypeSelect.option("Melodic Minor");
+  scaleTypeSelect.size(40)
+  scaleTypeSelect.position(x_inputs,y_inputs+88);
+
+  rootNoteSelect = createSelect();
+  rootNoteSelect.option("C");rootNoteSelect.option("C#");rootNoteSelect.option("D");rootNoteSelect.option("D#");rootNoteSelect.option("E");
+  rootNoteSelect.option("F");rootNoteSelect.option("F#");rootNoteSelect.option("F#");rootNoteSelect.option("G");rootNoteSelect.option("G#");
+  rootNoteSelect.option("A");rootNoteSelect.option("A#");rootNoteSelect.option("B#");
+  rootNoteSelect.size(40)
+  rootNoteSelect.position(x_inputs,y_inputs+110);
+
+
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
   gen_button = createButton('GENERATE', 12*w/60, 24*h/60,6*w/60,2*h/60);
   gen_button.setStyle({
@@ -185,21 +200,13 @@ function setup() {
   });
 
   // ---- Volume Sliders
-  Volume1 = createSliderV('Volume1', 22*w/60, 36*h/60, w/60, 8*w/60, -45, 0);
-  Volume1.val = -23;
-  alpha1 = map(Volume1.val,-45,-23,0,1);
+  Volume1 = createSliderV('Volume1', 22*w/60, 36*h/60, w/60, 8*w/60, -30, 0);
   Volume1.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume2 = createSliderV('Volume2', 24.5*w/60, 36*h/60, w/60, 8*w/60, -45, 0);
-  Volume2.val = -23;
-  alpha2 = map(Volume2.val,-45,-23,0,1);
+  Volume2 = createSliderV('Volume2', 24.5*w/60, 36*h/60, w/60, 8*w/60, -30, 0);
   Volume2.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume3 = createSliderV('Volume3', 27*w/60, 36*h/60, w/60, 8*w/60, -45, 0);
-  Volume3.val = -23;
-  alpha3 = map(Volume3.val,-45,-23,0,1);
+  Volume3 = createSliderV('Volume3', 27*w/60, 36*h/60, w/60, 8*w/60, -30, 0);
   Volume3.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume4 = createSliderV('Volume4', 29.5*w/60, 36*h/60, w/60, 8*w/60, -45, 0);
-  Volume4.val = -23;
-  alpha4 = map(Volume4.val,-45,-23,0,1);
+  Volume4 = createSliderV('Volume4', 29.5*w/60, 36*h/60, w/60, 8*w/60, -30, 0);
   Volume4.setStyle({rounding: 5, trackWidth: 0.1});
 
   // ---- Mute Selecotors
@@ -211,6 +218,8 @@ function setup() {
   Mute3.setStyle({rounding: 5});
   Mute4 = createCheckbox("Checkbox", 29.5*w/60, 51*h/60, w/60, w/60);
   Mute4.setStyle({rounding: 5});
+
+
 
   // ---- Solo Selectors
   Solo1 = createCheckbox("Checkbox", 22*w/60, 54*h/60, w/60, w/60);
@@ -232,6 +241,8 @@ function setup() {
 
   tutorial_button = createButton("?",54*w/60, 5*h/60,2*w/60,2*h/60);
 
+
+
   initialization();
 }
 
@@ -242,6 +253,16 @@ function draw() {
   image(tutorial, 0, 0);
 
   w = width;
+  //console.log('first', first_time_inst_play)
+  //console.log(Tone.context.currentTime)
+
+  if(draw_flag == false && first_time_inst_play - 0.4 < Tone.context.currentTime ){
+
+    startTimer();
+    console.log('the conditions met')
+    draw_flag = true;
+
+  }
 
   fill('#0D3E1D');
   textSize(w*0.04);
@@ -309,20 +330,22 @@ function draw() {
   text('Phase Shift Period', xx3, yy+20);
   text('Piece length', xx3, yy+40);
   text('Tempo (BPM)', xx3, yy+60);
+  text('Scale Type', xx3, yy+80)
+  text('Root Note', xx3, yy+100)
 
   // ----- Buttons
   if (gen_button.isPressed){
     clear();
     stop_aud();
     phaseShiftAmount = parseInt(phase_shift_amount_inp.value());         // How many pulses is each shift
-    phaseShiftPeriod = parseInt(phase_shift_amount_inp.value());         // After how many bars does a shift occur
+    phaseShiftPeriod = parseInt(phase_shift_period_inp.value());         // After how many bars does a shift occur
     length = parseInt(length_inp.value());                               // Length of total piece
     onsetsA = parseInt(onsetsinps[0].value());
     pulsesA = parseInt(onsetsinps[1].value());
     onsetsB = parseInt(onsetsinps[2].value());
     pulsesB = parseInt(onsetsinps[3].value());
     tempo_bpm = parseInt(tempo_bpm_inp.value());
-    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm);
+    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeSelect.value());
     initialization();
   }
   if(play_button.isPressed){
@@ -333,19 +356,19 @@ function draw() {
   }
   if (Volume1.isChanged){
     channel1.volume.value = Math.round(Volume1.val);
-    alpha1 = map(Volume1.val,-45,0,0,1);
+    alpha1 = map(Volume1.val,-30,0,0,1);
   }
   if (Volume2.isChanged){
     channel2.volume.value = Math.round(Volume2.val);
-    alpha2 = map(Volume2.val,-45,0,0,1);
+    alpha2 = map(Volume2.val,-30,0,0,1);
   }
   if (Volume3.isChanged){
     channel3.volume.value = Math.round(Volume3.val);
-    alpha3 = map(Volume3.val,-45,0,0,1);
+    alpha3 = map(Volume3.val,-30,0,0,1);
   }
   if (Volume4.isChanged){
     channel4.volume.value = Math.round(Volume4.val);
-    alpha4 = map(Volume4.val,-45,0,0,1);
+    alpha4 = map(Volume4.val,-30,0,0,1);
   }
 
   channel1.mute = Mute1.val
@@ -362,10 +385,6 @@ function draw() {
   if(Delay1.isChanged){feedbackDelay1.wet.value = Delay1.val}
   if(Delay2.isChanged){feedbackDelay2.wet.value = Delay2.val}
 
-  // ------- Tutorial
-  if(tutorial_button.isPressed){
-    toggleTutorial();
-  }
 
   // ------- Mixer - Control Volume BOX
   strokeWeight(w*0.003);
@@ -710,6 +729,8 @@ function startTimer(){
     interval_visualB_shift = setInterval(VisualShiftTimingB,bar_durationB*1000);
 }
 function stopTimer(){
+    draw_flag = false;
+    first_time_inst_play = 9999999999
     clearInterval(interval_visualA_fixed);
     clearInterval(interval_visualB_fixed);
     clearInterval(interval_visualA_shift);
@@ -740,7 +761,7 @@ function start_aud_gui() {
     //console.log('Call start_aud');
     //Tone.Transport.toggle();
     start_aud();
-    startTimer();
+    //startTimer();
   }
 }
 
@@ -753,11 +774,19 @@ function generateFlag(){
 
 function toggleTutorial() {
   if (!tutorial_state) {
-    tutorial_state=true;
-    tutorial.clear();
+    //background(1)
+    tutorial.background(255, 255, 255, 100);
+    tutorial.fill(0,0,0,150);
+    tutorial.textSize(10);
+    tutorial.textAlign(CENTER,CENTER);
+    tutorial.text("This is a play button hihi", w/2, h/2);
+    tutorial_state = true;
+    console.log('a')
   }
   else{
+    //background(100)
+
+    tutorial.clear();
     tutorial_state=false;
-    tutorial.text("This is a play button hihi", w/2, h/2);
   }
 }
