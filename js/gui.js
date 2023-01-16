@@ -60,6 +60,8 @@ let Delay1;
 let Delay2;
 let alpha1 = 0.5, alpha2 = 0.5, alpha3 = 0.5, alpha4 = 0.5;
 
+let error_message = " ";
+
 let draw_flag = false;
 
 function windowResized() {
@@ -75,6 +77,7 @@ function setup() {
 
   tutorial = createGraphics(w, h);
   toggleTutorial();
+
 
   // ---- Selection Synth type by the user
   let synth_x = 15*w/60+10;
@@ -302,6 +305,7 @@ function setup() {
   tutorial_button = createButton("?",54*w/60, 5*h/60,2*w/60,2*h/60);
 
   initialization();
+  checkErrors()
 }
 
 function draw() {
@@ -416,20 +420,33 @@ function draw() {
   text('Color Rate', xx4, yy2+66)
 
   // ----- Buttons
+
   if (gen_button.isPressed){
     clear();
     stop_aud();
-    phaseShiftAmount = parseInt(phase_shift_amount_inp.value());         // How many pulses is each shift
-    phaseShiftPeriod = parseInt(phase_shift_period_inp.value());         // After how many bars does a shift occur
-    length = parseInt(length_inp.value());                               // Length of total piece
-    onsetsA = parseInt(onsetsinps[0].value());
-    pulsesA = parseInt(onsetsinps[1].value());
-    onsetsB = parseInt(onsetsinps[2].value());
-    pulsesB = parseInt(onsetsinps[3].value());
-    tempo_bpm = parseInt(tempo_bpm_inp.value());
-    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeSelect.value(), rootNoteSelect.value());
-    initialization();
+
+    let error_flag = checkErrors(); // if true, there are errors
+
+    if (error_flag){
+    }
+    else{
+      phaseShiftAmount = parseInt(phase_shift_amount_inp.value());         // How many pulses is each shift
+      phaseShiftPeriod = parseInt(phase_shift_period_inp.value());         // After how many bars does a shift occur
+      length = parseInt(length_inp.value());                               // Length of total piece
+      onsetsA = parseInt(onsetsinps[0].value());
+      pulsesA = parseInt(onsetsinps[1].value());
+      onsetsB = parseInt(onsetsinps[2].value());
+      pulsesB = parseInt(onsetsinps[3].value());
+      tempo_bpm = parseInt(tempo_bpm_inp.value());
+
+
+      generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeSelect.value(), rootNoteSelect.value());
+      initialization();
+    }
   }
+  text(error_message, 12*w/60, 24*w/60 + 70)
+
+
   if(play_button.isPressed){
     start_aud_gui();
   }
@@ -859,12 +876,7 @@ function start_aud_gui() {
   }
 }
 
-function generateFlag(){
-  if (phaseShiftAmount > pulsesA || phaseShiftAmount > pulsesB){
-    window.alert("The phase shift amount, can't be more than number of pulses")
-  }
-    return true;
-}
+
 
 function toggleTutorial() {
   if (!tutorial_state) {
@@ -939,6 +951,7 @@ function reposition(){
   tutorial_button.x = 54*w/60
   tutorial_button.y = 5*h/60
 
+
   Volume1.x = 22*w/60
   Volume1.y = 36*h/60
 
@@ -1010,5 +1023,107 @@ function reposition(){
 
   colorAmtSlider.x = x_inputs+100
   colorAmtSlider.y = y_inputs+154
+}
 
+
+function checkErrors(){
+  /*
+  parseInt(phase_shift_amount_inp.value()) = parseInt(phase_shift_amount_inp.value());         // How many pulses is each shift
+  parseInt(phase_shift_period_inp.value()) = parseInt(phase_shift_period_inp.value());         // After how many bars does a shift occur
+  length = parseInt(length_inp.value());                               // Length of total piece
+  onsetsA = parseInt(onsetsinps[0].value());
+  parseInt(onsetsinps[1].value()) = parseInt(onsetsinps[1].value());
+  parseInt(onsetsinps[3].value()) = parseInt(onsetsinps[2].value());
+  parseInt(onsetsinps[2].value()) = parseInt(onsetsinps[3].value());
+  parseInt(onsetsinps[3].value()) = parseInt(tempo_bpm_inp.value());
+   */
+
+  error_message = "";
+  error_flag = true // if true, errors present
+  error_color = "#FE5F55FF";
+  if (parseInt(phase_shift_amount_inp.value()) > parseInt(onsetsinps[1].value())){
+    error_message += "The phase shift amount, can't be more than number of pulses of the first track.";
+    phase_shift_amount_inp.style('background-color', error_color)
+  }
+  else{
+    phase_shift_amount_inp.style('background-color', "white")
+  }
+  if (parseInt(phase_shift_amount_inp.value()) > parseInt(onsetsinps[2].value())){
+    error_message += "The phase shift amount, can't be more than number of pulses of the second track.";
+    phase_shift_amount_inp.style('background-color', error_color)
+  }
+  else{
+    phase_shift_amount_inp.style('background-color', "white")
+  }
+  if (parseInt(phase_shift_period_inp.value()) > parseInt(length_inp.value())) {
+    error_message += "The phase shift period can't be more than piece length"
+    phase_shift_period_inp.style('background-color', error_color)
+  }
+  else{
+    phase_shift_period_inp.style('background-color', "white")
+  }
+  if (parseInt(tempo_bpm_inp.value()) < 30) {
+    error_message += "The bpm can't be less than 30"
+    tempo_bpm_inp.style('background-color', error_color)
+  }
+  else{
+    tempo_bpm_inp.style('background-color', "white")
+  }
+  if(parseInt(onsetsinps[1].value()) < 1){
+    error_message += "Number of pulses should be greater than 0"
+    onsetsinps[1].style('background-color', error_color)
+  }
+  else{
+    onsetsinps[1].style('background-color', "white")
+  }
+  if(parseInt(onsetsinps[2].value()) < 1){
+    error_message += "Number of pulses should be greater than 0"
+    onsetsinps[3].style('background-color', error_color)
+  }
+  else{
+    onsetsinps[3].style('background-color', "white")
+  }
+  if(parseInt(onsetsinps[0].value()) < 1){
+    error_message += 'Number of onsets should be greater than 0'
+    onsetsinps[0].style('background-color', error_color)
+  }
+  else{
+    onsetsinps[0].style('background-color', "white")
+  }
+  if(parseInt(onsetsinps[3].value()) < 1){
+    error_message += "Number of onsets should be greater than 0"
+    onsetsinps[2].style('background-color', error_color)
+  }
+  else{
+    onsetsinps[2].style('background-color', "white")
+  }
+  if(parseInt(onsetsinps[0].value()) > parseInt(onsetsinps[1].value())){
+    error_message += "Number of onsets can't be more than number of pulses"
+    onsetsinps[0].style('background-color', error_color)
+    onsetsinps[1].style('background-color', error_color)
+  }
+  else{
+    onsetsinps[0].style('background-color', "white")
+    onsetsinps[1].style('background-color', "white")
+  }
+  if(parseInt(onsetsinps[3].value()) < parseInt(onsetsinps[2].value())){
+    error_message += "Number of onsets can't be more than number of pulses"
+    onsetsinps[2].style('background-color', error_color)
+    onsetsinps[3].style('background-color', error_color)
+  }
+  else{
+    onsetsinps[2].style('background-color', "white")
+    onsetsinps[3].style('background-color', "white")
+  }
+  if(parseInt(length_inp.value()) < 1){
+    error_message += "The piece length should be greater than or equal to 1"
+    length_inp.style('background-color', error_color)
+  }
+  else{
+    length_inp.style('background-color', "white")
+  }
+
+  console.log(error_message)
+
+  return error_flag;
 }
