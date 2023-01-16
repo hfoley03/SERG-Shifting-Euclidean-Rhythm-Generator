@@ -212,10 +212,10 @@ function setup() {
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
 
-  colorAmtSlider =  createSlider('Color Amt Slider', x_inputs, y_inputs+154,8*w/60,w/60, 1, 0);
+  colorAmtSlider =  createSlider('Color Amt Slider', x_inputs2, y_inputs2+60,8*w/60,w/60, 1, 0);
   colorAmtSlider.setStyle({rounding: 5, trackWidth: 0.1});
 
-  velAmtSlider =  createSlider('Velocity Amount Slider', x_inputs, y_inputs+200,8*w/60,w/60,);
+  velAmtSlider =  createSlider('Velocity Amount Slider', x_inputs, y_inputs+81,8*w/60,w/60,);
   velAmtSlider.setStyle({rounding: 5, trackWidth: 0.1});
 
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
@@ -429,6 +429,7 @@ function draw() {
   text('Phase Shift Period', xx3, yy+22);
   text('Piece length', xx3, yy+44);
   text('Tempo (BPM)', xx3, yy+66);
+  text('Velocity', xx3, yy+88);
 
 
   // ----- text Fourth box
