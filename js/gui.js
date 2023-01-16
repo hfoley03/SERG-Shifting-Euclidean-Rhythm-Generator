@@ -159,6 +159,21 @@ function setup() {
   rootNoteSelect.size(40)
   rootNoteSelect.position(x_inputs,y_inputs+110);
 
+  box2nd = createCheckbox("2nd", x_inputs,y_inputs+132 , w/80, w/80);
+  box2nd.setStyle({rounding: 5});
+  box3rd = createCheckbox("3rd", x_inputs+20,y_inputs+132 , w/80, w/80);
+  box3rd.setStyle({rounding: 5});
+  box4th = createCheckbox("4th", x_inputs+40,y_inputs+132 , w/80, w/80);
+  box4th.setStyle({rounding: 5});
+  box5th = createCheckbox("5th", x_inputs+60,y_inputs+132 , w/80, w/80);
+  box5th.setStyle({rounding: 5});
+  box6th = createCheckbox("6th", x_inputs+80,y_inputs+132 , w/80, w/80);
+  box6th.setStyle({rounding: 5});
+  box7th = createCheckbox("7th", x_inputs+100,y_inputs+132 , w/80, w/80);
+  box7th.setStyle({rounding: 5});
+  colorAmtSlider =  createSlider('Color Amt Slider', x_inputs, y_inputs+154,8*w/60,w/60);
+  colorAmtSlider.setStyle({rounding: 5, trackWidth: 0.1});
+
 
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
   gen_button = createButton('GENERATE', 12*w/60, 24*h/60,6*w/60,2*h/60);
@@ -331,7 +346,9 @@ function draw() {
   text('Piece length', xx3, yy+40);
   text('Tempo (BPM)', xx3, yy+60);
   text('Scale Type', xx3, yy+80)
-  text('Root Note', xx3, yy+100)
+  text('Root Note', xx3, yy+110)
+  text('Color Notes', xx3, yy+132)
+  text('Color Amount', xx3, yy+154)
 
   // ----- Buttons
   if (gen_button.isPressed){
@@ -345,7 +362,7 @@ function draw() {
     onsetsB = parseInt(onsetsinps[2].value());
     pulsesB = parseInt(onsetsinps[3].value());
     tempo_bpm = parseInt(tempo_bpm_inp.value());
-    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeSelect.value());
+    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeSelect.value(),rootNoteSelect.value());
     initialization();
   }
   if(play_button.isPressed){
