@@ -5,7 +5,7 @@ let pulsesB;
 let tempo_bpm = 100;
 let trackNamesTemp = ['track1', "track2", "track3", "track4"]
 let phaseShiftAmount = 1;                   // How many pulses is each shift
-let phaseShiftPeriod = 2;                   // After how many bars does a shift occur
+let phaseShiftPeriod = 1;                   // After how many bars does a shift occur
 let numberOfTracks = 4;                     // Number of tracks/players
 let length = 1;                       // Length of total piece
 let mode;                               // Play mode (not used)

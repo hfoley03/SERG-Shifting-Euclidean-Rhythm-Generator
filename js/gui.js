@@ -14,8 +14,11 @@ let phase_shift_amount_inp;
 let phase_shift_period_inp;
 let length_inp;
 let tempo_bpm_inp;
+let velAmtSlider;
+let colorAmtSlider;
 let scaleTypeSelect;
 let rootNoteSelect;
+let box2nd,box3rd,box4th,box5th,box6th,box7th;
 
 let gen_button;
 let play_button;
@@ -58,6 +61,7 @@ let Solo1, Solo2, Solo3, Solo4;
 let Reverb;
 let Delay1;
 let Delay2;
+
 let alpha1 = 0.5, alpha2 = 0.5, alpha3 = 0.5, alpha4 = 0.5;
 
 let error_message = " ";
@@ -76,21 +80,18 @@ function setup() {
   let gui = createGui();
 
   tutorial = createGraphics(w, h);
-  toggleTutorial();
+  //toggleTutorial();
 
 
   // ---- Selection Synth type by the user
-  let synth_x = 15*w/60+10;
-  let synth_y = 14*h/60-3;
+  let synth_x = 22.5*w/60+8;
+  let synth_y = 13*h/60-3;
   for(let i = 1; i<=4; i++){
     let tmp_synth_str = "tr" + i + "_synth";
     let tmp_synth = window[tmp_synth_str];
     tmp_synth = createSelect();
-    if(i==1 || i == 2) tmp_synth.position(synth_x,synth_y+20*(i-1)+1);
-    if(i==3 || i==4){
-      tmp_synth.position(synth_x+15*w/60,synth_y+20*(i-3)+1);
-    }
-    loc_dict[tmp_synth_str+ "_loc"] = [synth_x,synth_y+20*(i-1)]
+    if(i==1 || i==2){tmp_synth.position(synth_x,synth_y+20*(i-1)+1);}
+    if(i==3 || i==4){tmp_synth.position(synth_x+16*w/60,synth_y+20*(i-3)+1);}
     for( let k = 0; k<All_Synths.length;k++){
       tmp_synth.option(All_Synths[k]);
     }
@@ -101,8 +102,8 @@ function setup() {
 
 
   // ----- Inputs of Onsets and Pulses for the Euclidean Rhythm
-  let x_onsets = 15*w/60+10;
-  let y_onsets = 11*h/60;
+  let x_onsets = 22.5*w/60+8;
+  let y_onsets = 10*h/60;
   let onsets_pulses = [onsetsA,pulsesA, onsetsB, pulsesB];
   let onsets_pulses_str = ["onsetsA","pulsesA", "onsetsB", "pulsesB"];
 
@@ -113,7 +114,6 @@ function setup() {
     if (i==1 || i==3){
       tmp_onsets = createInput(onsets_pulses[i-1]);
       tmp_onsets.size(32);
-
     }
     else{
       tmp_onsets = createSelect();
@@ -122,21 +122,16 @@ function setup() {
       tmp_onsets.size(40)
       tmp_onsets.selected(onsets_pulses[i-1])
     }
-    if(i == 1 || i == 2) {
-      tmp_onsets.position(x_onsets, y_onsets + 22 * (i - 1));
-    }
-    else{
-      tmp_onsets.position(x_onsets+15*w/60, y_onsets + 22 * (i - 3));
-    }
+    if(i==1 || i==2) {tmp_onsets.position(x_onsets, y_onsets+22*(i-1));}
+    else{tmp_onsets.position(x_onsets+16*w/60, y_onsets+22*(i-3));}
     onsetsinps.push(tmp_onsets);
   }
 
 
   // ----- Inputs of lenght of piece, shifting amount and shifting period, Tempo, Root, Scale
-  let x_inputs = 49*w/60;
-  let x_inputs2 = 30*w/60;
-  let y_inputs = 11*h/60-2;
-  let y_inputs2 = 23*h/60-2;
+  let x_inputs = 25*w/60;
+  let x_inputs2 = 36*w/60;
+  let y_inputs = 22*h/60-2;
 
   phase_shift_amount_inp = createInput(phaseShiftAmount.toString());
   phase_shift_amount_inp.position(x_inputs,y_inputs);
@@ -154,19 +149,22 @@ function setup() {
   tempo_bpm_inp.position(x_inputs,y_inputs+66);
   tempo_bpm_inp.size(32);
 
+  velAmtSlider =  createSlider('Velocity Amount Slider', 30.5*w/60-7, 30*h/60-11,8*w/60,w/60,);
+  velAmtSlider.setStyle({rounding: 5, trackWidth: 0.1});
+
   rootNoteSelect = createSelect();
-  rootNoteSelect.option("C");rootNoteSelect.option("C#");rootNoteSelect.option("D");rootNoteSelect.option("D#");rootNoteSelect.option("E");
-  rootNoteSelect.option("F");rootNoteSelect.option("F#");rootNoteSelect.option("G");rootNoteSelect.option("G#");
-  rootNoteSelect.option("A");rootNoteSelect.option("A#");rootNoteSelect.option("B#");
+  rootNoteSelect.option("C");rootNoteSelect.option("C#");rootNoteSelect.option("D");rootNoteSelect.option("D#");
+  rootNoteSelect.option("E");rootNoteSelect.option("F");rootNoteSelect.option("F#");rootNoteSelect.option("G");
+  rootNoteSelect.option("G#");rootNoteSelect.option("A");rootNoteSelect.option("A#");rootNoteSelect.option("B#");
   rootNoteSelect.size(40)
-  rootNoteSelect.position(x_inputs2,y_inputs2);
+  rootNoteSelect.position(x_inputs2,y_inputs);
 
   scaleTypeSelect = createSelect();
   scaleTypeSelect.option("Major");scaleTypeSelect.option("Minor");scaleTypeSelect.option("Melodic Minor");
   scaleTypeSelect.size(60)
-  scaleTypeSelect.position(x_inputs2,y_inputs2+20);
+  scaleTypeSelect.position(x_inputs2,y_inputs+20);
 
-  box2nd = createToggle("2", x_inputs2,y_inputs2+40 , w/60, w/60);
+  box2nd = createToggle("2", x_inputs2-7,y_inputs+33, w/60, w/60);
   box2nd.setStyle({
     textSize:w/60,
     rounding: 5,
@@ -174,7 +172,7 @@ function setup() {
     fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
-  box3rd = createToggle("3", x_inputs2+20, y_inputs2+40 , w/60, w/60);
+  box3rd = createToggle("3", x_inputs2+17, y_inputs+33, w/60, w/60);
   box3rd.setStyle({
     textSize:w/60,
     rounding: 5,
@@ -182,7 +180,7 @@ function setup() {
     fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
-  box4th = createToggle("4", x_inputs2+40, y_inputs2+40 , w/60, w/60);
+  box4th = createToggle("4", x_inputs2+41, y_inputs+33, w/60, w/60);
   box4th.setStyle({
     textSize:w/60,
     rounding: 5,
@@ -190,7 +188,7 @@ function setup() {
     fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
-  box5th = createToggle("5", x_inputs2+60, y_inputs2+40 , w/60, w/60);
+  box5th = createToggle("5", x_inputs2+65, y_inputs+33, w/60, w/60);
   box5th.setStyle({
     textSize:w/60,
     rounding: 5,
@@ -198,7 +196,7 @@ function setup() {
     fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
-  box6th = createToggle("6", x_inputs2+80, y_inputs2+40 , w/60, w/60);
+  box6th = createToggle("6", x_inputs2+89, y_inputs+33, w/60, w/60);
   box6th.setStyle({
     textSize:w/60,
     rounding: 5,
@@ -206,7 +204,7 @@ function setup() {
     fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
-  box7th = createToggle("7",x_inputs2+100, y_inputs2+40 , w/60, w/60);
+  box7th = createToggle("7",x_inputs2+113, y_inputs+33, w/60, w/60);
   box7th.setStyle({
     textSize:w/60,
     rounding: 5,
@@ -215,14 +213,12 @@ function setup() {
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
 
-  colorAmtSlider =  createSlider('Color Amt Slider', x_inputs2, y_inputs2+60,8*w/60,w/60, 1, 0);
+  colorAmtSlider =  createSlider('Color Amt Slider', x_inputs2-7, y_inputs+57,8*w/60,w/60, 1, 0);
   colorAmtSlider.setStyle({rounding: 5, trackWidth: 0.1});
 
-  velAmtSlider =  createSlider('Velocity Amount Slider', x_inputs, y_inputs+81,8*w/60,w/60,);
-  velAmtSlider.setStyle({rounding: 5, trackWidth: 0.1});
 
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
-  gen_button = createButton('GENERATE', 12*w/60, 24*h/60,6*w/60,2*h/60);
+  gen_button = createButton('GENERATE', 17*w/60, 33*h/60,6*w/60,2*h/60);
   gen_button.setStyle({
     fillBg:color('#85898F'),
     rounding: 5,
@@ -235,7 +231,7 @@ function setup() {
   });
 
   // ---- Play button
-  play_button = createButton('PLAY',27*w/60, 24*h/60,6*w/60,2*h/60);
+  play_button = createButton('PLAY',27*w/60, 33*h/60,6*w/60,2*h/60);
   play_button.setStyle({
     fillBg:color('#85898F'),
     rounding: 5,
@@ -245,7 +241,7 @@ function setup() {
   });
 
   // ---- Stop button
-  stop_button = createButton('STOP',42*w/60, 24*h/60,6*w/60,2*h/60);
+  stop_button = createButton('STOP',37*w/60, 33*h/60,6*w/60,2*h/60);
   stop_button.setStyle({
     fillBg:color('#85898F'),
     rounding: 5,
@@ -255,17 +251,17 @@ function setup() {
   });
 
   // ---- Volume Sliders
-  Volume1 = createSliderV('Volume1', 22*w/60, 36*h/60, w/60, 8*w/60, -30, 0);
+  Volume1 = createSliderV('Volume1', 29.5*w/60, 40.5*h/60, w/60, 6*w/60, -30, 0);
   Volume1.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume2 = createSliderV('Volume2', 24.5*w/60, 36*h/60, w/60, 8*w/60, -30, 0);
+  Volume2 = createSliderV('Volume2', 32*w/60, 40.5*h/60, w/60, 6*w/60, -30, 0);
   Volume2.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume3 = createSliderV('Volume3', 27*w/60, 36*h/60, w/60, 8*w/60, -30, 0);
+  Volume3 = createSliderV('Volume3', 34.5*w/60, 40.5*h/60, w/60, 6*w/60, -30, 0);
   Volume3.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume4 = createSliderV('Volume4', 29.5*w/60, 36*h/60, w/60, 8*w/60, -30, 0);
+  Volume4 = createSliderV('Volume4', 37*w/60, 40.5*h/60, w/60, 6*w/60, -30, 0);
   Volume4.setStyle({rounding: 5, trackWidth: 0.1});
 
   // ---- Mute Selecotors
-  Mute1 = createToggle("M", 22*w/60, 51*h/60, w/60, w/60);
+  Mute1 = createToggle("M", 29.5*w/60, 51*h/60, w/60, w/60);
   Mute1.setStyle({
     textSize:w/60,
     rounding: 5,
@@ -273,8 +269,7 @@ function setup() {
     fillBgOn:color('rgba(254, 95, 85,1)'),
     fillBgOnHover:color('rgba(254, 95, 85,.5)'),
     fillBgOnActive:color('rgba(254, 95, 85,.3)')});
-
-  Mute2 = createToggle("M", 24.5*w/60, 51*h/60, w/60, w/60);
+  Mute2 = createToggle("M", 32*w/60, 51*h/60, w/60, w/60);
   Mute2.setStyle({
     textSize:w/60,
     rounding: 5,
@@ -282,7 +277,7 @@ function setup() {
     fillBgOn:color('rgba(254, 95, 85,1)'),
     fillBgOnHover:color('rgba(254, 95, 85,.5)'),
     fillBgOnActive:color('rgba(254, 95, 85,.3)')});
-  Mute3 = createToggle("M", 27*w/60, 51*h/60, w/60, w/60);
+  Mute3 = createToggle("M", 34.5*w/60, 51*h/60, w/60, w/60);
   Mute3.setStyle({
     textSize:w/60,
     rounding: 5,
@@ -290,7 +285,7 @@ function setup() {
     fillBgOn:color('rgba(254, 95, 85,1)'),
     fillBgOnHover:color('rgba(254, 95, 85,.5)'),
     fillBgOnActive:color('rgba(254, 95, 85,.3)')});
-  Mute4 = createToggle("M", 29.5*w/60, 51*h/60, w/60, w/60);
+  Mute4 = createToggle("M", 37*w/60, 51*h/60, w/60, w/60);
   Mute4.setStyle({
     textSize:w/60,
     rounding: 5,
@@ -301,7 +296,7 @@ function setup() {
 
 
   // ---- Solo Selectors
-  Solo1 = createToggle("S", 22*w/60, 54*h/60, w/60, w/60);
+  Solo1 = createToggle("S", 29.5*w/60, 53*h/60, w/60, w/60);
   Solo1.setStyle({
     textSize:w/60,
     rounding: 5,
@@ -309,7 +304,7 @@ function setup() {
     fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
-  Solo2 = createToggle("S", 24.5*w/60, 54*h/60, w/60, w/60);
+  Solo2 = createToggle("S", 32*w/60, 53*h/60, w/60, w/60);
   Solo2.setStyle({
     textSize:w/60,
     rounding: 5,
@@ -317,7 +312,7 @@ function setup() {
     fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
-  Solo3 = createToggle("S", 27*w/60, 54*h/60, w/60, w/60);
+  Solo3 = createToggle("S", 34.5*w/60, 53*h/60, w/60, w/60);
   Solo3.setStyle({
     textSize:w/60,
     rounding: 5,
@@ -325,7 +320,7 @@ function setup() {
     fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
-  Solo4 = createToggle("S", 29.5*w/60, 54*h/60, w/60, w/60);
+  Solo4 = createToggle("S", 37*w/60, 53*h/60, w/60, w/60);
   Solo4.setStyle({
     textSize:w/60,
     rounding: 5,
@@ -335,11 +330,11 @@ function setup() {
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
 
   // ---- Effects Sliders
-  Reverb = createSlider('Reverb', 32*w/60, 36*h/60, 6*w/60, w/60, 0, 1);
+  Reverb = createSlider('Reverb', 22*w/60, 40.5*h/60, 6*w/60, w/60, 0, 1);
   Reverb.setStyle({rounding: 5, trackWidth: 0.1});
-  Delay1 = createSlider('Delay1', 32*w/60, 41.5*h/60, 6*w/60, w/60, 0, 1);
+  Delay1 = createSlider('Delay1', 22*w/60, 44*h/60, 6*w/60, w/60, 0, 1);
   Delay1.setStyle({rounding: 5, trackWidth: 0.1});
-  Delay2 = createSlider('Delay2', 32*w/60, 47*h/60, 6*w/60, w/60, 0, 1);
+  Delay2 = createSlider('Delay2', 22*w/60, 47.5*h/60, 6*w/60, w/60, 0, 1);
   Delay2.setStyle({rounding: 5, trackWidth: 0.1});
 
   tutorial_button = createButton("?",54*w/60, 5*h/60,2*w/60,2*h/60);
@@ -373,92 +368,76 @@ function draw() {
   textAlign(CENTER);
   text('MIDI EUCLIDEAN RHYTHM GENERATOR', w/2, 3*h/60);
 
-  // ----- text first box
+  // ----- First box text
   stroke('#FFD5C2');
   strokeWeight(w*0.003);
   noFill();
-  rect(9*w/60,9*h/60,12*w/60,9*h/60,10);
+  rect(16*w/60,8*h/60,12*w/60,8*h/60,5);
 
   fill('#588B8B');
   strokeWeight(0);
   textAlign(CENTER, CENTER);
   textSize(w*0.025);
-  text('FIRST SET', 15*w/60, 8*h/60);
-  textAlign(LEFT, CENTER);
+  text('FIRST SET', 22*w/60, 7*h/60);
+  textAlign(RIGHT, CENTER);
   fill(color_txt);
   textSize(w*0.015);
-  let xx1 = 10*w/60+15;
-  let yy = 11*h/60;
+  let xx1 = 21.5*w/60;
+  let yy = 10*h/60;
   text('Onsets', xx1, yy);
   text('Pulses', xx1, yy+22);
   text('1st Track', xx1, yy+44);
   text('2nd Track', xx1, yy+66);
 
-  // ----- text second box
+  // ----- Second box text
   stroke('#FFD5C2');
   strokeWeight(w*0.003);
   noFill();
-  rect(24*w/60,9*h/60,12*w/60,9*h/60,10);
+  rect(32*w/60,8*h/60,12*w/60,8*h/60,5);
 
   textAlign(CENTER, CENTER);
   textSize(w*0.025);
   fill('#588B8B');
   strokeWeight(0);
-  text('SECOND SET', 30*w/60, 8*h/60);
-  textAlign(LEFT, CENTER);
+  text('SECOND SET', 38*w/60, 7*h/60);
+  textAlign(RIGHT, CENTER);
   fill(color_txt);
   textSize(w*0.015);
-  let xx2 = 25*w/60+12;
+  let xx2 = 37.5*w/60;
   text('Onsets', xx2, yy);
   text('Pulses', xx2, yy+22);
   text('3rd Track', xx2, yy+44);
   text('4th Track', xx2, yy+66);
 
-  // ----- text third box
+  // ----- Third box text
   stroke('#FFD5C2');
   strokeWeight(w*0.003);
   noFill();
-  rect(39*w/60,9*h/60,12*w/60,9*h/60,10);
-
+  rect(15*w/60,20*h/60,30*w/60,12*h/60,5);
   textAlign(CENTER, CENTER);
   textSize(w*0.025);
   fill('#588B8B');
   strokeWeight(0);
-  text('PARAMETERS', 45*w/60, 8*h/60);
-  textAlign(LEFT, CENTER);
+  text('PARAMETERS', 30*w/60, 19*h/60);
+  textAlign(RIGHT, CENTER);
   fill(color_txt);
   textSize(w*0.015);
-  let xx3 = 40*w/60;
-  text('Phase Shift Amount', xx3, yy);
-  text('Phase Shift Period', xx3, yy+22);
-  text('Piece length', xx3, yy+44);
-  text('Tempo (BPM)', xx3, yy+66);
-  text('Velocity', xx3, yy+88);
+  let xx3 = 24*w/60;
+  let yy2 = 22*h/60;
+  text('Phase Shift Amount', xx3, yy2);
+  text('Phase Shift Period', xx3, yy2+22);
+  text('Piece length', xx3, yy2+44);
+  text('Tempo (BPM)', xx3, yy2+66);
 
-
-  // ----- text Fourth box
-  stroke('#FFD5C2');
-  strokeWeight(w*0.003);
-  noFill();
-  rect(21*w/60,21*h/60,18*w/60,9*h/60,10);
-
-  textAlign(CENTER, CENTER);
-  textSize(w*0.025);
-  fill('#588B8B');
-  strokeWeight(0);
-  text('HARMONY PARAMETERS', 30*w/60, 20*h/60);
-  textAlign(LEFT, CENTER);
-  fill(color_txt);
-  textSize(w*0.015);
-  let xx4 = 23*w/60;
-  let yy2 = 23*h/60;
-  text('Scale Type', xx4, yy2)
-  text('Root Note', xx4, yy2+22)
+  let xx4 = 35*w/60;
+  text('Root Note', xx4, yy2)
+  text('Scale Type', xx4, yy2+22)
   text('Color Notes', xx4, yy2+44)
   text('Color Rate', xx4, yy2+66)
 
-  // ----- Buttons
+  text('Velocity', 29.5*w/60, 30*h/60);
 
+  // ----- Buttons
   if (gen_button.isPressed){
     clear();
     stop_aud();
@@ -477,7 +456,6 @@ function draw() {
       pulsesB = parseInt(onsetsinps[3].value());
       tempo_bpm = parseInt(tempo_bpm_inp.value());
 
-
       generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeSelect.value(), rootNoteSelect.value());
       initialization();
     }
@@ -491,6 +469,52 @@ function draw() {
   if(stop_button.isPressed){
     stop_aud();
   }
+
+  userSelected[1] = box2nd.val
+  userSelected[2] = box3rd.val
+  userSelected[3] = box4th.val
+  userSelected[4] = box5th.val
+  userSelected[5] = box6th.val
+  userSelected[6] = box7th.val
+
+  if (colorAmtSlider.isChanged) {
+    colorAmt = colorAmtSlider.val;
+  }
+
+  if (velAmtSlider.isChanged) {
+    velAmount = velAmtSlider.val;
+    console.log(velAmount)
+  }
+
+    // ------- Mixer - Control Volume BOX
+  strokeWeight(w*0.003);
+  stroke('rgba(135, 143, 155,.5)');
+  fill('rgba(135, 143, 155,.5)');
+  rect(21*w/60,38*h/60,18*w/60,18*h/60,10);
+
+  textAlign(CENTER, CENTER);
+  textSize(w*0.03);
+  fill('#588B8B');
+  strokeWeight(0);
+  text('MIXER', 30*w/60, 37*h/60);
+  fill('#FFFFFF');
+  textSize(w*0.015);
+  text('1', 30*w/60, 39.5*h/60);
+  text('2', 32.5*w/60, 39.5*h/60);
+  text('3', 35*w/60, 39.5*h/60);
+  text('4', 37.5*w/60, 39.5*h/60);
+  textSize(w*0.015);
+  text('Reverb', 25*w/60, 39.5*h/60);
+  text('Delay 1/4th', 25*w/60, 43*h/60);
+  text('Delay 1/8th', 25*w/60, 46.5*h/60);
+
+  text('Mute', 27*w/60, 51*h/60+12);
+  text('Solo', 27*w/60, 53*h/60+12);
+  strokeWeight(w*0.003);
+  stroke('rgba(135, 143, 155,.8)');
+  noFill();
+  rect(25.5*w/60,50.5*h/60,13*w/60,4.5*h/60,10);
+
   if (Volume1.isChanged){
     channel1.volume.value = Math.round(Volume1.val);
     alpha1 = map(Volume1.val,-30,0,0,1);
@@ -521,52 +545,6 @@ function draw() {
   if(Reverb.isChanged){reverb.wet.value = Reverb.val}
   if(Delay1.isChanged){feedbackDelay1.wet.value = Delay1.val}
   if(Delay2.isChanged){feedbackDelay2.wet.value = Delay2.val}
-
-  userSelected[1] = box2nd.val
-  userSelected[2] = box3rd.val
-  userSelected[3] = box4th.val
-  userSelected[4] = box5th.val
-  userSelected[5] = box6th.val
-  userSelected[6] = box7th.val
-
-  if (colorAmtSlider.isChanged) {
-    colorAmt = colorAmtSlider.val;
-  }
-
-  if (velAmtSlider.isChanged) {
-    velAmount = velAmtSlider.val;
-    console.log(velAmount)
-  }
-
-
-    // ------- Mixer - Control Volume BOX
-  strokeWeight(w*0.003);
-  stroke('rgba(135, 143, 155,.5)');
-  fill('rgba(135, 143, 155,.5)');
-  rect(21*w/60,35*h/60,18*w/60,20*h/60,10);
-
-  textAlign(CENTER, CENTER);
-  textSize(w*0.03);
-  fill('#588B8B');
-  strokeWeight(0);
-  text('MIXER', 30*w/60, 30*h/60);
-  fill('#FFFFFF');
-  textSize(w*0.02);
-  text('1', 22.5*w/60, 34.5*h/60);
-  text('2', 25*w/60, 34.5*h/60);
-  text('3', 27.5*w/60, 34.5*h/60);
-  text('4', 30*w/60, 34.5*h/60);
-  textSize(w*0.015);
-  text('Reverb', 35*w/60, 34.5*h/60);
-  text('Delay 1/4th', 35*w/60, 40*h/60);
-  text('Delay 1/8th', 35*w/60, 45.5*h/60);
-
-  text('Mute', 35*w/60, 52*h/60);
-  text('Solo', 35*w/60, 55*h/60);
-  strokeWeight(w*0.003);
-  stroke('rgba(135, 143, 155,.8)');
-  noFill();
-  rect(21.5*w/60,50*h/60,17*w/60,7*h/60,10);
 
   // ------- Generation of Concentric Circles
 
@@ -918,8 +896,6 @@ function start_aud_gui() {
   }
 }
 
-
-
 function toggleTutorial() {
   if (!tutorial_state) {
     tutorial.background(255, 255, 255, 100);
@@ -935,8 +911,6 @@ function toggleTutorial() {
     tutorial_state=false;
   }
 }
-
-
 
 function reposition(){
 
