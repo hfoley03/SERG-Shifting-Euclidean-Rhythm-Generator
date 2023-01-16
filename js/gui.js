@@ -163,19 +163,19 @@ function setup() {
   scaleTypeSelect.size(60)
   scaleTypeSelect.position(x_inputs2,y_inputs2+20);
 
-  box2nd = createCheckbox("2nd", x_inputs2,y_inputs2+40 , w/80, w/80);
+  box2nd = createCheckbox("2nd", x_inputs2-6,y_inputs2+40 , w/80, w/80);
   box2nd.setStyle({rounding: 5});
-  box3rd = createCheckbox("3rd", x_inputs2+20, y_inputs2+40, w/80, w/80);
+  box3rd = createCheckbox("3rd", x_inputs2+14, y_inputs2+40, w/80, w/80);
   box3rd.setStyle({rounding: 5});
-  box4th = createCheckbox("4th", x_inputs2+40,y_inputs2+40, w/80, w/80);
+  box4th = createCheckbox("4th", x_inputs2+34,y_inputs2+40, w/80, w/80);
   box4th.setStyle({rounding: 5});
-  box5th = createCheckbox("5th", x_inputs2+60,y_inputs2+40, w/80, w/80);
+  box5th = createCheckbox("5th", x_inputs2+54,y_inputs2+40, w/80, w/80);
   box5th.setStyle({rounding: 5});
-  box6th = createCheckbox("6th", x_inputs2+80,y_inputs2+40, w/80, w/80);
+  box6th = createCheckbox("6th", x_inputs2+74,y_inputs2+40, w/80, w/80);
   box6th.setStyle({rounding: 5});
-  box7th = createCheckbox("7th", x_inputs2+100,y_inputs2+40, w/80, w/80);
+  box7th = createCheckbox("7th", x_inputs2+94,y_inputs2+40, w/80, w/80);
   box7th.setStyle({rounding: 5});
-  colorAmtSlider =  createSlider('Color Amt Slider', x_inputs, y_inputs+154,8*w/60,w/60, 1, 0);
+  colorAmtSlider =  createSlider('Color Amt Slider', x_inputs2-6, y_inputs2+60,8*w/60,w/60, 1, 0);
   colorAmtSlider.setStyle({rounding: 5, trackWidth: 0.1});
 
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
@@ -312,10 +312,7 @@ function draw() {
 
   w = width;
 
-
   //reposition();
-
-
 
   //console.log('first', first_time_inst_play)
   //console.log(Tone.context.currentTime)
@@ -484,7 +481,7 @@ function draw() {
   strokeWeight(w*0.003);
   stroke('rgba(135, 143, 155,.5)');
   fill('rgba(135, 143, 155,.5)');
-  rect(21*w/60,32*h/60,18*w/60,26*h/60,10);
+  rect(21*w/60,35*h/60,18*w/60,20*h/60,10);
 
   textAlign(CENTER, CENTER);
   textSize(w*0.03);
