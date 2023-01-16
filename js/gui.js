@@ -1,9 +1,14 @@
 // ------- P5 JS -----
-let w;      //windowWidth
-let h = 800;      //windowHeight
+let w;        //windowWidth
+let h = 800;  //windowHeight
 let cl_bg = '#FFFBFF';       //Background Color
 let color_txt = '#000000';   //Color of Text
-//Hi im sebastian
+
+let cl1 = 'rgba(200, 85, 61,1)';       // color onsets Fixed Circle
+let cl2 = 'rgba(200, 85, 61,0.3)';     // color offsets Fixed Circle
+let cl3 = 'rgba(239, 131, 84,1)';      // color onsets Shifting Circle
+let cl4 = 'rgba(239, 131, 84,0.3)';    // color offsets Shifting Circle
+let cl5 = 'rgba(191, 192, 192,0.2)';   // color Visual Fixed
 
 let phase_shift_amount_inp;
 let phase_shift_period_inp;
@@ -17,7 +22,6 @@ let tutorial_button;
 let state = false;
 let tutorial;
 let tutorial_state = false;
-
 
 let All_Synths = ['MonoSynth', 'Kick', 'Snare' ,'Synth','Hihat'];
 
@@ -50,21 +54,13 @@ let interval_visualB_fixed;
 let interval_visualA_shift;
 let interval_visualB_shift;
 
-let Volume1;
-let Volume2;
-let Volume3;
-let Volume4;
-let Mute1;
-let Mute2;
-let Mute3;
-let Mute4;
-let Solo1;
-let Solo2;
-let Solo3;
-let Solo4;
-let Delay1;
+let Volume1, Volume2, Volume3, Volume4;
+let Mute1, Mute2, Mute3, Mute4;
+let Solo1, Solo2, Solo3, Solo4;
 let Reverb;
+let Delay1;
 let Delay2;
+let alpha1, alpha2, alpha3, alpha4;
 
 function windowResized() {
   resizeCanvas(windowWidth, h);
@@ -228,10 +224,6 @@ function setup() {
 
   tutorial_button = createButton("?",54*w/60, 5*h/60,2*w/60,2*h/60);
 
-  //console.log(finalMidiObject.tracks)
-  //console.log("Shift_binary1 : "+GetBinaryShiftedOnset(1));
-  //console.log("Shift_binary0 : "+GetBinaryShiftedOnset(0));
-
   initialization();
 }
 
@@ -331,14 +323,22 @@ function draw() {
   if(stop_button.isPressed){
     stop_aud();
   }
-  if(tutorial_button.isPressed){
-    toggleTutorial();
+  if (Volume1.isChanged){
+    channel1.volume.value = Math.round(Volume1.val);
+    alpha1 = map(Volume1.val,-45,0,0,1);
   }
-
-  if (Volume1.isChanged) {channel1.volume.value = Math.round(Volume1.val)}
-  if (Volume2.isChanged) {channel2.volume.value = Math.round(Volume2.val)}
-  if (Volume3.isChanged) {channel3.volume.value = Math.round(Volume3.val)}
-  if (Volume4.isChanged) {channel4.volume.value = Math.round(Volume4.val)}
+  if (Volume2.isChanged){
+    channel2.volume.value = Math.round(Volume2.val);
+    alpha2 = map(Volume2.val,-45,0,0,1);
+  }
+  if (Volume3.isChanged){
+    channel3.volume.value = Math.round(Volume3.val);
+    alpha3 = map(Volume3.val,-45,0,0,1);
+  }
+  if (Volume4.isChanged){
+    channel4.volume.value = Math.round(Volume4.val);
+    alpha4 = map(Volume4.val,-45,0,0,1);
+  }
 
   channel1.mute = Mute1.val
   channel2.mute = Mute2.val
@@ -354,7 +354,7 @@ function draw() {
   if(Delay1.isChanged){feedbackDelay1.wet.value = Delay1.val}
   if(Delay2.isChanged){feedbackDelay2.wet.value = Delay2.val}
 
-  // ------- Mixer - Control Volume BOX
+  // ------- Tutorial
   if(tutorial_button.isPressed){
     toggleTutorial();
   }
@@ -390,22 +390,15 @@ function draw() {
 
   // ------- Generation of Concentric Circles
 
-  let cl1 = 'rgba(200, 85, 61,1)';       // color onsets Track 1
-  let cl2 = 'rgba(200, 85, 61,0.3)';     // color pulses Track 1
-  let cl3 = 'rgba(239, 131, 84,1)';   // color onsets Track 2
-  let cl4 = 'rgba(239, 131, 84,0.3)'; // color pulses Track 2
-  let cl5 = 'rgba(191, 192, 192,0.2)'; // color pulses Track 2
-
-  // top-left
-  FixedCircle(0, cl1, cl2);      // Track 1 Fixed Circle
-  VisualShift(1, cl3, cl4);      // Visual Track 2 Shifting circle
+  // Left Circles Track 1 and 2
+  FixedCircle(0);      // Track 1 Fixed Circle
+  VisualShift(1);      // Visual Track 2 Shifting circle
   VisualFix(0, pulsesA, cl5);    // Visual Actual pulse playing Track 1-2
 
-  // Top-right
-  FixedCircle(2, cl1, cl2);      // Track 3  Fixed Circle
-  VisualShift(3, cl3, cl4);      // Visual Track 4 Shifting circle
+  // Right Circles Track 3 and 4
+  FixedCircle(2);      // Track 3  Fixed Circle
+  VisualShift(3);      // Visual Track 4 Shifting circle
   VisualFix(2, pulsesB, cl5);    // Visual Actual pulse playing Track 3-4
-
 
   // ------- Tutorial section
   if(tutorial_button.isPressed){
@@ -427,11 +420,12 @@ function initialization(){
   first_cycleA = 0;
   first_cycleB = 0;
 }
-function FixedCircle(track, color1, color2) {
+function FixedCircle(track) {
   let pulses;
   let onset;
   let x_c;
   let y_c;
+  let alpha;
   let r2 = 12*w/60;
 
   if (track == 0){
@@ -439,6 +433,7 @@ function FixedCircle(track, color1, color2) {
     pulses = pulsesA;
     x_c = 10*w/60;
     y_c = 45*h/60;
+    alpha = alpha1;
     noStroke();
     fill(color_txt);
     for (let i = 0; i < pulses; i++) {
@@ -449,24 +444,27 @@ function FixedCircle(track, color1, color2) {
     pulses = pulsesB;
     x_c = 50*w/60;
     y_c = 45*h/60;
+    alpha = alpha3;
     noStroke();
     fill(color_txt);
     for (let i = 0; i < pulses; i++) {
       text(i+1,(x_c*0.13)*cos(-90+(360/pulses)*(i+1/2))+x_c, (y_c/4)*sin(-90+(360/pulses)*(i+1/2))+y_c);
     }
   }
+  cl1 = 'rgba(200, 85, 61,'+alpha+')';       // color onsets Track 1
+  cl2 = 'rgba(200, 85, 61,'+alpha*0.3+')';    // color pulses Track 1
 
   strokeWeight(w*0.002);
   for (let i = 0; i < pulses; i++) {
     if (onset[i] == 1) {
       stroke(cl_bg);
-      fill(color1);
+      fill(cl1);
       arc(x_c, y_c, r2, r2, -90+360/pulses*i, -90+360/pulses*(i+1), PIE);
       fill(cl_bg);
       arc(x_c, y_c, r2 - 1.5*w/60, r2 - 1.5*w/60, 0, 360, PIE);
     } else {
       stroke(cl_bg);
-      fill(color2);
+      fill(cl2);
       arc(x_c, y_c, r2, r2, -90+360/pulses*i, -90+360/pulses*(i+1), PIE);
       fill(cl_bg);
       arc(x_c, y_c, r2-1.5*w/60, r2-1.5*w/60, 0, 360, PIE);
@@ -579,8 +577,7 @@ function ShuffleCircle(x, y, onset, pulses, prt, color1, color2) {
     }
   }
 }
-function VisualShift(track,color1, color2){
-
+function VisualShift(track,){
   let pulses;
   let Shift_binary = [];
   let proportion;
@@ -588,6 +585,7 @@ function VisualShift(track,color1, color2){
   let x_c;
   let y_c;
   let aux_onsets = [];
+  let alpha;
 
   if (track == 1){
     pulses = pulsesA;
@@ -595,24 +593,29 @@ function VisualShift(track,color1, color2){
     actualbar = actualbarA;
     x_c = 10*w/60;
     y_c = 45*h/60;
+    alpha=alpha2;
   }else if (track == 3){
     pulses = pulsesB;
     proportion = proportion_indexB;
     actualbar = actualbarB;
     x_c = 50*w/60;
     y_c = 45*h/60;
+    alpha=alpha4;
   }
 
   Shift_binary = GetBinaryShiftedOnset(track);
   //console.log("Track : "+track);
   //console.log("Shift_binary : "+Shift_binary);
 
+  cl3 = 'rgba(239, 131, 84,'+alpha+')';      // color onsets Shifting Circle
+  cl4 = 'rgba(239, 131, 84,'+alpha*.3+')';    // color offsets Shifting Circle
+
   // Divide the binary array in bars to then draw the shifted bar
   if (actualbar <= length){
     for (let i = 0; i < pulses; i++) {
       aux_onsets = Shift_binary.slice(actualbar*pulses, (actualbar+1)*pulses);
     }
-    ShuffleCircle(x_c, y_c, aux_onsets, pulses,proportion , color1, color2);
+    ShuffleCircle(x_c, y_c, aux_onsets, pulses,proportion, cl3, cl4);
   }
 }
 function GetBinaryShiftedOnset(track){
