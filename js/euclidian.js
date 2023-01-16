@@ -42,13 +42,15 @@ let major = [2,2,1,2,2,2,1];
 let minor = [2,1,2,2,1,2,2];
 let melodicMinor = [2,1,2,2,2,2,1];
 
-generateMidi(onsetsA = 4, pulsesA = 8, onsetsB = 3, pulsesB = 8, tempo_bpm = 100);
+let scaleType = {"Major": major, "Minor": minor, "Melodic Minor": melodicMinor}
 
-function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm){
+generateMidi(onsetsA = 4, pulsesA = 8, onsetsB = 3, pulsesB = 8, tempo_bpm = 100, "Major" );
+
+function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeName){
   // Variables that could change by user
   console.log("Generate Midi")
   mode = 1;                               // Play mode (not used)
-  let scaleCalculated = calcScale(rootNote, major)
+  let scaleCalculated = calcScale(rootNote, scaleType[scaleTypeName])
   console.log(scaleCalculated)
   scale_ = userSelectedNotes(userSelected, scaleCalculated)
   console.log(scale_)

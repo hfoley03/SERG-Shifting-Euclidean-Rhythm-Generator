@@ -149,6 +149,19 @@ function setup() {
   tempo_bpm_inp.position(x_inputs,y_inputs+66);
   tempo_bpm_inp.size(22);
 
+  scaleTypeSelect = createSelect();
+  scaleTypeSelect.option("Major");scaleTypeSelect.option("Minor");scaleTypeSelect.option("Melodic Minor");
+  scaleTypeSelect.size(40)
+  scaleTypeSelect.position(x_inputs,y_inputs+88);
+
+  rootNoteSelect = createSelect();
+  rootNoteSelect.option("C");rootNoteSelect.option("C#");rootNoteSelect.option("D");rootNoteSelect.option("D#");rootNoteSelect.option("E");
+  rootNoteSelect.option("F");rootNoteSelect.option("F#");rootNoteSelect.option("F#");rootNoteSelect.option("G");rootNoteSelect.option("G#");
+  rootNoteSelect.option("A");rootNoteSelect.option("A#");rootNoteSelect.option("B#");
+  rootNoteSelect.size(40)
+  rootNoteSelect.position(x_inputs,y_inputs+110);
+
+
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
   gen_button = createButton('GENERATE', 12*w/60, 24*h/60,6*w/60,2*h/60);
   gen_button.setStyle({
@@ -229,6 +242,8 @@ function setup() {
   Delay2.setStyle({rounding: 5, trackWidth: 0.1});
 
   tutorial_button = createButton("?",54*w/60, 5*h/60,2*w/60,2*h/60);
+
+
 
   initialization();
 }
@@ -317,6 +332,8 @@ function draw() {
   text('Phase Shift Period', xx3, yy+20);
   text('Piece length', xx3, yy+40);
   text('Tempo (BPM)', xx3, yy+60);
+  text('Scale Type', xx3, yy+80)
+  text('Root Note', xx3, yy+100)
 
   // ----- Buttons
   if (gen_button.isPressed){
@@ -330,7 +347,7 @@ function draw() {
     onsetsB = parseInt(onsetsinps[2].value());
     pulsesB = parseInt(onsetsinps[3].value());
     tempo_bpm = parseInt(tempo_bpm_inp.value());
-    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm);
+    generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeSelect.value());
     initialization();
   }
   if(play_button.isPressed){
