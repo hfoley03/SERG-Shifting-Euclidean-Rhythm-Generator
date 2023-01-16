@@ -3,7 +3,6 @@ let pulsesA;                             // How many steps, 4,8 or 16
 let onsetsB;
 let pulsesB;
 let tempo_bpm = 100;
-
 let trackNamesTemp = ['track1', "track2", "track3", "track4"]
 let phaseShiftAmount = 1;                   // How many pulses is each shift
 let phaseShiftPeriod = 2;                   // After how many bars does a shift occur
@@ -12,10 +11,10 @@ let length = 1;                       // Length of total piece
 let mode;                               // Play mode (not used)
 let scale_;                      // Used to add 4th and 5th note of C (see function pitch())
 let midiInProgress;
+// set 1
 let track1;      // track/player 1, no shifting, base rhythm
 let track2;     // track/player 2, shifting occurs
-
-// Pair 2
+// set 2
 let track3;     // track/player 1, no shifting, base rhythm
 let track4;      // track/player 2, shifting occurs
 
@@ -33,8 +32,8 @@ let midiObject;
 // Creates full composition, with phase shifts
 let finalMidiObject;
 
-let velAmount = 0.4 // Pushed from GUI Slider range [0.05 - 0.45]
-let userSelected = [true,false,false,false,false,false,false]// Pushed from GUI, series of tick boxes
+let velAmount = 0.5 // Pushed from GUI Slider range [0.05 - 0.45]
+let userSelected = [true,false,false,false,false,false,false] // Pushed from GUI, series of tick boxes
 let colorAmt = 0.5
 let keys = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ]
 let major = [2,2,1,2,2,2,1];
@@ -56,12 +55,14 @@ function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeNa
   console.log("user's scale: " + scale_)
   midiInProgress = new Midi();
   midiInProgress.name = "My Bloody Nightmare"
+
+  // Set 1
   track1 = midiInProgress.addTrack()      // track/player 1, no shifting, base rhythm
   track1.name = "track1"
   track2 = midiInProgress.addTrack()      // track/player 2, shifting occurs
   track2.name = "track2"
 
-  // Pair 2
+  // Set 2
   track3 = midiInProgress.addTrack()      // track/player 1, no shifting, base rhythm
   track3.name = "track3"
   track4 = midiInProgress.addTrack()      // track/player 2, shifting occurs
@@ -93,7 +94,6 @@ function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeNa
 
   return;
 }
-
 
 /////////////////////
 /// FUNCTIONS :) ////
@@ -218,15 +218,15 @@ function createNote(track_, timeTicks, pulseInTicks_){
     octave: trackNamesTemp.indexOf(track_.name) + 2,
     ticks: timeTicks,
     durationTicks: pulseInTicks_,
-    velocity: 0.9//vel()
+    velocity: vel()
   })
 }
 
 // creates random velocity,
 function vel(){
-  let vel_ = Math.random();
-  if (vel_ < 0.5){ // needed as a velocity of zero means no note
-    vel_ = vel_ + velAmount
+  let vel_ = getRandomArbitrary(velAmount, 1);
+  if (vel_ < 0.1){ // needed as a velocity of zero means no note
+    vel_ = vel_ + 0.1
   }
   return vel_
 }
@@ -263,5 +263,7 @@ function userSelectedNotes(userSelected, scaleCalculated){
 }
 
 
-
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
 

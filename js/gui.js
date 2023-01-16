@@ -166,20 +166,60 @@ function setup() {
   scaleTypeSelect.size(60)
   scaleTypeSelect.position(x_inputs2,y_inputs2+20);
 
-  box2nd = createCheckbox("2nd", x_inputs2,y_inputs2+40 , w/80, w/80);
-  box2nd.setStyle({rounding: 5});
-  box3rd = createCheckbox("3rd", x_inputs2+20, y_inputs2+40, w/80, w/80);
-  box3rd.setStyle({rounding: 5});
-  box4th = createCheckbox("4th", x_inputs2+40,y_inputs2+40, w/80, w/80);
-  box4th.setStyle({rounding: 5});
-  box5th = createCheckbox("5th", x_inputs2+60,y_inputs2+40, w/80, w/80);
-  box5th.setStyle({rounding: 5});
-  box6th = createCheckbox("6th", x_inputs2+80,y_inputs2+40, w/80, w/80);
-  box6th.setStyle({rounding: 5});
-  box7th = createCheckbox("7th", x_inputs2+100,y_inputs2+40, w/80, w/80);
-  box7th.setStyle({rounding: 5});
-  colorAmtSlider =  createSlider('Color Amt Slider', x_inputs, y_inputs+154,8*w/60,w/60, 1, 0);
+  box2nd = createToggle("2", x_inputs2,y_inputs2+40 , w/60, w/60);
+  box2nd.setStyle({
+    textSize:w/60,
+    rounding: 5,
+    fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
+    fillBgOn:color('rgba(170, 250, 200,1)'),
+    fillBgOnHover:color('rgba(170, 250, 200,.5)'),
+    fillBgOnActive:color('rgba(170, 250, 200,.3)')});
+  box3rd = createToggle("3", x_inputs2+20, y_inputs2+40 , w/60, w/60);
+  box3rd.setStyle({
+    textSize:w/60,
+    rounding: 5,
+    fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
+    fillBgOn:color('rgba(170, 250, 200,1)'),
+    fillBgOnHover:color('rgba(170, 250, 200,.5)'),
+    fillBgOnActive:color('rgba(170, 250, 200,.3)')});
+  box4th = createToggle("4", x_inputs2+40, y_inputs2+40 , w/60, w/60);
+  box4th.setStyle({
+    textSize:w/60,
+    rounding: 5,
+    fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
+    fillBgOn:color('rgba(170, 250, 200,1)'),
+    fillBgOnHover:color('rgba(170, 250, 200,.5)'),
+    fillBgOnActive:color('rgba(170, 250, 200,.3)')});
+  box5th = createToggle("5", x_inputs2+60, y_inputs2+40 , w/60, w/60);
+  box5th.setStyle({
+    textSize:w/60,
+    rounding: 5,
+    fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
+    fillBgOn:color('rgba(170, 250, 200,1)'),
+    fillBgOnHover:color('rgba(170, 250, 200,.5)'),
+    fillBgOnActive:color('rgba(170, 250, 200,.3)')});
+  box6th = createToggle("6", x_inputs2+80, y_inputs2+40 , w/60, w/60);
+  box6th.setStyle({
+    textSize:w/60,
+    rounding: 5,
+    fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
+    fillBgOn:color('rgba(170, 250, 200,1)'),
+    fillBgOnHover:color('rgba(170, 250, 200,.5)'),
+    fillBgOnActive:color('rgba(170, 250, 200,.3)')});
+  box7th = createToggle("7",x_inputs2+100, y_inputs2+40 , w/60, w/60);
+  box7th.setStyle({
+    textSize:w/60,
+    rounding: 5,
+    fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
+    fillBgOn:color('rgba(170, 250, 200,1)'),
+    fillBgOnHover:color('rgba(170, 250, 200,.5)'),
+    fillBgOnActive:color('rgba(170, 250, 200,.3)')});
+
+  colorAmtSlider =  createSlider('Color Amt Slider', x_inputs2, y_inputs2+60,8*w/60,w/60, 1, 0);
   colorAmtSlider.setStyle({rounding: 5, trackWidth: 0.1});
+
+  velAmtSlider =  createSlider('Velocity Amount Slider', x_inputs, y_inputs+81,8*w/60,w/60,);
+  velAmtSlider.setStyle({rounding: 5, trackWidth: 0.1});
 
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
   gen_button = createButton('GENERATE', 12*w/60, 24*h/60,6*w/60,2*h/60);
@@ -316,10 +356,7 @@ function draw() {
 
   w = width;
 
-
   //reposition();
-
-
 
   //console.log('first', first_time_inst_play)
   //console.log(Tone.context.currentTime)
@@ -396,6 +433,7 @@ function draw() {
   text('Phase Shift Period', xx3, yy+22);
   text('Piece length', xx3, yy+44);
   text('Tempo (BPM)', xx3, yy+66);
+  text('Velocity', xx3, yy+88);
 
 
   // ----- text Fourth box
@@ -495,13 +533,17 @@ function draw() {
     colorAmt = colorAmtSlider.val;
   }
 
+  if (velAmtSlider.isChanged) {
+    velAmount = velAmtSlider.val;
+    console.log(velAmount)
+  }
 
 
     // ------- Mixer - Control Volume BOX
   strokeWeight(w*0.003);
   stroke('rgba(135, 143, 155,.5)');
   fill('rgba(135, 143, 155,.5)');
-  rect(21*w/60,32*h/60,18*w/60,26*h/60,10);
+  rect(21*w/60,35*h/60,18*w/60,20*h/60,10);
 
   textAlign(CENTER, CENTER);
   textSize(w*0.03);
