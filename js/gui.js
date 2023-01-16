@@ -1,6 +1,6 @@
 // ------- P5 JS -----
 let w;        //windowWidth
-let h = 800;  //windowHeight
+let h = 900;  //windowHeight
 let cl_bg = '#FFFBFF';       //Background Color
 let color_txt = '#000000';   //Color of Text
 
@@ -78,7 +78,7 @@ function setup() {
 
   // ---- Selection Synth type by the user
   let synth_x = 15*w/60+10;
-  let synth_y = 16*h/60+1;
+  let synth_y = 14*h/60-3;
   for(let i = 1; i<=4; i++){
     let tmp_synth_str = "tr" + i + "_synth";
     let tmp_synth = window[tmp_synth_str];
@@ -99,7 +99,7 @@ function setup() {
 
   // ----- Inputs of Onsets and Pulses for the Euclidean Rhythm
   let x_onsets = 15*w/60+10;
-  let y_onsets = 13*h/60;
+  let y_onsets = 11*h/60;
   let onsets_pulses = [onsetsA,pulsesA, onsetsB, pulsesB];
   let onsets_pulses_str = ["onsetsA","pulsesA", "onsetsB", "pulsesB"];
 
@@ -131,7 +131,9 @@ function setup() {
 
   // ----- Inputs of lenght of piece, shifting amount and shifting period, Tempo, Root, Scale
   let x_inputs = 49*w/60;
-  let y_inputs = 13*h/60-2;
+  let x_inputs2 = 30*w/60;
+  let y_inputs = 11*h/60-2;
+  let y_inputs2 = 23*h/60-2;
 
   phase_shift_amount_inp = createInput(phaseShiftAmount.toString());
   phase_shift_amount_inp.position(x_inputs,y_inputs);
@@ -154,12 +156,27 @@ function setup() {
   rootNoteSelect.option("F");rootNoteSelect.option("F#");rootNoteSelect.option("G");rootNoteSelect.option("G#");
   rootNoteSelect.option("A");rootNoteSelect.option("A#");rootNoteSelect.option("B#");
   rootNoteSelect.size(40)
-  rootNoteSelect.position(x_inputs,y_inputs+88);
+  rootNoteSelect.position(x_inputs2,y_inputs2);
 
   scaleTypeSelect = createSelect();
   scaleTypeSelect.option("Major");scaleTypeSelect.option("Minor");scaleTypeSelect.option("Melodic Minor");
   scaleTypeSelect.size(60)
-  scaleTypeSelect.position(x_inputs,y_inputs+108);
+  scaleTypeSelect.position(x_inputs2,y_inputs2+20);
+
+  /*
+  *   box2nd = createCheckbox("2nd", x_inputs2,y_inputs2+40 , w/80, w/80);
+  box2nd.setStyle({rounding: 5});
+  box3rd = createCheckbox("3rd", x_inputs2+20, y_inputs2+40, w/80, w/80);
+  box3rd.setStyle({rounding: 5});
+  box4th = createCheckbox("4th", x_inputs2+40,y_inputs2+40, w/80, w/80);
+  box4th.setStyle({rounding: 5});
+  box5th = createCheckbox("5th", x_inputs2+60,y_inputs2+40, w/80, w/80);
+  box5th.setStyle({rounding: 5});
+  box6th = createCheckbox("6th", x_inputs2+80,y_inputs2+40, w/80, w/80);
+  box6th.setStyle({rounding: 5});
+  box7th = createCheckbox("7th", x_inputs2+100,y_inputs2+40, w/80, w/80);
+  box7th.setStyle({rounding: 5});
+  * */
 
   //box2nd = createCheckbox("2nd", x_inputs,, w/80, w/80);
   //box2nd.setStyle({rounding: 5});
@@ -352,7 +369,7 @@ function draw() {
   w = width;
 
 
-  reposition();
+  //reposition();
 
 
 
@@ -360,11 +377,9 @@ function draw() {
   //console.log(Tone.context.currentTime)
 
   if(draw_flag == false && first_time_inst_play - 0.4 < Tone.context.currentTime ){
-
     startTimer();
     console.log('the conditions met')
     draw_flag = true;
-
   }
 
   fill('#0D3E1D');
@@ -377,7 +392,7 @@ function draw() {
   stroke('#FFD5C2');
   strokeWeight(w*0.003);
   noFill();
-  rect(9*w/60,10*h/60,12*w/60,12*h/60,10);
+  rect(9*w/60,9*h/60,12*w/60,9*h/60,10);
 
   fill('#588B8B');
   strokeWeight(0);
@@ -388,7 +403,7 @@ function draw() {
   fill(color_txt);
   textSize(w*0.015);
   let xx1 = 10*w/60+15;
-  let yy = 13*h/60;
+  let yy = 11*h/60;
   text('Onsets', xx1, yy);
   text('Pulses', xx1, yy+22);
   text('1st Track', xx1, yy+44);
@@ -398,7 +413,7 @@ function draw() {
   stroke('#FFD5C2');
   strokeWeight(w*0.003);
   noFill();
-  rect(24*w/60,10*h/60,12*w/60,12*h/60,10);
+  rect(24*w/60,9*h/60,12*w/60,9*h/60,10);
 
   textAlign(CENTER, CENTER);
   textSize(w*0.025);
@@ -418,7 +433,7 @@ function draw() {
   stroke('#FFD5C2');
   strokeWeight(w*0.003);
   noFill();
-  rect(39*w/60,10*h/60,12*w/60,12*h/60,10);
+  rect(39*w/60,9*h/60,12*w/60,9*h/60,10);
 
   textAlign(CENTER, CENTER);
   textSize(w*0.025);
@@ -430,13 +445,31 @@ function draw() {
   textSize(w*0.015);
   let xx3 = 40*w/60;
   text('Phase Shift Amount', xx3, yy);
-  text('Phase Shift Period', xx3, yy+20);
-  text('Piece length', xx3, yy+40);
-  text('Tempo (BPM)', xx3, yy+60);
-  text('Scale Type', xx3, yy+80)
-  text('Root Note', xx3, yy+110)
-  text('Color Notes', xx3, yy+132)
-  text('Color Amount', xx3, yy+154)
+  text('Phase Shift Period', xx3, yy+22);
+  text('Piece length', xx3, yy+44);
+  text('Tempo (BPM)', xx3, yy+66);
+
+
+  // ----- text Fourth box
+  stroke('#FFD5C2');
+  strokeWeight(w*0.003);
+  noFill();
+  rect(21*w/60,21*h/60,18*w/60,9*h/60,10);
+
+  textAlign(CENTER, CENTER);
+  textSize(w*0.025);
+  fill('#588B8B');
+  strokeWeight(0);
+  text('HARMONY PARAMETERS', 30*w/60, 20*h/60);
+  textAlign(LEFT, CENTER);
+  fill(color_txt);
+  textSize(w*0.015);
+  let xx4 = 23*w/60;
+  let yy2 = 23*h/60;
+  text('Scale Type', xx4, yy2)
+  text('Root Note', xx4, yy2+22)
+  text('Color Notes', xx4, yy2+44)
+  text('Color Rate', xx4, yy2+66)
 
   // ----- Buttons
   if (gen_button.isPressed){
@@ -891,7 +924,6 @@ function generateFlag(){
 
 function toggleTutorial() {
   if (!tutorial_state) {
-    //background(1)
     tutorial.background(255, 255, 255, 100);
     tutorial.fill(0,0,0,150);
     tutorial.textSize(10);
@@ -901,8 +933,6 @@ function toggleTutorial() {
     console.log('a')
   }
   else{
-    //background(100)
-
     tutorial.clear();
     tutorial_state=false;
   }
@@ -928,7 +958,7 @@ function reposition(){
 
 
   let x_onsets = 15*w/60+10;
-  let y_onsets = 13*h/60;
+  let y_onsets = 11*h/60;
   for(let i = 1; i<=4; i++){
     let tmp_onsets = onsetsinps[i-1]
 
