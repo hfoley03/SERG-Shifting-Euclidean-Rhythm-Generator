@@ -85,7 +85,7 @@ function setup() {
     let tmp_synth_str = "tr" + i + "_synth";
     let tmp_synth = window[tmp_synth_str];
     tmp_synth = createSelect();
-    tmp_synth.position(synth_x,synth_y+20*(i-1)+1);
+    if(i==1 || i == 2) tmp_synth.position(synth_x,synth_y+20*(i-1)+1);
     if(i==3 || i==4){
       tmp_synth.position(synth_x+15*w/60,synth_y+20*(i-3)+1);
     }
@@ -252,7 +252,14 @@ function draw() {
 
   image(tutorial, 0, 0);
 
+
   w = width;
+
+
+  reposition();
+
+
+
   //console.log('first', first_time_inst_play)
   //console.log(Tone.context.currentTime)
 
@@ -789,4 +796,48 @@ function toggleTutorial() {
     tutorial.clear();
     tutorial_state=false;
   }
+}
+
+
+
+function reposition(){
+
+  // Positioning when resizes
+
+  synth_x = 15 * w / 60 + 10;
+  synth_y = 16 * h / 60 + 1;
+
+
+  for (i = 1; i <= 4; i++) {
+    tmp_synth = synthinps[i-1]
+    if(i==1 || i ==2) tmp_synth.position(synth_x, synth_y + 20 * (i - 1) + 1);
+    if (i == 3 || i == 4) {
+      tmp_synth.position(synth_x + 15 * w / 60, synth_y + 20 * (i - 3) + 1);
+    }
+  }
+
+
+  let x_onsets = 15*w/60+10;
+  let y_onsets = 13*h/60;
+  for(let i = 1; i<=4; i++){
+    let tmp_onsets = onsetsinps[i-1]
+
+    if(i == 1 || i == 2) {
+      tmp_onsets.position(x_onsets, y_onsets + 22 * (i - 1));
+    }
+    else{
+      tmp_onsets.position(x_onsets+15*w/60, y_onsets + 22 * (i - 3));
+    }
+  }
+
+  let x_inputs = 49*w/60;
+  let y_inputs = 13*h/60-2;
+  phase_shift_amount_inp.position(x_inputs,y_inputs);
+
+  phase_shift_period_inp.position(x_inputs,y_inputs+22);
+  length_inp.position(x_inputs,y_inputs+44);
+  tempo_bpm_inp.position(x_inputs,y_inputs+66);
+  scaleTypeSelect.position(x_inputs,y_inputs+88);
+  rootNoteSelect.position(x_inputs,y_inputs+110);
+
 }
