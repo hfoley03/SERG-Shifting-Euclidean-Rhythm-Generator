@@ -186,12 +186,20 @@ function setup() {
 
   // ---- Volume Sliders
   Volume1 = createSliderV('Volume1', 22*w/60, 36*h/60, w/60, 8*w/60, -45, 0);
+  Volume1.val = -23;
+  alpha1 = map(Volume1.val,-45,-23,0,1);
   Volume1.setStyle({rounding: 5, trackWidth: 0.1});
   Volume2 = createSliderV('Volume2', 24.5*w/60, 36*h/60, w/60, 8*w/60, -45, 0);
+  Volume2.val = -23;
+  alpha2 = map(Volume2.val,-45,-23,0,1);
   Volume2.setStyle({rounding: 5, trackWidth: 0.1});
   Volume3 = createSliderV('Volume3', 27*w/60, 36*h/60, w/60, 8*w/60, -45, 0);
+  Volume3.val = -23;
+  alpha3 = map(Volume3.val,-45,-23,0,1);
   Volume3.setStyle({rounding: 5, trackWidth: 0.1});
   Volume4 = createSliderV('Volume4', 29.5*w/60, 36*h/60, w/60, 8*w/60, -45, 0);
+  Volume4.val = -23;
+  alpha4 = map(Volume4.val,-45,-23,0,1);
   Volume4.setStyle({rounding: 5, trackWidth: 0.1});
 
   // ---- Mute Selecotors
