@@ -7,11 +7,11 @@ let clr_tittle = '#A3E7FC';
 let clr_subtittle = '#B9E28C';
 let clr_txt = '#FFFFFF';   //Color of Text
 
-let cl1 = 'rgba(255, 225, 86,1)';       // color onsets Fixed Circle
-let cl2 = 'rgba(255, 225, 86,0.3)';     // color offsets Fixed Circle
-let cl3 = 'rgba(203, 255, 77,1)';      // color onsets Shifting Circle
-let cl4 = 'rgba(203, 255, 77,0.3)';    // color offsets Shifting Circle
-let cl5 = 'rgba(191, 192, 192,0.2)';   // color Visual Fixed
+let cl1 = 'rgba(255, 102, 102,1)';       // color onsets Fixed Circle
+let cl2 = 'rgba(255, 102, 102,0.3)';     // color offsets Fixed Circle
+let cl3 = 'rgba(255, 225, 86,1)';        // color onsets Shifting Circle
+let cl4 = 'rgba(255, 225, 86,0.3)';      // color offsets Shifting Circle
+let cl5 = 'rgba(191, 192, 192,0.2)';     // color Visual Fixed
 
 let clr_btn_bg = '#85898F';
 let clr_bt_st = '#4E5258';
@@ -351,7 +351,7 @@ function draw() {
   background(clr_bg);
   drawGui();
 
-  //image(tutorial, 0, 0);
+  image(tutorial, 0, 0);
 
   w = width;
 
@@ -1065,7 +1065,6 @@ function reposition(){
   colorAmtSlider.x = x_inputs+100
   colorAmtSlider.y = y_inputs+154
 }
-
 
 function checkErrors(){
   /*
