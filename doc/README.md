@@ -55,11 +55,53 @@ The generation of the midi object is handled by the javascript file midiGenerati
 
 #### euclideanPattern(onsets, pulses)
 
-The first step in building the MIDI object for the piece is to create the base Euclidean Rhythm. This is handled by the function euclideanPattern. The function has two input arguments, onsets and pulses. The function returns a string with a binary representation of the Euclidean Rhythm. For example with inputs onsets = 5 and pulses = 8, the function would return “10110110”, with a 1 representing an onset and a 0 a pulse without an onset.
+The first step in building the MIDI object for the piece is to create the base Euclidean Rhythm. This is handled by the function euclideanPattern. The function has two input arguments, onsets and pulses. The function returns a string with a binary representation of the Euclidean Rhythm. For example with inputs onsets = 5 and pulses = 8, the function would return
+```
+“10110110”
+```
+With a 1 representing an onset and a 0 a pulse without an onset.
 The generation of Euclidean Rhythm was designed from the description in Godfried T. Toussaint’s book The Geometry of Musical Rhythm, chapter 19 “Euclidean Rhythms”.
 The algorithm was designed from scratch using the method he described. The figure below is taken from The Geometry of Musical Rhythm and shows a visual representation of the algorithm with 5 onsets and 8 pulses.
 
-####
+#### binaryRhythmToMidi(binaryRhythm, midiObject, pulseInTicks, offset)
+
+This function is responsible for transforming the binary string representation of a Euclidean Rhythm into a Tone.js MIDI object. It’s input arguments are binaryRhythm (the binary string of the Euclidean rhythm), midiObject (an empty Tone.js midi object), pulseInTicks (the number of ticks in one pulse) and offset (used to decide if the function is creating tracks 1 & 2 or tracks 3 & 4). It returns a midi object with one bar of Euclidean rhythm in each of the four tracks.
+
+#### createNote(track_, timeTicks, pulseInTicks_)
+
+Adds a midi note to a tracks at a specific time in ticks. The octave of the note depends on the track number. Input arguments are track_ (the track that the note should be added to), timeTicks (when the note should happen in ticks) and pulseInTicks_ (the duration of a pulse in ticks, used to set the length of the note)
+
+#### pitch()
+
+This function is called by createNote to specify what the note letter value will be.
+If the user is working in C major with no colour notes selected the function will always return “C”.
+If the user has selected colour notes 3 and 5, and with a colour amount of 30%, the function will have a 70% chance of returning “C” and a 30% chance of returning an “E” or “G” (the 3rd and 5th degree of the C Major Scale). These values will change as expected for example if the user specifies D Minor with colour notes 2,4,7.
+
+#### vel()
+
+This function returns a random velocity value for a midi note. The range that this velocity value can be is controlled by the user. If the user has the range at its minium size the function always returns 1.0, max velocity. If the user has the range at 1/4 the values returned will be between 0.75 – 1.0. At maximum range the values returned will be between 0.1 – 1.0.
+
+#### calcScale(key, intervals)
+
+This function creates a scale given a root note and intervals array. The intervals array describes the pattern of intervals in a scale. For example a major scale is represented by
+```
+let major = [2,2,1,2,2,2,1]
+```
+#### userSelectedNotes(userSelected, scaleCalculated)
+
+This function reduces the scale created in calcScale to just the notes that the user desires. For example if the user wants C Major with colour notes 4 & 5, the function returns
+```
+[“C”, “F”, “G”]
+```
+
+#### phaseAndCompose(midiInProgress,phaseShiftAmount, phaseShiftPeriod,length)
+
+This function is responsible for creating the MIDI object containing the full composition of all 4 tracks that will be played back in the browser.
+Its input arguments are midiInProgress (a MIDI object with four tracks, with each track containing a one bar Euclidean Rhythm), phaseShiftAmount (by how many pulses should a rhythm be shifted by), phaseShiftPeriod(after how many bars should a shift occur) and length (the overall length of the composition in bars).
+The function returns the final MIDI object.
+
+MAKE FLOW CHART AND USE CODE SNIPPETS
+
 
 ## Challenges
 

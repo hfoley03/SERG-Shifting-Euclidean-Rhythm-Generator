@@ -216,7 +216,6 @@ function createNote(track_, timeTicks, pulseInTicks_){
   })
 }
 
-// creates random velocity,
 function vel(){
   let vel_ = getRandomArbitrary(velAmount, 1);
   if (vel_ < 0.1){ // needed as a velocity of zero means no note
