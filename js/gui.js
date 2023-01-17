@@ -347,6 +347,7 @@ function setup() {
 }
 
 function draw() {
+  clear()
   background(clr_bg);
   drawGui();
 
@@ -588,8 +589,8 @@ function draw() {
 // ----- Functions for the visuals for the fixed circles  -----
 
 function initialization(){
-  pulse_durationA = finalMidiObject.tracks[1].notes[1].duration;
-  pulse_durationB = finalMidiObject.tracks[3].notes[1].duration;
+  pulse_durationA = finalMidiObject.tracks[1].notes[0].duration;
+  pulse_durationB = finalMidiObject.tracks[3].notes[0].duration;
   bar_durationA = pulse_durationA*pulsesA;
   bar_durationB = pulse_durationB*pulsesB;
 
@@ -920,11 +921,34 @@ function start_aud_gui() {
 
 function toggleTutorial() {
   if (!tutorial_state) {
+
+    xx = 2*w/60
+    yy = 7*h/60
+
+    // ----- Onsets
+    stroke('#5c2c18');
+    strokeWeight(w*0.003);
+    noFill();
+    tutorial.rect(xx, yy,12*w/60,7*h/60,5);
+
+    // ----- First box text
+    stroke('#5c2c18');
+    strokeWeight(w*0.003);
+    noFill();
+    tutorial.rect(xx, yy,12*w/60,7*h/60,5);
+
+    // ----- First box text
+    stroke('#5c2c18');
+    strokeWeight(w*0.003);
+    noFill();
+    tutorial.rect(xx, yy,12*w/60,7*h/60,5);
+
+
     tutorial.background(255, 255, 255, 100);
     tutorial.fill(0,0,0,150);
     tutorial.textSize(10);
-    tutorial.textAlign(CENTER,CENTER);
-    tutorial.text("This is a play button hihi", w/2, h/2);
+    //tutorial.textAlign(CENTER,CENTER);
+    tutorial.text("This is a play button hihi", xx+2, yy+12);
     tutorial_state = true;
     console.log('a')
   }
