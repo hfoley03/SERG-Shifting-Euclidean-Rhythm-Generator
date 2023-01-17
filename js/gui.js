@@ -1,14 +1,21 @@
 // ------- P5 JS -----
 let w;        //windowWidth
 let h = 900;  //windowHeight
-let cl_bg = '#FFFBFF';       //Background Color
-let color_txt = '#000000';   //Color of Text
 
-let cl1 = 'rgba(200, 85, 61,1)';       // color onsets Fixed Circle
-let cl2 = 'rgba(200, 85, 61,0.3)';     // color offsets Fixed Circle
-let cl3 = 'rgba(239, 131, 84,1)';      // color onsets Shifting Circle
-let cl4 = 'rgba(239, 131, 84,0.3)';    // color offsets Shifting Circle
-let cl5 = 'rgba(191, 192, 192,0.2)';   // color Visual Fixed
+let clr_bg = '#5a606c';       //Background Color
+let clr_tittle = '#A3E7FC';
+let clr_subtittle = '#B9E28C';
+let clr_txt = '#FFFFFF';   //Color of Text
+
+let cl1 = 'rgba(255, 102, 102,1)';       // color onsets Fixed Circle
+let cl2 = 'rgba(255, 102, 102,0.3)';     // color offsets Fixed Circle
+let cl3 = 'rgba(255, 225, 86,1)';        // color onsets Shifting Circle
+let cl4 = 'rgba(255, 225, 86,0.3)';      // color offsets Shifting Circle
+let cl5 = 'rgba(191, 192, 192,0.2)';     // color Visual Fixed
+
+let clr_btn_bg = '#85898F';
+let clr_bt_st = '#4E5258';
+let clr_bt_fl_off = '#4E5258';
 
 let phase_shift_amount_inp;
 let phase_shift_period_inp;
@@ -94,6 +101,8 @@ function setup() {
     }
     tmp_synth.selected(All_Synths[0]);
     tmp_synth.size(91);
+    tmp_synth.style('color:'+clr_txt);
+    tmp_synth.style('background:'+clr_bg);
     synthinps.push(tmp_synth)
   }
 
@@ -111,6 +120,7 @@ function setup() {
     if (i==1 || i==3){
       tmp_onsets = createInput(onsets_pulses[i-1]);
       tmp_onsets.size(32);
+      tmp_onsets.style('background:'+clr_bg);
     }
     else{
       tmp_onsets = createSelect();
@@ -122,6 +132,8 @@ function setup() {
     if(i==1 || i==2) {tmp_onsets.position(x_onsets, y_onsets+22*(i-1));}
     else{tmp_onsets.position(x_onsets+16*w/60, y_onsets+22*(i-3));}
     onsetsinps.push(tmp_onsets);
+    tmp_onsets.style('color:'+clr_bg);
+
   }
 
 
@@ -147,7 +159,8 @@ function setup() {
   tempo_bpm_inp.size(32);
 
   velAmtSlider =  createSlider('Velocity Amount Slider', 29*w/60-7, 29*h/60-11,6.5*w/60,w/60,);
-  velAmtSlider.setStyle({rounding: 5, trackWidth: 0.1});
+  velAmtSlider.setStyle({rounding: 5, trackWidth: 0.1,
+    fillBg:color(clr_btn_bg), strokeBg:color(clr_bt_st)});
 
   rootNoteSelect = createSelect();
   rootNoteSelect.option("C");rootNoteSelect.option("C#");rootNoteSelect.option("D");rootNoteSelect.option("D#");
@@ -163,75 +176,69 @@ function setup() {
 
   box2nd = createToggle("2", x_inputs2-7,y_inputs+33, w/60, w/60);
   box2nd.setStyle({
-    textSize:w/60,
-    rounding: 5,
+    rounding: 5, textSize:w/60,
+    fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
-    fillBgOn:color('rgba(170, 250, 200,1)'),
-    fillBgOnHover:color('rgba(170, 250, 200,.5)'),
-    fillBgOnActive:color('rgba(170, 250, 200,.3)')});
+    fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
+    fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
+    strokeBgOff:color(clr_bt_st)});
   box3rd = createToggle("3", x_inputs2+17, y_inputs+33, w/60, w/60);
   box3rd.setStyle({
-    textSize:w/60,
-    rounding: 5,
+    rounding: 5, textSize:w/60,
+    fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
-    fillBgOn:color('rgba(170, 250, 200,1)'),
-    fillBgOnHover:color('rgba(170, 250, 200,.5)'),
-    fillBgOnActive:color('rgba(170, 250, 200,.3)')});
+    fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
+    fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
+    strokeBgOff:color(clr_bt_st)});
   box4th = createToggle("4", x_inputs2+41, y_inputs+33, w/60, w/60);
   box4th.setStyle({
-    textSize:w/60,
-    rounding: 5,
+    rounding: 5, textSize:w/60,
+    fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
-    fillBgOn:color('rgba(170, 250, 200,1)'),
-    fillBgOnHover:color('rgba(170, 250, 200,.5)'),
-    fillBgOnActive:color('rgba(170, 250, 200,.3)')});
+    fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
+    fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
+    strokeBgOff:color(clr_bt_st)});
   box5th = createToggle("5", x_inputs2+65, y_inputs+33, w/60, w/60);
   box5th.setStyle({
-    textSize:w/60,
-    rounding: 5,
+    rounding: 5, textSize:w/60,
+    fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
-    fillBgOn:color('rgba(170, 250, 200,1)'),
-    fillBgOnHover:color('rgba(170, 250, 200,.5)'),
-    fillBgOnActive:color('rgba(170, 250, 200,.3)')});
+    fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
+    fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
+    strokeBgOff:color(clr_bt_st)});
   box6th = createToggle("6", x_inputs2+89, y_inputs+33, w/60, w/60);
   box6th.setStyle({
-    textSize:w/60,
-    rounding: 5,
+    rounding: 5, textSize:w/60,
+    fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
-    fillBgOn:color('rgba(170, 250, 200,1)'),
-    fillBgOnHover:color('rgba(170, 250, 200,.5)'),
-    fillBgOnActive:color('rgba(170, 250, 200,.3)')});
+    fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
+    fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
+    strokeBgOff:color(clr_bt_st)});
   box7th = createToggle("7",x_inputs2+113, y_inputs+33, w/60, w/60);
-  box7th.setStyle({
-    textSize:w/60,
-    rounding: 5,
+  box7th.setStyle({rounding: 5, textSize:w/60,
+    fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
-    fillBgOn:color('rgba(170, 250, 200,1)'),
-    fillBgOnHover:color('rgba(170, 250, 200,.5)'),
-    fillBgOnActive:color('rgba(170, 250, 200,.3)')});
+    fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
+    fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
+    strokeBgOff:color(clr_bt_st)});
 
   colorAmtSlider =  createSlider('Color Amt Slider', x_inputs2-7, y_inputs+57,6.5*w/60,w/60, 1, 0);
-  colorAmtSlider.setStyle({rounding: 5, trackWidth: 0.1});
+  colorAmtSlider.setStyle({rounding: 5, trackWidth: 0.1,
+    fillBg:color(clr_btn_bg), strokeBg:color(clr_bt_st)});
 
 
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
   gen_button = createButton('GENERATE', 17*w/60, 33*h/60,6*w/60,2*h/60);
-  gen_button.setStyle({
-    fillBg:color('#85898F'),
-    rounding: 5,
-    font:'Bahnschrift',
-    textSize: w/60,
-    fillLabel:color('#FFFFFF'),
-    fillLabelHover:color('#4E5258'),
-    fillLabelActive:color('#4E5258'),
-    strokeBg:color('#4E5258')
+  gen_button.setStyle({font:'Bahnschrift', textSize: w/60,
+    fillBg:color(clr_btn_bg), rounding: 5,
+    fillLabel:color('#FFFFFF'),fillLabelHover:color('#4E5258'), fillLabelActive:color('#4E5258'),
+    strokeBg:color(clr_bt_st)
   });
 
   // ---- Play button
   play_button = createButton('PLAY',27*w/60, 33*h/60,6*w/60,2*h/60);
   play_button.setStyle({
-    fillBg:color('#85898F'),
-    rounding: 5,
+    fillBg:color(clr_btn_bg), rounding: 5,
     font:'Bahnschrift', textSize: w/60,
     fillLabel:color('#FFFFFF'), fillLabelHover:color('#4E5258'), fillLabelActive:color('#4E5258'),
     strokeBg:color('#4E5258')
@@ -240,8 +247,7 @@ function setup() {
   // ---- Stop button
   stop_button = createButton('STOP',37*w/60, 33*h/60,6*w/60,2*h/60);
   stop_button.setStyle({
-    fillBg:color('#85898F'),
-    rounding: 5,
+    fillBg:color(clr_btn_bg), rounding: 5,
     font:'Bahnschrift', textSize: w/60,
     fillLabel:color('#FFFFFF'), fillLabelHover:color('#4E5258'), fillLabelActive:color('#4E5258'),
     strokeBg:color('#4E5258')
@@ -341,7 +347,7 @@ function setup() {
 }
 
 function draw() {
-  background(cl_bg);
+  background(clr_bg);
   drawGui();
 
   image(tutorial, 0, 0);
@@ -359,11 +365,11 @@ function draw() {
     draw_flag = true;
   }
 
-  fill('#0D3E1D');
+  fill(clr_tittle);
   textSize(w*0.04);
   textFont('Bahnschrift');
   textAlign(CENTER);
-  text('MIDI EUCLIDEAN RHYTHM GENERATOR', w/2, 2*h/60);
+  text('SHIFTING EUCLIDEAN RHYTHM GENERATOR', w/2, 2*h/60);
 
   // ----- First box text
   stroke('#FFD5C2');
@@ -371,13 +377,13 @@ function draw() {
   noFill();
   rect(16*w/60,7*h/60,12*w/60,7.5*h/60,5);
 
-  fill('#588B8B');
+  fill(clr_subtittle);
   strokeWeight(0);
   textAlign(CENTER, CENTER);
   textSize(w*0.025);
   text('FIRST SET', 22*w/60, 6*h/60);
   textAlign(RIGHT, CENTER);
-  fill(color_txt);
+  fill(clr_txt);
   textSize(w*0.015);
   let xx1 = 21.5*w/60;
   let yy = 8.5*h/60;
@@ -394,11 +400,11 @@ function draw() {
 
   textAlign(CENTER, CENTER);
   textSize(w*0.025);
-  fill('#588B8B');
+  fill(clr_subtittle);
   strokeWeight(0);
   text('SECOND SET', 38*w/60, 6*h/60);
   textAlign(RIGHT, CENTER);
-  fill(color_txt);
+  fill(clr_txt);
   textSize(w*0.015);
   let xx2 = 37.5*w/60;
   text('Onsets', xx2, yy);
@@ -414,7 +420,7 @@ function draw() {
 
   textAlign(CENTER, CENTER);
   textSize(w*0.025);
-  fill('#588B8B');
+  fill(clr_subtittle);
   strokeWeight(0);
   text('PARAMETERS', 30*w/60, 17*h/60);
   stroke('#93B7BE');
@@ -422,7 +428,7 @@ function draw() {
   noFill();
   rect(16*w/60,19*h/60,13*w/60,7.5*h/60,5);
   textAlign(RIGHT, CENTER);
-  fill(color_txt);
+  fill(clr_txt);
   textSize(w*0.015);
   strokeWeight(0);
   let xx3 = 25*w/60;
@@ -437,7 +443,7 @@ function draw() {
   noFill();
   rect(31*w/60,19*h/60,13*w/60,7.5*h/60,5);
   textAlign(RIGHT, CENTER);
-  fill(color_txt);
+  fill(clr_txt);
   textSize(w*0.015);
   strokeWeight(0);
   let xx4 = 36.5*w/60;
@@ -451,7 +457,7 @@ function draw() {
   noFill();
   rect(23.5*w/60,27.5*h/60,13*w/60,3*h/60,5);
   textAlign(RIGHT, CENTER);
-  fill(color_txt);
+  fill(clr_txt);
   textSize(w*0.015);
   strokeWeight(0);
   text('Velocity', 28*w/60, 29*h/60);
@@ -510,7 +516,7 @@ function draw() {
 
   textAlign(CENTER, CENTER);
   textSize(w*0.025);
-  fill('#588B8B');
+  fill(clr_subtittle);
   strokeWeight(0);
   text('MIXER', 30*w/60, 38*h/60);
   fill('#FFFFFF');
@@ -609,7 +615,7 @@ function FixedCircle(track) {
     y_c = 47.5*h/60;
     alpha = alpha1;
     noStroke();
-    fill(color_txt);
+    fill(clr_txt);
     for (let i = 0; i < pulses; i++) {
       text(i+1,(x_c*0.7)*cos(-90+(360/pulses)*(i+1/2))+x_c, (x_c*0.7)*sin(-90+(360/pulses)*(i+1/2))+y_c);
     }
@@ -620,27 +626,27 @@ function FixedCircle(track) {
     y_c = 47.5*h/60;
     alpha = alpha3;
     noStroke();
-    fill(color_txt);
+    fill(clr_txt);
     for (let i = 0; i < pulses; i++) {
       text(i+1,(x_c*0.13)*cos(-90+(360/pulses)*(i+1/2))+x_c, (x_c*0.13)*sin(-90+(360/pulses)*(i+1/2))+y_c);
     }
   }
-  cl1 = 'rgba(200, 85, 61,'+alpha+')';       // color onsets Track 1
-  cl2 = 'rgba(200, 85, 61,'+alpha*0.3+')';    // color pulses Track 1
+  cl1 = 'rgba(255, 102, 102,'+alpha+')';       // color onsets Track 1
+  cl2 = 'rgba(255, 102, 102,'+alpha*0.3+')';    // color pulses Track 1
 
   strokeWeight(w*0.002);
   for (let i = 0; i < pulses; i++) {
     if (onset[i] == 1) {
-      stroke(cl_bg);
+      stroke(clr_bg);
       fill(cl1);
       arc(x_c, y_c, r2, r2, -90+360/pulses*i, -90+360/pulses*(i+1), PIE);
-      fill(cl_bg);
+      fill(clr_bg);
       arc(x_c, y_c, r2 - 1.5*w/60, r2 - 1.5*w/60, 0, 360, PIE);
     } else {
-      stroke(cl_bg);
+      stroke(clr_bg);
       fill(cl2);
       arc(x_c, y_c, r2, r2, -90+360/pulses*i, -90+360/pulses*(i+1), PIE);
-      fill(cl_bg);
+      fill(clr_bg);
       arc(x_c, y_c, r2-1.5*w/60, r2-1.5*w/60, 0, 360, PIE);
     }
   }
@@ -737,16 +743,16 @@ function ShuffleCircle(x, y, onset, pulses, prt, color1, color2) {
 
   for (let i = 0; i<pulses; i++) {
     if (onset[i] == 1) {
-      stroke(cl_bg);
+      stroke(clr_bg);
       fill(color1);
       arc(x, y, prt*r2, prt*r2, -90+360/pulses*i, -90+360/pulses*(i+1), PIE);
-      fill(cl_bg);
+      fill(clr_bg);
       arc(x, y, prt*r2-1.5*w/60, prt*r2-1.5*w/60, 0, 360, PIE);
     } else{
-      stroke(cl_bg);
+      stroke(clr_bg);
       fill(color2);
       arc(x, y, r2 * prt, r2*prt, -90+360/pulses*i, -90+360/pulses*(i+1), PIE);
-      fill(cl_bg);
+      fill(clr_bg);
       arc(x, y, prt * r2-1.5*w/60, prt * r2-1.5*w/60, 0, 360, PIE);
     }
   }
@@ -781,8 +787,8 @@ function VisualShift(track,){
   //console.log("Track : "+track);
   //console.log("Shift_binary : "+Shift_binary);
 
-  cl3 = 'rgba(239, 131, 84,'+alpha+')';      // color onsets Shifting Circle
-  cl4 = 'rgba(239, 131, 84,'+alpha*.3+')';    // color offsets Shifting Circle
+  cl3 = 'rgba(255, 225, 86,'+alpha+')';      // color onsets Shifting Circle
+  cl4 = 'rgba(255, 225, 86,'+alpha*.3+')';    // color offsets Shifting Circle
 
   // Divide the binary array in bars to then draw the shifted bar
   if (actualbar <= length){
@@ -1056,7 +1062,6 @@ function reposition(){
   colorAmtSlider.x = x_inputs+100
   colorAmtSlider.y = y_inputs+154
 }
-
 
 function checkErrors(){
   /*
