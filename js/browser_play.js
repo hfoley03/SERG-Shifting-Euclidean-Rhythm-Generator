@@ -65,6 +65,7 @@ let channelStrip = [channel1, channel2, channel3, channel4];
 
 //This function creates the synths and sends them to the master
 function playNotes() {
+  Tone.context.latencyHint = 1;
   //check if the current time needs to reset or continue from where it is left
 
   if (playNotesCount==0){
@@ -101,6 +102,9 @@ function playNotes() {
             //synth.filterEnvelope.release = 0.5
             synth.filterEnvelope.sustain  = 0.1
     }
+    if (synth_type == "Synth") {
+      var synth = new Tone.Synth().connect(channelStrip[index]);
+    }
     else if (synth_type == "Kick") {
       var synth = new Tone.Player(bufferkick).connect(channelStrip[index]);
     }
@@ -115,7 +119,7 @@ function playNotes() {
     //console.log(synth)
     synths.push(synth)
 
-    if (synth_type == "MonoSynth"){
+    if (synth_type == "MonoSynth" || synth_type == 'Synth'){
       track.notes.forEach(note => {
         time_inst_to_play = time_common_track + note.time + 0.0001 // when the play event of the note will be scheduled
         //time_instants_to_play.push(time_inst_to_play);
@@ -153,8 +157,10 @@ function start_aud() {
 
 // Stops the audio
 function stop_aud(){
+
   playNotesCount= 0; // reset the count to reset time in playNotes function
   Tone.Transport.stop();
+
   console.log("Audio stopped")
   stopTimer() //for Gui purposes
   // Clean the scheduled events
