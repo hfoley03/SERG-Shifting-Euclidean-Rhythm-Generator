@@ -82,10 +82,9 @@ function setup() {
   tutorial = createGraphics(w, h);
   //toggleTutorial();
 
-
   // ---- Selection Synth type by the user
   let synth_x = 22.5*w/60+8;
-  let synth_y = 13*h/60-3;
+  let synth_y = 11.5*h/60-4;
   for(let i = 1; i<=4; i++){
     let tmp_synth_str = "tr" + i + "_synth";
     let tmp_synth = window[tmp_synth_str];
@@ -103,7 +102,7 @@ function setup() {
 
   // ----- Inputs of Onsets and Pulses for the Euclidean Rhythm
   let x_onsets = 22.5*w/60+8;
-  let y_onsets = 10*h/60;
+  let y_onsets = 8.5*h/60;
   let onsets_pulses = [onsetsA,pulsesA, onsetsB, pulsesB];
   let onsets_pulses_str = ["onsetsA","pulsesA", "onsetsB", "pulsesB"];
 
@@ -129,9 +128,9 @@ function setup() {
 
 
   // ----- Inputs of lenght of piece, shifting amount and shifting period, Tempo, Root, Scale
-  let x_inputs = 25*w/60;
-  let x_inputs2 = 36*w/60;
-  let y_inputs = 22*h/60-2;
+  let x_inputs = 26*w/60;
+  let x_inputs2 = 37*w/60;
+  let y_inputs = 20.5*h/60-3;
 
   phase_shift_amount_inp = createInput(phaseShiftAmount.toString());
   phase_shift_amount_inp.position(x_inputs,y_inputs);
@@ -149,7 +148,7 @@ function setup() {
   tempo_bpm_inp.position(x_inputs,y_inputs+66);
   tempo_bpm_inp.size(32);
 
-  velAmtSlider =  createSlider('Velocity Amount Slider', 30.5*w/60-7, 30*h/60-11,8*w/60,w/60,);
+  velAmtSlider =  createSlider('Velocity Amount Slider', 29*w/60-7, 29*h/60-11,6.5*w/60,w/60,);
   velAmtSlider.setStyle({rounding: 5, trackWidth: 0.1});
 
   rootNoteSelect = createSelect();
@@ -213,7 +212,7 @@ function setup() {
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
 
-  colorAmtSlider =  createSlider('Color Amt Slider', x_inputs2-7, y_inputs+57,8*w/60,w/60, 1, 0);
+  colorAmtSlider =  createSlider('Color Amt Slider', x_inputs2-7, y_inputs+57,6.5*w/60,w/60, 1, 0);
   colorAmtSlider.setStyle({rounding: 5, trackWidth: 0.1});
 
 
@@ -251,13 +250,13 @@ function setup() {
   });
 
   // ---- Volume Sliders
-  Volume1 = createSliderV('Volume1', 29.5*w/60, 40.5*h/60, w/60, 6*w/60, -30, 0);
+  Volume1 = createSliderV('Volume1', 29.5*w/60, 41.5*h/60, w/60, 6*w/60, -30, 0);
   Volume1.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume2 = createSliderV('Volume2', 32*w/60, 40.5*h/60, w/60, 6*w/60, -30, 0);
+  Volume2 = createSliderV('Volume2', 32*w/60, 41.5*h/60, w/60, 6*w/60, -30, 0);
   Volume2.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume3 = createSliderV('Volume3', 34.5*w/60, 40.5*h/60, w/60, 6*w/60, -30, 0);
+  Volume3 = createSliderV('Volume3', 34.5*w/60, 41.5*h/60, w/60, 6*w/60, -30, 0);
   Volume3.setStyle({rounding: 5, trackWidth: 0.1});
-  Volume4 = createSliderV('Volume4', 37*w/60, 40.5*h/60, w/60, 6*w/60, -30, 0);
+  Volume4 = createSliderV('Volume4', 37*w/60, 41.5*h/60, w/60, 6*w/60, -30, 0);
   Volume4.setStyle({rounding: 5, trackWidth: 0.1});
 
   // ---- Mute Selecotors
@@ -330,11 +329,11 @@ function setup() {
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
 
   // ---- Effects Sliders
-  Reverb = createSlider('Reverb', 22*w/60, 40.5*h/60, 6*w/60, w/60, 0, 1);
+  Reverb = createSlider('Reverb', 22*w/60, 41.5*h/60, 6*w/60, w/60, 0, 1);
   Reverb.setStyle({rounding: 5, trackWidth: 0.1});
-  Delay1 = createSlider('Delay1', 22*w/60, 44*h/60, 6*w/60, w/60, 0, 1);
+  Delay1 = createSlider('Delay1', 22*w/60, 45*h/60, 6*w/60, w/60, 0, 1);
   Delay1.setStyle({rounding: 5, trackWidth: 0.1});
-  Delay2 = createSlider('Delay2', 22*w/60, 47.5*h/60, 6*w/60, w/60, 0, 1);
+  Delay2 = createSlider('Delay2', 22*w/60, 48.5*h/60, 6*w/60, w/60, 0, 1);
   Delay2.setStyle({rounding: 5, trackWidth: 0.1});
 
   tutorial_button = createButton("?",54*w/60, 5*h/60,2*w/60,2*h/60);
@@ -366,24 +365,24 @@ function draw() {
   textSize(w*0.04);
   textFont('Bahnschrift');
   textAlign(CENTER);
-  text('MIDI EUCLIDEAN RHYTHM GENERATOR', w/2, 3*h/60);
+  text('MIDI EUCLIDEAN RHYTHM GENERATOR', w/2, 2*h/60);
 
   // ----- First box text
   stroke('#FFD5C2');
   strokeWeight(w*0.003);
   noFill();
-  rect(16*w/60,8*h/60,12*w/60,8*h/60,5);
+  rect(16*w/60,7*h/60,12*w/60,7.5*h/60,5);
 
   fill('#588B8B');
   strokeWeight(0);
   textAlign(CENTER, CENTER);
   textSize(w*0.025);
-  text('FIRST SET', 22*w/60, 7*h/60);
+  text('FIRST SET', 22*w/60, 6*h/60);
   textAlign(RIGHT, CENTER);
   fill(color_txt);
   textSize(w*0.015);
   let xx1 = 21.5*w/60;
-  let yy = 10*h/60;
+  let yy = 8.5*h/60;
   text('Onsets', xx1, yy);
   text('Pulses', xx1, yy+22);
   text('1st Track', xx1, yy+44);
@@ -393,13 +392,13 @@ function draw() {
   stroke('#FFD5C2');
   strokeWeight(w*0.003);
   noFill();
-  rect(32*w/60,8*h/60,12*w/60,8*h/60,5);
+  rect(32*w/60,7*h/60,12*w/60,7.5*h/60,5);
 
   textAlign(CENTER, CENTER);
   textSize(w*0.025);
   fill('#588B8B');
   strokeWeight(0);
-  text('SECOND SET', 38*w/60, 7*h/60);
+  text('SECOND SET', 38*w/60, 6*h/60);
   textAlign(RIGHT, CENTER);
   fill(color_txt);
   textSize(w*0.015);
@@ -413,29 +412,51 @@ function draw() {
   stroke('#FFD5C2');
   strokeWeight(w*0.003);
   noFill();
-  rect(15*w/60,20*h/60,30*w/60,12*h/60,5);
+  rect(15*w/60,18*h/60,30*w/60,13.5*h/60,5);
+
   textAlign(CENTER, CENTER);
   textSize(w*0.025);
   fill('#588B8B');
   strokeWeight(0);
-  text('PARAMETERS', 30*w/60, 19*h/60);
+  text('PARAMETERS', 30*w/60, 17*h/60);
+  stroke('#93B7BE');
+  strokeWeight(w*0.003);
+  noFill();
+  rect(16*w/60,19*h/60,13*w/60,7.5*h/60,5);
   textAlign(RIGHT, CENTER);
   fill(color_txt);
   textSize(w*0.015);
-  let xx3 = 24*w/60;
-  let yy2 = 22*h/60;
+  strokeWeight(0);
+  let xx3 = 25*w/60;
+  let yy2 = 20.5*h/60;
   text('Phase Shift Amount', xx3, yy2);
   text('Phase Shift Period', xx3, yy2+22);
   text('Piece length', xx3, yy2+44);
   text('Tempo (BPM)', xx3, yy2+66);
 
-  let xx4 = 35*w/60;
+  stroke('#9EC5AB');
+  strokeWeight(w*0.003);
+  noFill();
+  rect(31*w/60,19*h/60,13*w/60,7.5*h/60,5);
+  textAlign(RIGHT, CENTER);
+  fill(color_txt);
+  textSize(w*0.015);
+  strokeWeight(0);
+  let xx4 = 36.5*w/60;
   text('Root Note', xx4, yy2)
-  text('Scale Type', xx4, yy2+22)
-  text('Color Notes', xx4, yy2+44)
+  text('Scale Mode', xx4, yy2+22)
+  text('Notes', xx4, yy2+44)
   text('Color Rate', xx4, yy2+66)
 
-  text('Velocity', 29.5*w/60, 30*h/60);
+  stroke('#D0BCD5');
+  strokeWeight(w*0.003);
+  noFill();
+  rect(23.5*w/60,27.5*h/60,13*w/60,3*h/60,5);
+  textAlign(RIGHT, CENTER);
+  fill(color_txt);
+  textSize(w*0.015);
+  strokeWeight(0);
+  text('Velocity', 28*w/60, 29*h/60);
 
   // ----- Buttons
   if (gen_button.isPressed){
@@ -461,7 +482,6 @@ function draw() {
     }
   }
   text(error_message, 12*w/60, 24*w/60 + 70)
-
 
   if(play_button.isPressed){
     start_aud_gui();
@@ -490,23 +510,23 @@ function draw() {
   strokeWeight(w*0.003);
   stroke('rgba(135, 143, 155,.5)');
   fill('rgba(135, 143, 155,.5)');
-  rect(21*w/60,38*h/60,18*w/60,18*h/60,10);
+  rect(21*w/60,39*h/60,18*w/60,17*h/60,10);
 
   textAlign(CENTER, CENTER);
-  textSize(w*0.03);
+  textSize(w*0.025);
   fill('#588B8B');
   strokeWeight(0);
-  text('MIXER', 30*w/60, 37*h/60);
+  text('MIXER', 30*w/60, 38*h/60);
   fill('#FFFFFF');
   textSize(w*0.015);
-  text('1', 30*w/60, 39.5*h/60);
-  text('2', 32.5*w/60, 39.5*h/60);
-  text('3', 35*w/60, 39.5*h/60);
-  text('4', 37.5*w/60, 39.5*h/60);
+  text('1', 30*w/60, 40.5*h/60);
+  text('2', 32.5*w/60, 40.5*h/60);
+  text('3', 35*w/60, 40.5*h/60);
+  text('4', 37.5*w/60, 40.5*h/60);
   textSize(w*0.015);
-  text('Reverb', 25*w/60, 39.5*h/60);
-  text('Delay 1/4th', 25*w/60, 43*h/60);
-  text('Delay 1/8th', 25*w/60, 46.5*h/60);
+  text('Reverb', 25*w/60, 40.5*h/60);
+  text('Delay 1/4th', 25*w/60, 44*h/60);
+  text('Delay 1/8th', 25*w/60, 47.5*h/60);
 
   text('Mute', 27*w/60, 51*h/60+12);
   text('Solo', 27*w/60, 53*h/60+12);
@@ -590,23 +610,23 @@ function FixedCircle(track) {
     onset= binaryRhythmA;
     pulses = pulsesA;
     x_c = 10*w/60;
-    y_c = 45*h/60;
+    y_c = 47.5*h/60;
     alpha = alpha1;
     noStroke();
     fill(color_txt);
     for (let i = 0; i < pulses; i++) {
-      text(i+1,(x_c*0.7)*cos(-90+(360/pulses)*(i+1/2))+x_c, (y_c/4)*sin(-90+(360/pulses)*(i+1/2))+y_c);
+      text(i+1,(x_c*0.7)*cos(-90+(360/pulses)*(i+1/2))+x_c, (x_c*0.7)*sin(-90+(360/pulses)*(i+1/2))+y_c);
     }
   }else if (track == 2){
     onset= binaryRhythmB;
     pulses = pulsesB;
     x_c = 50*w/60;
-    y_c = 45*h/60;
+    y_c = 47.5*h/60;
     alpha = alpha3;
     noStroke();
     fill(color_txt);
     for (let i = 0; i < pulses; i++) {
-      text(i+1,(x_c*0.13)*cos(-90+(360/pulses)*(i+1/2))+x_c, (y_c/4)*sin(-90+(360/pulses)*(i+1/2))+y_c);
+      text(i+1,(x_c*0.13)*cos(-90+(360/pulses)*(i+1/2))+x_c, (x_c*0.13)*sin(-90+(360/pulses)*(i+1/2))+y_c);
     }
   }
   cl1 = 'rgba(200, 85, 61,'+alpha+')';       // color onsets Track 1
@@ -639,12 +659,12 @@ function VisualFix(track, pulses, color){
     end = map(indexA_2,0,pulses,-90,270);
     start = map(indexA_1,0,pulses,-90,270);
     x_arc = 10*w/60;
-    y_arc = 45*h/60;
+    y_arc = 47.5*h/60;
   }else if (track==2){
     end = map(indexB_2,0,pulses,-90,270);
     start = map(indexB_1,0,pulses,-90,270);
     x_arc = 50*w/60;
-    y_arc = 45*h/60;
+    y_arc = 47.5*h/60;
   }
 
   stroke(color);
@@ -750,14 +770,14 @@ function VisualShift(track,){
     proportion = proportion_indexA;
     actualbar = actualbarA;
     x_c = 10*w/60;
-    y_c = 45*h/60;
+    y_c = 47.5*h/60;
     alpha=alpha2;
   }else if (track == 3){
     pulses = pulsesB;
     proportion = proportion_indexB;
     actualbar = actualbarB;
     x_c = 50*w/60;
-    y_c = 45*h/60;
+    y_c = 47.5*h/60;
     alpha=alpha4;
   }
 
