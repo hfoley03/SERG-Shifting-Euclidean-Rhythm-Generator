@@ -97,11 +97,11 @@ This function reduces the scale created in calcScale to just the notes that the 
 #### phaseAndCompose(midiInProgress,phaseShiftAmount, phaseShiftPeriod,length)
 
 This function is responsible for creating the MIDI object containing the full composition of all 4 tracks that will be played back in the browser.
+
 Its input arguments are midiInProgress (a MIDI object with four tracks, with each track containing a one bar Euclidean Rhythm), phaseShiftAmount (by how many pulses should a rhythm be shifted by), phaseShiftPeriod(after how many bars should a shift occur) and length (the overall length of the composition in bars).
 The function returns the final MIDI object.
 
-MAKE FLOW CHART AND USE CODE SNIPPETS
-
+The flow chart in fig. x shows a high level flow of this function.
 
 ## Challenges
 
