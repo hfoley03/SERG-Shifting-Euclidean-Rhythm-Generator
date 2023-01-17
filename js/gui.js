@@ -229,9 +229,8 @@ function setup() {
 
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
   gen_button = createButton('GENERATE', 17*w/60, 33*h/60,6*w/60,2*h/60);
-  gen_button.setStyle({
+  gen_button.setStyle({font:'Bahnschrift', textSize: w/60,
     fillBg:color(clr_btn_bg), rounding: 5,
-    font:'Bahnschrift', textSize: w/60,
     fillLabel:color('#FFFFFF'),fillLabelHover:color('#4E5258'), fillLabelActive:color('#4E5258'),
     strokeBg:color(clr_bt_st)
   });
@@ -370,7 +369,7 @@ function draw() {
   textSize(w*0.04);
   textFont('Bahnschrift');
   textAlign(CENTER);
-  text('MIDI EUCLIDEAN RHYTHM GENERATOR', w/2, 2*h/60);
+  text('SHIFTING EUCLIDEAN RHYTHM GENERATOR', w/2, 2*h/60);
 
   // ----- First box text
   stroke('#FFD5C2');
