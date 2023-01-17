@@ -1,6 +1,6 @@
 // ------- P5 JS -----
-//let w;        //windowWidth
-let w = 1300;        //windowWidth
+let w;        //windowWidth
+//let w = 1300;        //windowWidth
 
 let h = 900;  //windowHeight
 
@@ -81,9 +81,10 @@ function windowResized() {
 }*/
 
 function setup() {
-  //createCanvas(windowWidth,h);
-  createCanvas(w,h);
+  createCanvas(windowWidth,h);
+  //createCanvas(w, h);
   angleMode(DEGREES);
+
 
   w = width;
   let gui = createGui();
@@ -104,7 +105,7 @@ function setup() {
     for( let k = 0; k<All_Synths.length;k++){
       tmp_synth.option(All_Synths[k]);
     }
-    tmp_synth.selected(All_Synths[0]);
+    tmp_synth.selected(All_Synths[3]);
     tmp_synth.size(91);
     tmp_synth.style('color:'+clr_txt);
     tmp_synth.style('background:'+clr_bg);
@@ -933,33 +934,33 @@ function toggleTutorial() {
 
     // top left
     tutorial.rect(xx, yy,12*w/60,7*h/60);
-    tutorial.text("A set has two tracks. The first track of each set is the \nbase rhythm.\n\n" +
-      "The second track plays the same base \nrhythm but will be circular shifted during the piece.\n\n" +
-      "The instrument for each track can be chosen. ", xx+2, yy+12);
+    tutorial.text("A set has two tracks. The first track of each set is the base rhythm.\n\n" +
+      "The second track plays the same base rhythm but will be circular shifted during the piece.\n\n" +
+      "The instrument for each track can be chosen. ", xx+2, yy+2,12*w/60,7*h/60);
 
     // mid left
     tutorial.rect(xx, yy+180,12*w/60,7*h/60);
-    tutorial.text("Phase Shift Amount – by how many pulses is a rhythm \nshifted by in the second track\n\n" +
-      "Phase Shift Period – after how many bars does a shift \noccur\n\n" +
-      "Length – number of bars before the composition loops", xx+2, yy+180+12);
+    tutorial.text("Phase Shift Amount – by how many pulses is a rhythm shifted by in the second track\n\n" +
+      "Phase Shift Period – after how many bars does a shift occur\n\n" +
+      "Length – number of bars before the composition loops", xx+2, yy+180+2,12*w/60,7*h/60);
 
     // bottom left
     tutorial.rect(xx, yy+390,12*w/60,2.5*h/60);
-    tutorial.text("Generate must be clicked after changing any of the \nparameters in order to generate a new Midi file.", xx+2, yy+390+12);
+    tutorial.text("Generate must be clicked after changing any of the parameters in order to generate a new Midi file.", xx+2, yy+390+2,12*w/60,2.5*h/60);
 
 
     // top right
-    tutorial.rect(xx + 935, yy+10,12*w/60,7*h/60);
-    tutorial.text("Each set of tracks is based on a Euclidean Rhythm. \nThis rhythm is created by choosing the number of onsets \n(hits) per bar and the number of pulses(sub division).\n\n" +
-      "Example. 3 onsets, 8 pulses produces the rhythm: \n10010010. ", xx + 935+2, yy+10+12);
+    tutorial.rect(xx + 44*w/60, yy+10,12*w/60,7*h/60);
+    tutorial.text("Each set of tracks is based on a Euclidean Rhythm. This rhythm is created by choosing the number of onsets (hits) per bar and the number of pulses(sub division).\n\n" +
+      "Example. 3 onsets, 8 pulses produces the rhythm: 10010010. ", xx + 44*w/60 + 2, yy+10 + 4,12*w/60,7*h/60);
 
 
     // mid right
-    tutorial.rect(xx + 935, yy+180,12*w/60,7*h/60);
+    tutorial.rect(xx + 44*w/60, yy+180,12*w/60,7*h/60);
     tutorial.text("Root Note – Root note of scale \n\n" +
       "Scale Mode – Major, Minor or Melodic Minor\n\n" +
-      "Flavour Notes – To add notes of the scale, eg 5 adds \n5ths\n\n" +
-      "Flavour Note % – Probability of flavour notes", xx + 935+2, yy+180+12);
+      "Flavour Notes – To add notes of the scale, eg 5 adds 5ths\n\n" +
+      "Flavour Note % – Probability of flavour notes", xx + 44*w/60 + 2, yy+180 + 4,12*w/60,7*h/60);
 
 
 
