@@ -1,5 +1,7 @@
 // ------- P5 JS -----
-let w;        //windowWidth
+//let w;        //windowWidth
+let w = 1300;        //windowWidth
+
 let h = 900;  //windowHeight
 
 let clr_bg = '#5a606c';       //Background Color
@@ -73,12 +75,14 @@ let error_message = " ";
 
 let draw_flag = false;
 
+/*
 function windowResized() {
   resizeCanvas(windowWidth, h);
-}
+}*/
 
 function setup() {
-  createCanvas(windowWidth,h);
+  //createCanvas(windowWidth,h);
+  createCanvas(w,h);
   angleMode(DEGREES);
 
   w = width;
@@ -928,30 +932,30 @@ function toggleTutorial() {
     yy = 7*h/60
 
     // top left
-    tutorial.rect(xx, yy,12*w/60,7*h/60,5);
+    tutorial.rect(xx, yy,12*w/60,7*h/60);
     tutorial.text("A set has two tracks. The first track of each set is the \nbase rhythm.\n\n" +
       "The second track plays the same base \nrhythm but will be circular shifted during the piece.\n\n" +
       "The instrument for each track can be chosen. ", xx+2, yy+12);
 
     // mid left
-    tutorial.rect(xx, yy+180,12*w/60,7*h/60,5);
+    tutorial.rect(xx, yy+180,12*w/60,7*h/60);
     tutorial.text("Phase Shift Amount – by how many pulses is a rhythm \nshifted by in the second track\n\n" +
       "Phase Shift Period – after how many bars does a shift \noccur\n\n" +
       "Length – number of bars before the composition loops", xx+2, yy+180+12);
 
     // bottom left
-    tutorial.rect(xx, yy+390,12*w/60,2.5*h/60,5);
+    tutorial.rect(xx, yy+390,12*w/60,2.5*h/60);
     tutorial.text("Generate must be clicked after changing any of the \nparameters in order to generate a new Midi file.", xx+2, yy+390+12);
 
 
     // top right
-    tutorial.rect(xx + 935, yy+10,12*w/60,7*h/60,5);
+    tutorial.rect(xx + 935, yy+10,12*w/60,7*h/60);
     tutorial.text("Each set of tracks is based on a Euclidean Rhythm. \nThis rhythm is created by choosing the number of onsets \n(hits) per bar and the number of pulses(sub division).\n\n" +
       "Example. 3 onsets, 8 pulses produces the rhythm: \n10010010. ", xx + 935+2, yy+10+12);
 
 
     // mid right
-    tutorial.rect(xx + 935, yy+180,12*w/60,7*h/60,5);
+    tutorial.rect(xx + 935, yy+180,12*w/60,7*h/60);
     tutorial.text("Root Note – Root note of scale \n\n" +
       "Scale Mode – Major, Minor or Melodic Minor\n\n" +
       "Flavour Notes – To add notes of the scale, eg 5 adds \n5ths\n\n" +
