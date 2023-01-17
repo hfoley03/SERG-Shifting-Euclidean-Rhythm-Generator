@@ -18,7 +18,13 @@ It is this concept of shifting a rhythm over time that our project is based on.
 
 ### What are Euclidean Rhythms
 
-Description of Euclidean Rhythms, introduce onsets and pulses
+Euclidean Rhythm was discovered by Godfried Toussaint in 2004. It uses the Euclidean Algorithm to generate musical rhythms. What is most interesting is that the rhythms it produces and describes are traditional rhythms from all over the world, and rhythms that are found in modern electronic dance music. The greatest common divisor of two numbers is used to create the rhythm where the beats are as equidistant as possible.
+
+The two numbers used to produce the rhythm are called onsets and pulses. Onsets the number of hits/beats in the bar. Pulses describes the number beats in the rhythm or the subdivision of the bar the rhythm is in.
+
+For example 3 onsets, 8 pulses in our context creates a 1 bar rhythm of 1/8th notes with 3 hits in the bar. The resulting rhythm would be “10010010”. A 1 representing an onset and a 0 a silence.  When we look at world music we find this to be the Cuban Tresillo.
+
+We chose to use Euclidean Rhythms for our base rhythms as they automatically sound “Good”. As Euclidean Rhythms are ones found throughout music both traditional and modern they contain some invariant quality that is highly agreeable to the listener.
 
 ### SERG's Design
 
@@ -102,6 +108,9 @@ Its input arguments are midiInProgress (a MIDI object with four tracks, with eac
 The function returns the final MIDI object.
 
 The flow chart in fig. x shows a high level flow of this function.
+
+![Image of phaseAndCompose() flowchart](https://github.com/hfoley03/musical-guacamole/blob/Design_2/img/phaseAndComposeDiagram.png?raw=true)
+
 
 ## Challenges
 
