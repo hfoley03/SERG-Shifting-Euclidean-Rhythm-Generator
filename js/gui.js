@@ -85,6 +85,7 @@ function setup() {
   let gui = createGui();
 
   tutorial = createGraphics(w, h);
+  tutorial.textSize(10);
   toggleTutorial();
 
   // ---- Selection Synth type by the user
@@ -469,7 +470,6 @@ function draw() {
     stop_aud();
 
     let error_flag = checkErrors(); // if true, there are errors
-    console.log(checkErrors())
     if (error_flag){
     }
     else{
@@ -485,7 +485,7 @@ function draw() {
       initialization();
     }
   }
-  text(error_message, w/2 + w/8, 60)
+  //text(error_message, w/2 + w/8, 60)
 
   if(play_button.isPressed){
     start_aud_gui();
@@ -922,33 +922,44 @@ function start_aud_gui() {
 function toggleTutorial() {
   if (!tutorial_state) {
 
+
+    //tutorial.background('white')
     xx = 2*w/60
     yy = 7*h/60
 
-    // ----- Onsets
-    stroke('#5c2c18');
-    strokeWeight(w*0.003);
-    noFill();
+    // top left
     tutorial.rect(xx, yy,12*w/60,7*h/60,5);
+    tutorial.text("A set has two tracks. The first track of each set is the \nbase rhythm.\n\n" +
+      "The second track plays the same base \nrhythm but will be circular shifted during the piece.\n\n" +
+      "The instrument for each track can be chosen. ", xx+2, yy+12);
 
-    // ----- First box text
-    stroke('#5c2c18');
-    strokeWeight(w*0.003);
-    noFill();
-    tutorial.rect(xx, yy,12*w/60,7*h/60,5);
+    // mid left
+    tutorial.rect(xx, yy+180,12*w/60,7*h/60,5);
+    tutorial.text("Phase Shift Amount – by how many pulses is a rhythm \nshifted by in the second track\n\n" +
+      "Phase Shift Period – after how many bars does a shift \noccur\n\n" +
+      "Length – number of bars before the composition loops", xx+2, yy+180+12);
 
-    // ----- First box text
-    stroke('#5c2c18');
-    strokeWeight(w*0.003);
-    noFill();
-    tutorial.rect(xx, yy,12*w/60,7*h/60,5);
+    // bottom left
+    tutorial.rect(xx, yy+390,12*w/60,2.5*h/60,5);
+    tutorial.text("Generate must be clicked after changing any of the \nparameters in order to generate a new Midi file.", xx+2, yy+390+12);
 
 
-    tutorial.background(255, 255, 255, 100);
-    tutorial.fill(0,0,0,150);
-    tutorial.textSize(10);
+    // top right
+    tutorial.rect(xx + 935, yy+10,12*w/60,7*h/60,5);
+    tutorial.text("Each set of tracks is based on a Euclidean Rhythm. \nThis rhythm is created by choosing the number of onsets \n(hits) per bar and the number of pulses(sub division).\n\n" +
+      "Example. 3 onsets, 8 pulses produces the rhythm: \n10010010. ", xx + 935+2, yy+10+12);
+
+
+    // mid right
+    tutorial.rect(xx + 935, yy+180,12*w/60,7*h/60,5);
+    tutorial.text("Root Note – Root note of scale \n\n" +
+      "Scale Mode – Major, Minor or Melodic Minor\n\n" +
+      "Flavour Notes – To add notes of the scale, eg 5 adds \n5ths\n\n" +
+      "Flavour Note % – Probability of flavour notes", xx + 935+2, yy+180+12);
+
+
+
     //tutorial.textAlign(CENTER,CENTER);
-    tutorial.text("This is a play button hihi", xx+2, yy+12);
     tutorial_state = true;
     console.log('a')
   }
@@ -1103,7 +1114,8 @@ function checkErrors(){
   error_flag = false // if true, errors present
   error_color = "#FE5F55FF";
   if (parseInt(phase_shift_amount_inp.value()) > parseInt(onsetsinps[1].value())){
-    error_message += "The phase shift amount, can't be more than number of pulses of the first track.";
+    error_message += "The phase shift amount, can't be more than number of pulses of the first set.";
+    error_message +="\n";
     phase_shift_amount_inp.style('background-color', error_color)
     error_flag = true
   }
@@ -1111,7 +1123,8 @@ function checkErrors(){
     phase_shift_amount_inp.style('background-color', "white")
   }
   if (parseInt(phase_shift_amount_inp.value()) > parseInt(onsetsinps[2].value())){
-    error_message += "The phase shift amount, can't be more than number of pulses of the second track.";
+    error_message += "The phase shift amount, can't be more than number of pulses of the second set.";
+    error_message +="\n";
     phase_shift_amount_inp.style('background-color', error_color)
     error_flag = true
   }
@@ -1120,6 +1133,7 @@ function checkErrors(){
   }
   if (parseInt(phase_shift_period_inp.value()) > parseInt(length_inp.value())) {
     error_message += "The phase shift period can't be more than piece length"
+    error_message +="\n";
     phase_shift_period_inp.style('background-color', error_color)
     error_flag = true
   }
@@ -1128,6 +1142,7 @@ function checkErrors(){
   }
   if (parseInt(tempo_bpm_inp.value()) < 30) {
     error_message += "The bpm can't be less than 30"
+    error_message +="\n";
     tempo_bpm_inp.style('background-color', error_color)
     error_flag = true
   }
@@ -1136,6 +1151,7 @@ function checkErrors(){
   }
   if(parseInt(onsetsinps[1].value()) < 1){
     error_message += "Number of pulses should be greater than 0"
+    error_message +="\n";
     onsetsinps[1].style('background-color', error_color)
     error_flag = true
   }
@@ -1144,6 +1160,7 @@ function checkErrors(){
   }
   if(parseInt(onsetsinps[2].value()) < 1){
     error_message += "Number of pulses should be greater than 0"
+    error_message +="\n";
     onsetsinps[3].style('background-color', error_color)
     error_flag = true
   }
@@ -1152,6 +1169,7 @@ function checkErrors(){
   }
   if(parseInt(onsetsinps[0].value()) < 1){
     error_message += 'Number of onsets should be greater than 0'
+    error_message +="\n";
     onsetsinps[0].style('background-color', error_color)
     error_flag = true
   }
@@ -1160,6 +1178,7 @@ function checkErrors(){
   }
   if(parseInt(onsetsinps[3].value()) < 1){
     error_message += "Number of onsets should be greater than 0"
+    error_message +="\n";
     onsetsinps[2].style('background-color', error_color)
     error_flag = true
   }
@@ -1167,7 +1186,8 @@ function checkErrors(){
     onsetsinps[2].style('background-color', "white")
   }
   if(parseInt(onsetsinps[0].value()) > parseInt(onsetsinps[1].value())){
-    error_message += "Number of onsets can't be more than number of pulses"
+    error_message += "Number of onsets can't be more than number of pulses for the first set"
+    error_message +="\n";
     onsetsinps[0].style('background-color', error_color)
     onsetsinps[1].style('background-color', error_color)
     error_flag = true
@@ -1177,7 +1197,8 @@ function checkErrors(){
     onsetsinps[1].style('background-color', "white")
   }
   if(parseInt(onsetsinps[3].value()) < parseInt(onsetsinps[2].value())){
-    error_message += "Number of onsets can't be more than number of pulses"
+    error_message += "Number of onsets can't be more than number of pulses for the second set"
+    error_message +="\n";
     onsetsinps[2].style('background-color', error_color)
     onsetsinps[3].style('background-color', error_color)
     error_flag = true
@@ -1188,6 +1209,7 @@ function checkErrors(){
   }
   if(parseInt(length_inp.value()) < 1){
     error_message += "The piece length should be greater than or equal to 1"
+    error_message +="\n";
     length_inp.style('background-color', error_color)
     error_flag = true
   }
@@ -1195,7 +1217,10 @@ function checkErrors(){
     length_inp.style('background-color', "white")
   }
 
-  console.log(error_message)
+  if(error_flag){
 
+    alert(error_message)
+
+  }
   return error_flag;
 }
