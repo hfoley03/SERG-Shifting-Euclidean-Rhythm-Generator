@@ -30,8 +30,6 @@ let tutorial_state = false;
 
 let All_Synths = ['MonoSynth', 'Kick', 'Snare' ,'Synth','Hihat'];
 
-let loc_dict = {};
-
 let synthinps = [];
 let onsetsinps = [];
 
@@ -80,7 +78,7 @@ function setup() {
   let gui = createGui();
 
   tutorial = createGraphics(w, h);
-  //toggleTutorial();
+  toggleTutorial();
 
   // ---- Selection Synth type by the user
   let synth_x = 22.5*w/60+8;
