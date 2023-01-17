@@ -1,7 +1,7 @@
 // ------- P5 JS -----
 let w;        //windowWidth
 let h = 900;  //windowHeight
-let cl_bg = '#FFFBFF';       //Background Color
+let cl_bg = '#404E4D';       //Background Color
 let color_txt = '#000000';   //Color of Text
 
 let cl1 = 'rgba(200, 85, 61,1)';       // color onsets Fixed Circle
@@ -94,6 +94,8 @@ function setup() {
     }
     tmp_synth.selected(All_Synths[0]);
     tmp_synth.size(91);
+    tmp_synth.style('color:#FFFFFF');
+    tmp_synth.style('background:#404E4D');
     synthinps.push(tmp_synth)
   }
 
