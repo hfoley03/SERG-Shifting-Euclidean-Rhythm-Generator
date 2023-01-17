@@ -158,7 +158,7 @@ function setup() {
   tempo_bpm_inp.position(x_inputs,y_inputs+66);
   tempo_bpm_inp.size(32);
 
-  velAmtSlider =  createSlider('Velocity Amount Slider', 29*w/60-7, 29*h/60-11,6.5*w/60,w/60,);
+  velAmtSlider =  createSlider('Velocity Amount Slider', 29*w/60-7, 29*h/60-11,6.5*w/60,w/60,1,0);
   velAmtSlider.setStyle({rounding: 5, trackWidth: 0.1,
     fillBg:color(clr_btn_bg), strokeBg:color(clr_bt_st)});
 

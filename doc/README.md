@@ -49,10 +49,17 @@ Outline key and interesting functions
 Overview of BrowserPlay.js
 Outline key and interesting functions
 
-### Euclidean
+### Midi Generation
 
-Overview of BrowserPlay.js
-Outline key and interesting functions
+The generation of the midi object is handled by the javascript file midiGeneration. The process is divided  among several functions, with the function generateMidi handling the overall flow.
+
+#### euclideanPattern(onsets, pulses)
+
+The first step in building the MIDI object for the piece is to create the base Euclidean Rhythm. This is handled by the function euclideanPattern. The function has two input arguments, onsets and pulses. The function returns a string with a binary representation of the Euclidean Rhythm. For example with inputs onsets = 5 and pulses = 8, the function would return “10110110”, with a 1 representing an onset and a 0 a pulse without an onset.
+The generation of Euclidean Rhythm was designed from the description in Godfried T. Toussaint’s book The Geometry of Musical Rhythm, chapter 19 “Euclidean Rhythms”.
+The algorithm was designed from scratch using the method he described. The figure below is taken from The Geometry of Musical Rhythm and shows a visual representation of the algorithm with 5 onsets and 8 pulses.
+
+####
 
 ## Challenges
 
