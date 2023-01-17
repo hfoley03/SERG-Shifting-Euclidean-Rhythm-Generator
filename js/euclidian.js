@@ -262,7 +262,6 @@ function userSelectedNotes(userSelected, scaleCalculated){
   return flavourNotes;
 }
 
-
 function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }

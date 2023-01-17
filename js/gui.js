@@ -462,7 +462,7 @@ function draw() {
     stop_aud();
 
     let error_flag = checkErrors(); // if true, there are errors
-
+    console.log(checkErrors())
     if (error_flag){
     }
     else{
@@ -474,12 +474,11 @@ function draw() {
       onsetsB = parseInt(onsetsinps[2].value());
       pulsesB = parseInt(onsetsinps[3].value());
       tempo_bpm = parseInt(tempo_bpm_inp.value());
-
       generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeSelect.value(), rootNoteSelect.value());
       initialization();
     }
   }
-  text(error_message, 12*w/60, 24*w/60 + 70)
+  text(error_message, w/2 + w/8, 60)
 
   if(play_button.isPressed){
     start_aud_gui();
@@ -501,7 +500,6 @@ function draw() {
 
   if (velAmtSlider.isChanged) {
     velAmount = velAmtSlider.val;
-    console.log(velAmount)
   }
 
     // ------- Mixer - Control Volume BOX
@@ -1073,11 +1071,12 @@ function checkErrors(){
    */
 
   error_message = "";
-  error_flag = true // if true, errors present
+  error_flag = false // if true, errors present
   error_color = "#FE5F55FF";
   if (parseInt(phase_shift_amount_inp.value()) > parseInt(onsetsinps[1].value())){
     error_message += "The phase shift amount, can't be more than number of pulses of the first track.";
     phase_shift_amount_inp.style('background-color', error_color)
+    error_flag = true
   }
   else{
     phase_shift_amount_inp.style('background-color', "white")
@@ -1085,6 +1084,7 @@ function checkErrors(){
   if (parseInt(phase_shift_amount_inp.value()) > parseInt(onsetsinps[2].value())){
     error_message += "The phase shift amount, can't be more than number of pulses of the second track.";
     phase_shift_amount_inp.style('background-color', error_color)
+    error_flag = true
   }
   else{
     phase_shift_amount_inp.style('background-color', "white")
@@ -1092,6 +1092,7 @@ function checkErrors(){
   if (parseInt(phase_shift_period_inp.value()) > parseInt(length_inp.value())) {
     error_message += "The phase shift period can't be more than piece length"
     phase_shift_period_inp.style('background-color', error_color)
+    error_flag = true
   }
   else{
     phase_shift_period_inp.style('background-color', "white")
@@ -1099,6 +1100,7 @@ function checkErrors(){
   if (parseInt(tempo_bpm_inp.value()) < 30) {
     error_message += "The bpm can't be less than 30"
     tempo_bpm_inp.style('background-color', error_color)
+    error_flag = true
   }
   else{
     tempo_bpm_inp.style('background-color', "white")
@@ -1106,6 +1108,7 @@ function checkErrors(){
   if(parseInt(onsetsinps[1].value()) < 1){
     error_message += "Number of pulses should be greater than 0"
     onsetsinps[1].style('background-color', error_color)
+    error_flag = true
   }
   else{
     onsetsinps[1].style('background-color', "white")
@@ -1113,6 +1116,7 @@ function checkErrors(){
   if(parseInt(onsetsinps[2].value()) < 1){
     error_message += "Number of pulses should be greater than 0"
     onsetsinps[3].style('background-color', error_color)
+    error_flag = true
   }
   else{
     onsetsinps[3].style('background-color', "white")
@@ -1120,6 +1124,7 @@ function checkErrors(){
   if(parseInt(onsetsinps[0].value()) < 1){
     error_message += 'Number of onsets should be greater than 0'
     onsetsinps[0].style('background-color', error_color)
+    error_flag = true
   }
   else{
     onsetsinps[0].style('background-color', "white")
@@ -1127,6 +1132,7 @@ function checkErrors(){
   if(parseInt(onsetsinps[3].value()) < 1){
     error_message += "Number of onsets should be greater than 0"
     onsetsinps[2].style('background-color', error_color)
+    error_flag = true
   }
   else{
     onsetsinps[2].style('background-color', "white")
@@ -1135,6 +1141,7 @@ function checkErrors(){
     error_message += "Number of onsets can't be more than number of pulses"
     onsetsinps[0].style('background-color', error_color)
     onsetsinps[1].style('background-color', error_color)
+    error_flag = true
   }
   else{
     onsetsinps[0].style('background-color', "white")
@@ -1144,6 +1151,7 @@ function checkErrors(){
     error_message += "Number of onsets can't be more than number of pulses"
     onsetsinps[2].style('background-color', error_color)
     onsetsinps[3].style('background-color', error_color)
+    error_flag = true
   }
   else{
     onsetsinps[2].style('background-color', "white")
@@ -1152,6 +1160,7 @@ function checkErrors(){
   if(parseInt(length_inp.value()) < 1){
     error_message += "The piece length should be greater than or equal to 1"
     length_inp.style('background-color', error_color)
+    error_flag = true
   }
   else{
     length_inp.style('background-color', "white")
