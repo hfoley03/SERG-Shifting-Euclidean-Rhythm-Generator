@@ -769,7 +769,7 @@ function ShiftingCircle(x, y, onset, pulses, prt, color1, color2) {
     }
   }
 }
-function VisualShift(track,){
+function VisualShift(track){
   let pulses;
   let Shift_binary = [];
   let proportion;
@@ -844,10 +844,6 @@ function GetBinaryShiftedOnset(track){
   for(let n=0;n<Total_pulses;n++){
 
     TNA = Time_notes_aux[t_aux];
-    //console.log("n: "+n)
-    //console.log("t_aux: "+t_aux)
-    //console.log("Time Index : "+Time_index)
-    //console.log("Time Notes Aux : "+TNA.toFixed(4))
 
     if(TNA.toFixed(4) == Time_index.toFixed(4)){
       Shift_binary[n] = 1;
@@ -860,7 +856,6 @@ function GetBinaryShiftedOnset(track){
     if(t_aux == Time_notes_aux.length){
       t_aux = t_aux-1;
     }
-    //console.log("Shift_binary[n]: "+Shift_binary[n])
   }
   return Shift_binary
 }
