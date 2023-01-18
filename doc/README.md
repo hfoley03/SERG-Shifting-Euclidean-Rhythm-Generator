@@ -46,7 +46,7 @@ Blah blah blah
 
 
 ### GUI
-![FixedCircle()](https://github.com/hfoley03/musical-guacamole/blob/Design_2/img/FixedCircle.png?raw=true)
+<img src="https://github.com/hfoley03/musical-guacamole/blob/Design_2/img/FixedCircle.png?raw=true" width="200" height="200"/>
 
 
 ### Browser Play

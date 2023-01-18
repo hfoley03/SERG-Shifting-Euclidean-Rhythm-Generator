@@ -4,10 +4,10 @@ let w;        //windowWidth
 
 let h = 900;  //windowHeight
 
-let clr_bg = '#5a606c';       //Background Color
+let clr_bg = '#FFFFFF';       //Background Color
 let clr_tittle = '#A3E7FC';
 let clr_subtittle = '#B9E28C';
-let clr_txt = '#FFFFFF';   //Color of Text
+let clr_txt = '#000000';   //Color of Text
 
 let cl1 = 'rgba(255, 102, 102,1)';       // color onsets Fixed Circle
 let cl2 = 'rgba(255, 102, 102,0.3)';     // color offsets Fixed Circle
