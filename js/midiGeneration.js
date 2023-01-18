@@ -86,8 +86,15 @@ function generateMidi(onsetsA, pulsesA, onsetsB, pulsesB, tempo_bpm, scaleTypeNa
   console.log("Midi Header Tempo Set:")
   console.log(finalMidiObject.header.tempos)
 
+  //download('mymidi.mid', (midiInProgress.toArray()))
+  //var blob = new Blob(midiInProgress.toArray());
+    //saveAs(blob, "miditest3.mid")
+  //var file = new File(midiInProgress.toArray(), "world.mid", {type: "text/plain;charset=utf-8"});
+  //saveAs(file);
+
   return;
 }
+
 
 /////////////////////
 /// FUNCTIONS :) ////

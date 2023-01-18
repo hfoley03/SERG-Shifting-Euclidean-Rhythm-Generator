@@ -4,10 +4,11 @@ let w;        //windowWidth
 
 let h = 900;  //windowHeight
 
-let clr_bg = '#5a606c';       //Background Color
+let clr_bg = '#393939';       //Background Color
 let clr_tittle = '#A3E7FC';
 let clr_subtittle = '#B9E28C';
-let clr_txt = '#FFFFFF';   //Color of Text
+let clr_txt = '#FFFFFF';      //Color of Text
+let myFont;
 
 let cl1 = 'rgba(255, 102, 102,1)';       // color onsets Fixed Circle
 let cl2 = 'rgba(255, 102, 102,0.3)';     // color offsets Fixed Circle
@@ -80,7 +81,9 @@ function windowResized() {
   resizeCanvas(windowWidth, h);
 }*/
 
-
+function preload() {
+  myFont = loadFont('img/HKGrotesk-Bold.otf');
+}
 
 function setup() {
   createCanvas(windowWidth,h);
@@ -385,7 +388,7 @@ function draw() {
 
   fill(clr_tittle);
   textSize(w*0.04);
-  textFont('Bahnschrift');
+  textFont(myFont);
   textAlign(CENTER);
   text('SHIFTING EUCLIDEAN RHYTHM GENERATOR', w/2, 2*h/60);
 
@@ -398,13 +401,13 @@ function draw() {
   fill(clr_subtittle);
   strokeWeight(0);
   textAlign(CENTER, CENTER);
-  textSize(w*0.025);
+  textSize(w*0.02);
   text('FIRST SET', 22*w/60, 6*h/60);
   textAlign(RIGHT, CENTER);
   fill(clr_txt);
-  textSize(w*0.015);
+  textSize(w*0.013);
   let xx1 = 21.5*w/60;
-  let yy = 8.5*h/60;
+  let yy = 8.5*h/60-2;
   text('Onsets', xx1, yy);
   text('Pulses', xx1, yy+22);
   text('1st Track', xx1, yy+44);
@@ -417,13 +420,13 @@ function draw() {
   rect(32*w/60,7*h/60,12*w/60,7.5*h/60,5);
 
   textAlign(CENTER, CENTER);
-  textSize(w*0.025);
+  textSize(w*0.02);
   fill(clr_subtittle);
   strokeWeight(0);
   text('SECOND SET', 38*w/60, 6*h/60);
   textAlign(RIGHT, CENTER);
   fill(clr_txt);
-  textSize(w*0.015);
+  textSize(w*0.013);
   let xx2 = 37.5*w/60;
   text('Onsets', xx2, yy);
   text('Pulses', xx2, yy+22);
@@ -437,7 +440,7 @@ function draw() {
   rect(15*w/60,18*h/60,30*w/60,13.5*h/60,5);
 
   textAlign(CENTER, CENTER);
-  textSize(w*0.025);
+  textSize(w*0.02);
   fill(clr_subtittle);
   strokeWeight(0);
   text('PARAMETERS', 30*w/60, 17*h/60);
@@ -447,10 +450,10 @@ function draw() {
   rect(16*w/60,19*h/60,13*w/60,7.5*h/60,5);
   textAlign(RIGHT, CENTER);
   fill(clr_txt);
-  textSize(w*0.015);
+  textSize(w*0.013);
   strokeWeight(0);
   let xx3 = 25*w/60;
-  let yy2 = 20.5*h/60;
+  let yy2 = 20.5*h/60-4;
   text('Phase Shift Amount', xx3, yy2);
   text('Phase Shift Period', xx3, yy2+22);
   text('Piece length', xx3, yy2+44);
@@ -462,7 +465,7 @@ function draw() {
   rect(31*w/60,19*h/60,13*w/60,7.5*h/60,5);
   textAlign(RIGHT, CENTER);
   fill(clr_txt);
-  textSize(w*0.015);
+  textSize(w*0.013);
   strokeWeight(0);
   let xx4 = 36.5*w/60;
   text('Root Note', xx4, yy2)
@@ -476,7 +479,7 @@ function draw() {
   rect(23.5*w/60,27.5*h/60,13*w/60,3*h/60,5);
   textAlign(RIGHT, CENTER);
   fill(clr_txt);
-  textSize(w*0.015);
+  textSize(w*0.013);
   strokeWeight(0);
   text('Velocity', 28*w/60, 29*h/60);
 
@@ -532,12 +535,12 @@ function draw() {
   rect(21*w/60,39*h/60,18*w/60,17*h/60,10);
 
   textAlign(CENTER, CENTER);
-  textSize(w*0.025);
+  textSize(w*0.02);
   fill(clr_subtittle);
   strokeWeight(0);
   text('MIXER', 30*w/60, 38*h/60);
   fill('#FFFFFF');
-  textSize(w*0.015);
+  textSize(w*0.013);
   text('1', 30*w/60, 40.5*h/60);
   text('2', 32.5*w/60, 40.5*h/60);
   text('3', 35*w/60, 40.5*h/60);
@@ -549,10 +552,6 @@ function draw() {
 
   text('Mute', 27*w/60, 51*h/60+12);
   text('Solo', 27*w/60, 53*h/60+12);
-  strokeWeight(w*0.003);
-  stroke('rgba(135, 143, 155,.8)');
-  noFill();
-  rect(25.5*w/60,50.5*h/60,13*w/60,4.5*h/60,10);
 
   if (Volume1.isChanged){
     channel1.volume.value = Math.round(Volume1.val);
