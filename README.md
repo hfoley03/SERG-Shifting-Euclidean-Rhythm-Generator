@@ -356,18 +356,18 @@ On memory constrained devices like mobile phones loading many and/or large audio
 ![Synth](https://github.com/hfoley03/musical-guacamole/blob/main/img/synth.jpg?raw=?)
 
 
-
 #### How to loop the MIDI function so that the timing is consistent?
 
 The looping of playNote() function could cause looping it too early or too late. Considering even 10-15 ms could change things a lot perceptually, it is important to play the loops to keep the timing correct.
 
 The way we solved the issue was to keep track of the duration of the whole MIDI file and setting the loop interval to that value. The value is different for each different tempos and composition lengths.
 
-#### How to play the samples?
-
 
 #### How to synch the audio and the visuals?
 
+One of the most important part of the project was syching the exact position of the played onsets both in graphics and audio. The issue at hand was difficult because the draw() function from p5.js in gui.js contained many function calls with several setInterval() functions. Thus, since it takes code operation time to update the visuals with those intervals, we needed to find a way to start the visuals at the exact time when the audio started to play.
+
+Our solution was to start the visuals a little early then the exact scheduled time of the first scheduled audio event so that the delay between the audio and the visuals are compensated. The trial and error method and averaging the initial delay are utilized for finding the exact value.
 
 ## Future Work
 
