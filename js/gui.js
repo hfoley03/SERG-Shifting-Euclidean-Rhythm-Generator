@@ -7,7 +7,8 @@ let h = 900;  //windowHeight
 let clr_bg = '#393939';       //Background Color
 let clr_tittle = '#A3E7FC';
 let clr_subtittle = '#B9E28C';
-let clr_txt = '#FFFFFF';   //Color of Text
+let clr_txt = '#FFFFFF';      //Color of Text
+let myFont ='HK Grotesk Bold';
 
 let cl1 = 'rgba(255, 102, 102,1)';       // color onsets Fixed Circle
 let cl2 = 'rgba(255, 102, 102,0.3)';     // color offsets Fixed Circle
@@ -80,7 +81,9 @@ function windowResized() {
   resizeCanvas(windowWidth, h);
 }*/
 
-
+function preload() {
+  myFont = loadFont('img/HKGrotesk-Bold.otf');
+}
 
 function setup() {
   createCanvas(windowWidth,h);
@@ -376,7 +379,7 @@ function draw() {
 
   fill(clr_tittle);
   textSize(w*0.04);
-  textFont('Bahnschrift');
+  textFont(myFont);
   textAlign(CENTER);
   text('SHIFTING EUCLIDEAN RHYTHM GENERATOR', w/2, 2*h/60);
 
