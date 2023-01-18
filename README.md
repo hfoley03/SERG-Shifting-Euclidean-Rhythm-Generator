@@ -259,6 +259,11 @@ Below shows what this MIDI object looks like. Not shown is the elements of the d
  ```
 
 
+
+
+![5 onsets 8 pulses](https://github.com/hfoley03/musical-guacamole/blob/main/img/cubancinquillo.png?raw=?)
+
+
 ## Future Work
 
 Things we would like to improve on or change
