@@ -284,6 +284,7 @@ On memory constrained devices like mobile phones loading many and/or large audio
 ![5 onsets 8 pulses](https://github.com/hfoley03/musical-guacamole/blob/main/img/synth.png?raw=?)
 
 
+
 #### How to loop the MIDI function so that the timing is consistent?
 
 The looping of playNote() function could cause looping it too early or too late. Considering even 10-15 ms could change things a lot perceptually, it is important to play the loops to keep the timing correct.
