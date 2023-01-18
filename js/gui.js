@@ -5,11 +5,12 @@ let w;        //windowWidth
 let h = 900;  //windowHeight
 
 let clr_bg = '#393939';       //Background Color
-let clr_tittle = '#63B995';
+let clr_tittle = 'rgba(99, 185, 149,1)';
+let clr_tittle2 = 'rgba(99, 185, 149,0.5)';
 let clr_subtittle = '#9AE6CD';
 let clr_txt = '#FFFFFF';      //Color of Text
 
-let clr_str ='#DE7C5A';
+let clr_str ='rgba(127, 76, 138,1)';
 
 
 let myFont;
@@ -22,9 +23,10 @@ let cl4 = 'rgba(173, 238, 227,0.3)';      // color offsets Shifting Circle
 let cl5 = 'rgba(191, 192, 192,0.2)';     // color Visual Fixed
 
 let clr_btn_bg = '#85898F';
+let clr_bt_bg_h ='#9B9FA5';
 let clr_bt_st = '#4E5258';
 let clr_bt_fl_off = '#4E5258';
-let clr_bt_bg_h ='#9b9fa5';
+
 
 let phase_shift_amount_inp;
 let phase_shift_period_inp;
@@ -393,14 +395,14 @@ function draw() {
   }
 
   fill(clr_tittle);
-  textSize(w*0.04);
+  textSize(w*0.05);
   textFont(myFont);
   textAlign(CENTER);
-  text('SERG', w/2, 3*h/60);
+  text('SERG', w/2, 1.5*h/60);
+  fill(clr_tittle2);
   textSize(w*0.01);
-  textFont(myFont);
   textAlign(CENTER);
-  text('SHIFTING EUCLIDEAN RHYTHM GENERATOR', w/2, 2*h/60);
+  text('Shifting Euclidean Rhythm Generator', w/2, 4*h/60);
 
   // ----- First box text
   stroke(clr_str);
@@ -412,7 +414,7 @@ function draw() {
   strokeWeight(0);
   textAlign(CENTER, CENTER);
   textSize(w*0.02);
-  text('FIRST SET', 22*w/60, 6*h/60);
+  text('First Set', 22*w/60, 6*h/60);
   textAlign(RIGHT, CENTER);
   fill(clr_txt);
   textSize(w*0.013);
@@ -433,7 +435,7 @@ function draw() {
   textSize(w*0.02);
   fill(clr_subtittle);
   strokeWeight(0);
-  text('SECOND SET', 38*w/60, 6*h/60);
+  text('Second Set', 38*w/60, 6*h/60);
   textAlign(RIGHT, CENTER);
   fill(clr_txt);
   textSize(w*0.013);
@@ -450,7 +452,7 @@ function draw() {
   rect(15*w/60,18*h/60,30*w/60,13.5*h/60,5);
 
 
-  stroke('#93B7BE');
+  stroke('#A277B0');
   strokeWeight(w*0.003);
   noFill();
   rect(16*w/60,19*h/60,13*w/60,7.5*h/60,5);
@@ -465,7 +467,7 @@ function draw() {
   text('Piece length', xx3, yy2+44);
   text('Tempo (BPM)', xx3, yy2+66);
 
-  stroke('#9EC5AB');
+  stroke('#BF94C7');
   strokeWeight(w*0.003);
   noFill();
   rect(31*w/60,19*h/60,13*w/60,7.5*h/60,5);
@@ -479,7 +481,7 @@ function draw() {
   text('Flavour Notes', xx4, yy2+44)
   text('Flavour %', xx4, yy2+66)
 
-  stroke('#D0BCD5');
+  stroke('rgba(127, 76, 138,0.5)');
   strokeWeight(w*0.003);
   noFill();
   rect(23.5*w/60,27.5*h/60,13*w/60,3*h/60,5);
@@ -541,17 +543,14 @@ function draw() {
   rect(21*w/60,39*h/60,18*w/60,17*h/60,10);
 
   textAlign(CENTER, CENTER);
-  textSize(w*0.02);
-  fill(clr_subtittle);
   strokeWeight(0);
-  text('MIXER', 30*w/60, 38*h/60);
-  fill('#FFFFFF');
+  fill(clr_txt);
   textSize(w*0.013);
   text('1', 30*w/60, 40.5*h/60);
   text('2', 32.5*w/60, 40.5*h/60);
   text('3', 35*w/60, 40.5*h/60);
   text('4', 37.5*w/60, 40.5*h/60);
-  textSize(w*0.015);
+  textSize(w*0.013);
   text('Reverb', 25*w/60, 40.5*h/60);
   text('Delay 1/4th', 25*w/60, 44*h/60);
   text('Delay 1/8th', 25*w/60, 47.5*h/60);
