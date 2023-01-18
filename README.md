@@ -136,7 +136,10 @@ The purpose of the browserPlay.js file is to manage the playback of the created 
 
 #### Functions
 #### playNotes()
-This function is responsible for scheduling the audio events for all tracks. The function is called repeatedly by the function Tone.Loop to play the Midi notes again if the user doesn’t press the button STOP. Therefore, it plays the same Midi notes that are created by the generateMidi() function with the help of looping.
+This function is responsible for scheduling the audio events for all tracks. The function is called repeatedly by the function Tone.Loop to play the Midi notes again if the user doesn’t press the button STOP. Therefore, it plays the same Midi notes that are created by the generateMidi() function by looping the playNote() function. The loop is created by the code:
+
+`let main_loop = new Tone.Loop(playNotes , main_loop_interval);`
+
 The first step is to set Tone.context.latencyHint to the value of 1 second so that when scheduling the events, it takes time to schedule them as precisely as possible at the expense of a small latency. However, we start by playing the notes 2 seconds later to solve all latency issues. The second step is to record the current time instant with Tone.context.currentTime with 2 seconds delay so that we can start to schedule the audio events exactly after this time instance after the delay. Then, for each track in the object, we check the synth_type selected by the user for the Audio playback (this can be both samples and synths). Then we connect these synths to their corresponding channels. If a synth that is not a sample is selected by the dropdown menus on GUI, then for each note in each track, we schedule the audio events by synth.triggerAttackRelease() function with corresponding time instances, note pitches, durations, and velocities. Here is the code snippet:
 
 ```
