@@ -121,6 +121,8 @@ First, the *GetBinaryShiftedOnset()* function is called, to takes the Tracks 2 o
 
 For the Timing of the visual functions, there are used two different timers, one for *VisualFix()* based on the pulse duration and one for *VisualShift()* according to the duration of each bar. Consequently, there is one timer corresponding to each set.
 
+These function are sincronized with the audio playing that is way there are used two functions *startTimer()* and *stopTimer()*,which modify the auxiliary variables used to change the parameters in the drawing of the visuals.
+
 ```
 function VisualFixTimingA();     //Set 1
 function VisualFixTimingB();     //Set 2
@@ -128,7 +130,14 @@ function VisualShiftTimingA();   //Set 1
 function VisualShiftTimingB();   //Set 2
 ```
 
-These function are sincronized with the audio playing that is way there are used two functions *startTimer()* and *stopTimer()*,which modify the auxiliary variables used to change the parameters in the drawing of the visuals.
+#### checkErrors()
+
+This function checks if there are any errors are present for all input values and creates the error message accordingly.
+It also sets the color of the input box to red if there is an error present in it. The error message is shown by a windowed alert.
+
+####  toggleTutorial()
+
+This function contains tutorial texts and tells the user what he needs to know about the application. This function is called when the tutorial button (the one with ? on it) is pressed. It shows the tutorial if it is not present; it hides the button if it is already shown.
 
 ### Browser Play
 
