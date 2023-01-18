@@ -85,8 +85,21 @@ These function are sincronized with the audio playing that is way there are used
 
 ### Browser Play
 
-Overview of BrowserPlay.js
-Outline key and interesting functions
+The purpose of the browserPlay.js file is to manage the playback of the created Midi object. The Midi object has four tracks inside, with their own notes to play. Specifically, those notes have attributes of pitch, note duration, starting time, and velocity. The other necessities to play a note are handled in this JavaScript file, such as selecting an instrument to play the note, adjusting the ADSR of the instruments, adding audio effects, connecting the Audio nodes together, and so on.
+
+#### Functions
+#### playNotes()
+This function is responsible for scheduling the audio events for all tracks. The function is called repeatedly by the function Tone.Loop to play the Midi notes again if the user doesn’t press the button STOP. Therefore, it plays the same Midi notes that are created by the generateMidi() function with the help of looping.
+The first step is to set Tone.context.latencyHint to the value of 1 second so that when scheduling the events, it takes time to schedule them as precisely as possible at the expense of a small latency. However, we start by playing the notes 2 seconds later to solve all latency issues. The second step is to record the current time instant with Tone.context.currentTime so that we can start to schedule the audio events exactly after this time instance. Then, for each track in the object, we check the synth_type selected by the user for the Audio playback (this can be both samples and synths). Then we connect these synths to their corresponding channels. If a synth that is not a sample is selected by the dropdown menus on GUI, then for each note in each track, we schedule the audio events by synth.triggerAttackRelease() function with corresponding time instances, note pitches, durations, and velocities. If in the dropdown menus, samples are selected by the user instead of synths, then again for each note in all tracks, synth.start() function is used by their corresponding time instances, durations, and velocities. We don’t consider their corresponding pitch value because they are just buffered samples of percussive instruments.
+
+#### start_aud()
+This function starts or resumes the Tone.context, and sets the tempo of the Tone.Transport, sets the volume of the destination of the Tone and calculates and sets the duration of the main loop function. Then, it initiates the main_loop with the calculated loop interval. This function is called when the user presses the START button.
+#### stop_aud()
+This function first stops the Audio. Then, it cleans the synths array to prevent memory leaks and disposes of the scheduled audio events for each track.
+
+#### Connection of the Audio Nodes
+We use channel stripping for all four tracks and their corresponding synths. We connect each synth to a limiter to limit their volumes to a specific value so that the sounds do not pop. Then, we connect the limiter to the chorus effect, delays, and reverb. After the effects, we connect to the destination. The connections are shown in the below figure:
+
 
 ### Midi Generation
 
