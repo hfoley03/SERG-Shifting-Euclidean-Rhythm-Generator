@@ -4,10 +4,10 @@ let w;        //windowWidth
 
 let h = 900;  //windowHeight
 
-let clr_bg = '#FFFFFF';       //Background Color
+let clr_bg = '#5a606c';       //Background Color
 let clr_tittle = '#A3E7FC';
 let clr_subtittle = '#B9E28C';
-let clr_txt = '#000000';   //Color of Text
+let clr_txt = '#FFFFFF';   //Color of Text
 
 let cl1 = 'rgba(255, 102, 102,1)';       // color onsets Fixed Circle
 let cl2 = 'rgba(255, 102, 102,0.3)';     // color offsets Fixed Circle
@@ -581,12 +581,12 @@ function draw() {
   // Left Circles Track 1 and 2
   FixedCircle(0);      // Track 1 Fixed Circle
   VisualShift(1);      // Visual Track 2 Shifting circle
-  VisualFix(0, pulsesA, cl5);    // Visual Actual pulse playing Track 1-2
+  VisualFix(0);    // Visual Actual pulse playing Track 1-2
 
   // Right Circles Track 3 and 4
   FixedCircle(2);      // Track 3  Fixed Circle
   VisualShift(3);      // Visual Track 4 Shifting circle
-  VisualFix(2, pulsesB, cl5);    // Visual Actual pulse playing Track 3-4
+  VisualFix(2);    // Visual Actual pulse playing Track 3-4
 
   // ------- Tutorial section
   if(tutorial_button.isPressed){
@@ -659,18 +659,22 @@ function FixedCircle(track) {
     }
   }
 }
-function VisualFix(track, pulses, color){
+function VisualFix(track){
   let end;
   let start;
   let x_arc;
   let y_arc;
+  let pulses;
+  let color = cl5;
 
   if (track==0){
+    pulses = pulsesA;
     end = map(indexA_2,0,pulses,-90,270);
     start = map(indexA_1,0,pulses,-90,270);
     x_arc = 10*w/60;
     y_arc = 47.5*h/60;
   }else if (track==2){
+    pulses = pulsesB;
     end = map(indexB_2,0,pulses,-90,270);
     start = map(indexB_1,0,pulses,-90,270);
     x_arc = 50*w/60;
