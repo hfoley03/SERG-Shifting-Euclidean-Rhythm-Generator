@@ -340,7 +340,22 @@ To create a whole composition of phase shifting rhythms we start with one bar of
 
 ## Future Work
 
-Things we would like to improve on or change
+### More Intelligent Melodic Composition
+
+In our application the user has control over the melodic composition of the piece by selecting a key and scale to work in, what notes apart from the root note they would the like included and setting the probability of these other notes occurring. Although we are happy that this allows the user to create a musical piece, we believe we could make this feature far more powerful.
+
+We could implement the rules of melody in our code. For example,  leaps greater than a 4th and should be followed by a change in direction. We believe adding rules such as this could improve the musicality of our application.
+
+### Counterpoint
+
+Building on the previous point, another powerful addition would be to have tracks 2, 3 & 4 follow the rules of counter point against the melody of track 1. Again this could add some real richness to the musicality of our application.
+
+### Computational Efficiency
+
+A problem we encountered towards the end of the project was issues with performance. On new Mac computers our application worked perfectly with no errors. However, on older Windows machines we encountered drops in audio quality and glitching. We believe this was due to our programme doing a lot of processing in real time for both audio, GUI and visualisation of MIDI. Although we worked to make the application as efficient as possible we had to make a compromise by allowing the user to select between the Tone.js instruments Synth and MonoSynth. Synth requires a lot less resources as it only uses an oscillator and an amplitude envelope, versus the MonoSynth which also has a filter and filter envelope in its signal chain.
+
+As part of future work we could possibly improve the efficiency further to allow a user on any device to use the MonoSynth instrument. To achieve a higher level of efficiency we believe we would have to redesign much of the GUI and audio playback code from the ground up. Unfortunately this was not possible due to time constraints, with the issue only appearing in the final stages of the project.
+
 
 
 
