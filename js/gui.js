@@ -137,7 +137,7 @@ function setup() {
     let tmp_onsets = window[tmp_onsets_str];
 
     if (i==1 || i==3){
-      tmp_onsets = createInput(onsets_pulses[i-1]);
+      tmp_onsets = createInput(" " + onsets_pulses[i-1]);
       tmp_onsets.size(34.5);
     }
     else{
