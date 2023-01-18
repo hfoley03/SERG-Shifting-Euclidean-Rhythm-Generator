@@ -209,7 +209,48 @@ The flow chart in fig. x shows a high level flow of this function.
 
 ### Challenge 1
 
-give description of challenge, solutions tried and final solution
+#### How to represent the rhythmic data?
+
+After the original conception of the idea of SERG the first major challenge was finding how best to represent the rhythmic data. We needed a data structure that could hold 4 tracks of musical data containing both rhythmic and melodic components.
+
+At first we considered using simple arrays or strings to hold the data. For example a rhythm can be represented by a binary string, a 1 representing a sounded note and a 0 an unsounded note. Although this method is intuitive it is very limited in its capabilities.
+
+We also considered using a custom data structure. Built for example by nested arrays or dictionaries. This would have been highly customisable and allowed us to include as much data as we wanted but may have become overly complicated and would not be readily useable across existing or future projects.
+
+After some experimentation we found  that Tone.js had a suitable library called MIDI. The library claims to make reading and writing of MIDI files straight forward.
+The library creates a MIDI object in the javascript environment that allows access to every element of a MIDI file that a developer could need.
+Below shows what this MIDI object looks like. Not shown is the elements of the data structure for Control Changes and Instruments as they are not used in our application.
+
+```{
+  // the transport and timing data
+  header: {
+    name: String,                          // the name of the first empty track
+    tempos: TempoEvent[],                  // the tempo, e.g. 120
+    timeSignatures: TimeSignatureEvent[],  // the time signature, e.g. [4, 4],
+    PPQ: Number                            // the Pulses Per Quarter of the midi file
+  },
+  duration: Number,                        // the time until the last note finishes
+  tracks: [                                // an array of midi tracks
+    {
+      name: String,                       // the track name if one was given
+      channel: Number,                    // channel
+      notes: [
+        {
+          midi: Number,                   // midi number, e.g. 60
+          time: Number,                   // time in seconds
+          ticks: Number,                  // time in ticks
+          name: String,                   // note name, e.g. "C4",
+          pitch: String,                  // the pitch class, e.g. "C",
+          octave : Number,                // the octave, e.g. 4
+          velocity: Number,               // normalized 0-1 velocity
+          duration: Number,               // duration in seconds between noteOn and noteOff
+        }
+      ],
+    }
+  ]
+}
+ ```
+
 
 ## Future Work
 
