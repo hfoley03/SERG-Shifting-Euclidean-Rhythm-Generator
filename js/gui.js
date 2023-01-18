@@ -458,8 +458,8 @@ function draw() {
   let xx4 = 36.5*w/60;
   text('Root Note', xx4, yy2)
   text('Scale Mode', xx4, yy2+22)
-  text('Notes', xx4, yy2+44)
-  text('Color Rate', xx4, yy2+66)
+  text('Flavour Notes', xx4, yy2+44)
+  text('Flavour %', xx4, yy2+66)
 
   stroke('#D0BCD5');
   strokeWeight(w*0.003);
