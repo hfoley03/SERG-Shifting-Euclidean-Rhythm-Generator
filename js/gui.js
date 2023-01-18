@@ -4,7 +4,7 @@ let w;        //windowWidth
 
 let h = 900;  //windowHeight
 
-let clr_bg = '#5a606c';       //Background Color
+let clr_bg = '#393939';       //Background Color
 let clr_tittle = '#A3E7FC';
 let clr_subtittle = '#B9E28C';
 let clr_txt = '#FFFFFF';   //Color of Text
