@@ -159,34 +159,34 @@ function setup() {
 
   phase_shift_amount_inp = createInput(phaseShiftAmount.toString());
   phase_shift_amount_inp.position(x_inputs,y_inputs);
-  phase_shift_amount_inp.size(32);
+  phase_shift_amount_inp.size(w/25);
   phase_shift_amount_inp.style('color:'+clr_txt)
   phase_shift_amount_inp.style("border-width", "thin")
 
 
   phase_shift_period_inp = createInput(phaseShiftPeriod.toString());
   phase_shift_period_inp.position(x_inputs,y_inputs+22);
-  phase_shift_period_inp.size(32);
+  phase_shift_period_inp.size(w/25);
   phase_shift_period_inp.style('color:'+clr_txt)
   phase_shift_period_inp.style("border-width", "thin")
 
 
   length_inp = createInput(length.toString());
   length_inp.position(x_inputs,y_inputs+44);
-  length_inp.size(32);
+  length_inp.size(w/25);
   length_inp.style('color:'+clr_txt)
   length_inp.style("border-width", "thin")
 
 
   tempo_bpm_inp = createInput(tempo_bpm.toString());
   tempo_bpm_inp.position(x_inputs,y_inputs+66);
-  tempo_bpm_inp.size(32);
+  tempo_bpm_inp.size(w/25);
   tempo_bpm_inp.style('color:'+clr_txt)
   tempo_bpm_inp.style("border-width", "thin")
 
 
-  velAmtSlider =  createSlider('Velocity Amount Slider', 29*w/60-7, 29*h/60-11,6.5*w/60,w/60,1,0);
-  velAmtSlider.setStyle({rounding: 5, trackWidth: 0.1,
+  velAmtSlider =  createSlider('Velocity Amount Slider', 29*w/60-7, 29*h/60-8,6.5*w/60,w/60,1,0);
+  velAmtSlider.setStyle({rounding: 2, trackWidth: 0.1,
     fillBg:color(clr_btn_bg), strokeBg:color(clr_bt_st)});
 
   rootNoteSelect = createSelect();
@@ -262,7 +262,7 @@ function setup() {
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
   gen_button = createButton('GENERATE', 17*w/60, 34*h/60,6*w/60,2*h/60);
   gen_button.setStyle({font:'Bahnschrift', textSize: w/60,
-    fillBg:color(clr_btn_bg), rounding: 5,
+    fillBg:color(clr_btn_bg), rounding: 2,
     fillLabel:color('#FFFFFF'),fillLabelHover:color('#4E5258'), fillLabelActive:color('#4E5258'),
     strokeBg:color(clr_bt_st)
   });
@@ -270,7 +270,7 @@ function setup() {
   // ---- Play button
   play_button = createButton('PLAY',27*w/60, 34*h/60,6*w/60,2*h/60);
   play_button.setStyle({
-    fillBg:color(clr_btn_bg), rounding: 5,
+    fillBg:color(clr_btn_bg), rounding: 2,
     font:'Bahnschrift', textSize: w/60,
     fillLabel:color('#FFFFFF'), fillLabelHover:color('#4E5258'), fillLabelActive:color('#4E5258'),
     strokeBg:color(clr_bt_st)
@@ -279,7 +279,7 @@ function setup() {
   // ---- Stop button
   stop_button = createButton('STOP',37*w/60, 34*h/60,6*w/60,2*h/60);
   stop_button.setStyle({
-    fillBg:color(clr_btn_bg), rounding: 5,
+    fillBg:color(clr_btn_bg), rounding: 2,
     font:'Bahnschrift', textSize: w/60,
     fillLabel:color('#FFFFFF'), fillLabelHover:color('#4E5258'), fillLabelActive:color('#4E5258'),
     strokeBg:color(clr_bt_st)
@@ -287,19 +287,19 @@ function setup() {
 
   // ---- Volume Sliders
   Volume1 = createSliderV('Volume1', 29.5*w/60, 41.5*h/60, w/60, 6*w/60, -30, 0);
-  Volume1.setStyle({rounding: 5, trackWidth: 0.1});
+  Volume1.setStyle({rounding: 2, trackWidth: 0.1});
   Volume2 = createSliderV('Volume2', 32*w/60, 41.5*h/60, w/60, 6*w/60, -30, 0);
-  Volume2.setStyle({rounding: 5, trackWidth: 0.1});
+  Volume2.setStyle({rounding: 2, trackWidth: 0.1});
   Volume3 = createSliderV('Volume3', 34.5*w/60, 41.5*h/60, w/60, 6*w/60, -30, 0);
-  Volume3.setStyle({rounding: 5, trackWidth: 0.1});
+  Volume3.setStyle({rounding: 2, trackWidth: 0.1});
   Volume4 = createSliderV('Volume4', 37*w/60, 41.5*h/60, w/60, 6*w/60, -30, 0);
-  Volume4.setStyle({rounding: 5, trackWidth: 0.1});
+  Volume4.setStyle({rounding: 2, trackWidth: 0.1});
 
   // ---- Mute Selecotors
   Mute1 = createToggle("M", 29.5*w/60, 51*h/60, w/60, w/60);
   Mute1.setStyle({
     textSize:w/80,
-    rounding: 5,
+    rounding: 2,
     fillLabelOn:color('#FFFFFF'),fillLabelOnHover:color('#FFFFFF'),fillLabelOnActive:color('#FFFFFF'),
     fillBgOn:color('rgba(254, 95, 85,1)'),
     fillBgOnHover:color('rgba(254, 95, 85,.5)'),
@@ -307,7 +307,7 @@ function setup() {
   Mute2 = createToggle("M", 32*w/60, 51*h/60, w/60, w/60);
   Mute2.setStyle({
     textSize:w/80,
-    rounding: 5,
+    rounding: 2,
     fillLabelOn:color('#FFFFFF'),fillLabelOnHover:color('#FFFFFF'),fillLabelOnActive:color('#FFFFFF'),
     fillBgOn:color('rgba(254, 95, 85,1)'),
     fillBgOnHover:color('rgba(254, 95, 85,.5)'),
@@ -315,7 +315,7 @@ function setup() {
   Mute3 = createToggle("M", 34.5*w/60, 51*h/60, w/60, w/60);
   Mute3.setStyle({
     textSize:w/80,
-    rounding: 5,
+    rounding: 2,
     fillLabelOn:color('#FFFFFF'),fillLabelOnHover:color('#FFFFFF'),fillLabelOnActive:color('#FFFFFF'),
     fillBgOn:color('rgba(254, 95, 85,1)'),
     fillBgOnHover:color('rgba(254, 95, 85,.5)'),
@@ -323,7 +323,7 @@ function setup() {
   Mute4 = createToggle("M", 37*w/60, 51*h/60, w/60, w/60);
   Mute4.setStyle({
     textSize:w/80,
-    rounding: 5,
+    rounding: 2,
     fillLabelOn:color('#FFFFFF'),fillLabelOnHover:color('#FFFFFF'),fillLabelOnActive:color('#FFFFFF'),
     fillBgOn:color('rgba(254, 95, 85,1)'),
     fillBgOnHover:color('rgba(254, 95, 85,.5)'),
@@ -334,7 +334,7 @@ function setup() {
   Solo1 = createToggle("S", 29.5*w/60, 53*h/60, w/60, w/60);
   Solo1.setStyle({
     textSize:w/80,
-    rounding: 5,
+    rounding: 2,
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
@@ -342,7 +342,7 @@ function setup() {
   Solo2 = createToggle("S", 32*w/60, 53*h/60, w/60, w/60);
   Solo2.setStyle({
     textSize:w/80,
-    rounding: 5,
+    rounding: 2,
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
@@ -350,7 +350,7 @@ function setup() {
   Solo3 = createToggle("S", 34.5*w/60, 53*h/60, w/60, w/60);
   Solo3.setStyle({
     textSize:w/80,
-    rounding: 5,
+    rounding: 2,
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
@@ -358,7 +358,7 @@ function setup() {
   Solo4 = createToggle("S", 37*w/60, 53*h/60, w/60, w/60);
   Solo4.setStyle({
     textSize:w/80,
-    rounding: 5,
+    rounding: 2,
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
@@ -366,15 +366,15 @@ function setup() {
 
   // ---- Effects Sliders
   Reverb = createSlider('Reverb', 22*w/60, 41.5*h/60, 6*w/60, w/60, 0, 1);
-  Reverb.setStyle({rounding: 5, trackWidth: 0.1});
+  Reverb.setStyle({rounding: 2, trackWidth: 0.1});
   Delay1 = createSlider('Delay1', 22*w/60, 45*h/60, 6*w/60, w/60, 0, 1);
-  Delay1.setStyle({rounding: 5, trackWidth: 0.1});
+  Delay1.setStyle({rounding: 2, trackWidth: 0.1});
   Delay2 = createSlider('Delay2', 22*w/60, 48.5*h/60, 6*w/60, w/60, 0, 1);
-  Delay2.setStyle({rounding: 5, trackWidth: 0.1});
+  Delay2.setStyle({rounding: 2, trackWidth: 0.1});
 
   tutorial_button = createButton("?",54*w/60, 5*h/60,1.5*w/60,2*h/60);
   tutorial_button.setStyle({font:'Bahnschrift', textSize: w/60,
-    fillBg:color(clr_btn_bg), rounding: 5,
+    fillBg:color(clr_btn_bg), rounding: 2,
     fillLabel:color('#FFFFFF'),fillLabelHover:color('#4E5258'), fillLabelActive:color('#4E5258'),
     strokeBg:color(clr_bt_st)}
   )
