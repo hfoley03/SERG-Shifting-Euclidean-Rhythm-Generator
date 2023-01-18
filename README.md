@@ -156,7 +156,7 @@ This function first stops the Audio. Then, it cleans the synths array to prevent
 #### Connection of the Audio Nodes
 We use channel stripping for all four tracks and their corresponding synths. We connect each synth to a limiter to limit their volumes to a specific value so that the sounds do not pop. Then, we connect the limiter to the chorus effect, delays, and reverb. After the effects, we connect to the destination. The connections are shown in the below figure:
 
-![Audio nodes flowchart](https://github.com/hfoley03/musical-guacamole/blob/main/img/AudioEffectsDiagram.png)
+![Audio-nodes flowchart](https://github.com/hfoley03/musical-guacamole/blob/main/img/AudioEffectsDiagram.png)
 
 ### midiGeneration.js
 
