@@ -280,8 +280,8 @@ So the solution was scheduling the event at two seconds after the time current t
 
 On memory constrained devices like mobile phones loading many and/or large audio files can cause the browser to crash during the buffer decoding, especially if Tone.MonoSynth is used instead of Tone.Synth. The reason for that is Tone.MonoSynth consists of one oscillator, one filter, and two envelopes whereas the Tone.Synth consists of one oscillator and envelope. See the diagrams below for the comparison, the first one is for MonoSynth and the one below that is for Synth.
 
-![5 onsets 8 pulses](https://github.com/hfoley03/musical-guacamole/blob/main/img/monosynth.png?raw=?)
-![5 onsets 8 pulses](https://github.com/hfoley03/musical-guacamole/blob/main/img/synth.png?raw=?)
+![MonoSynth](https://github.com/hfoley03/musical-guacamole/blob/main/img/monosynth.jpg?raw=?)
+![Synth](https://github.com/hfoley03/musical-guacamole/blob/main/img/synth.jpg?raw=?)
 
 
 
