@@ -5,20 +5,26 @@ let w;        //windowWidth
 let h = 900;  //windowHeight
 
 let clr_bg = '#393939';       //Background Color
-let clr_tittle = '#A3E7FC';
-let clr_subtittle = '#B9E28C';
+let clr_tittle = '#63B995';
+let clr_subtittle = '#9AE6CD';
 let clr_txt = '#FFFFFF';      //Color of Text
+
+let clr_str ='#DE7C5A';
+
+
 let myFont;
 
-let cl1 = 'rgba(255, 102, 102,1)';       // color onsets Fixed Circle
-let cl2 = 'rgba(255, 102, 102,0.3)';     // color offsets Fixed Circle
-let cl3 = 'rgba(255, 225, 86,1)';        // color onsets Shifting Circle
-let cl4 = 'rgba(255, 225, 86,0.3)';      // color offsets Shifting Circle
+
+let cl1 = 'rgba(99, 212, 188,1)';       // color onsets Fixed Circle
+let cl2 = 'rgba(99, 212, 188,0.3)';     // color offsets Fixed Circle
+let cl3 = 'rgba(173, 238, 227,1)';        // color onsets Shifting Circle
+let cl4 = 'rgba(173, 238, 227,0.3)';      // color offsets Shifting Circle
 let cl5 = 'rgba(191, 192, 192,0.2)';     // color Visual Fixed
 
 let clr_btn_bg = '#85898F';
 let clr_bt_st = '#4E5258';
 let clr_bt_fl_off = '#4E5258';
+let clr_bt_bg_h ='#9b9fa5';
 
 let phase_shift_amount_inp;
 let phase_shift_period_inp;
@@ -272,7 +278,7 @@ function setup() {
     fillBg:color(clr_btn_bg), rounding: 5,
     font:'Bahnschrift', textSize: w/60,
     fillLabel:color('#FFFFFF'), fillLabelHover:color('#4E5258'), fillLabelActive:color('#4E5258'),
-    strokeBg:color('#4E5258')
+    strokeBg:color(clr_bt_st)
   });
 
   // ---- Stop button
@@ -281,7 +287,7 @@ function setup() {
     fillBg:color(clr_btn_bg), rounding: 5,
     font:'Bahnschrift', textSize: w/60,
     fillLabel:color('#FFFFFF'), fillLabelHover:color('#4E5258'), fillLabelActive:color('#4E5258'),
-    strokeBg:color('#4E5258')
+    strokeBg:color(clr_bt_st)
   });
 
   // ---- Volume Sliders
@@ -401,10 +407,14 @@ function draw() {
   textSize(w*0.04);
   textFont(myFont);
   textAlign(CENTER);
+  text('SERG', w/2, 3*h/60);
+  textSize(w*0.01);
+  textFont(myFont);
+  textAlign(CENTER);
   text('SHIFTING EUCLIDEAN RHYTHM GENERATOR', w/2, 2*h/60);
 
   // ----- First box text
-  stroke('#FFD5C2');
+  stroke(clr_str);
   strokeWeight(w*0.003);
   noFill();
   rect(16*w/60,7*h/60,12*w/60,7.5*h/60,5);
@@ -425,7 +435,7 @@ function draw() {
   text('2nd Track', xx1, yy+66);
 
   // ----- Second box text
-  stroke('#FFD5C2');
+  stroke(clr_str);
   strokeWeight(w*0.003);
   noFill();
   rect(32*w/60,7*h/60,12*w/60,7.5*h/60,5);
@@ -445,16 +455,12 @@ function draw() {
   text('4th Track', xx2, yy+66);
 
   // ----- Third box text
-  stroke('#FFD5C2');
+  stroke(clr_str);
   strokeWeight(w*0.003);
   noFill();
   rect(15*w/60,18*h/60,30*w/60,13.5*h/60,5);
 
-  textAlign(CENTER, CENTER);
-  textSize(w*0.02);
-  fill(clr_subtittle);
-  strokeWeight(0);
-  text('PARAMETERS', 30*w/60, 17*h/60);
+
   stroke('#93B7BE');
   strokeWeight(w*0.003);
   noFill();
@@ -658,8 +664,8 @@ function FixedCircle(track) {
       text(i+1,(x_c*0.13)*cos(-90+(360/pulses)*(i+1/2))+x_c, (x_c*0.13)*sin(-90+(360/pulses)*(i+1/2))+y_c);
     }
   }
-  cl1 = 'rgba(255, 102, 102,'+alpha+')';       // color onsets Track 1
-  cl2 = 'rgba(255, 102, 102,'+alpha*0.3+')';    // color pulses Track 1
+  cl1 = 'rgba(99, 212, 188,'+alpha+')';       // color onsets Track 1
+  cl2 = 'rgba(99, 212, 188,'+alpha*0.4+')';    // color pulses Track 1
 
   strokeWeight(w*0.002);
   for (let i = 0; i < pulses; i++) {
@@ -818,8 +824,8 @@ function VisualShift(track){
   //console.log("Track : "+track);
   //console.log("Shift_binary : "+Shift_binary);
 
-  cl3 = 'rgba(255, 225, 86,'+alpha+')';      // color onsets Shifting Circle
-  cl4 = 'rgba(255, 225, 86,'+alpha*.3+')';    // color offsets Shifting Circle
+  cl3 = 'rgba(173, 238, 227,'+alpha+')';      // color onsets Shifting Circle
+  cl4 = 'rgba(173, 238, 227,'+alpha*.3+')';    // color offsets Shifting Circle
 
   // Divide the binary array in bars to then draw the shifted bar
   if (actualbar <= length){
