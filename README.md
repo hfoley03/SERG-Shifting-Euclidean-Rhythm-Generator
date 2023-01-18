@@ -202,9 +202,6 @@ The function returns the final MIDI object.
 
 The flow chart in fig. x shows a high level flow of this function.
 
-![Image of phaseAndCompose() flowchart](https://github.com/hfoley03/musical-guacamole/blob/Design_2/img/phaseAndComposeDiagram.png?raw=true)
-
-
 ## Challenges
 
 ### Challenge 1
@@ -251,10 +248,75 @@ Below shows what this MIDI object looks like. Not shown is the elements of the d
 }
  ```
 
+#### How to create the Euclidian Rhythms?
+People have been developing software tools using Euclidian Rhythms since they were discovered in the mid 2000s.
+However, as this algorithm would be at the heart of our application it felt wrong to simply copy and paste the code from online. Instead the algorithm was coded from the ground up following the description in Godfried Toussaint’s The Geometry of Musical Rhythm.
+This presented a significant technical challenge.
+
+We needed to understand how the algorithm worked across all cases, as it behaves differently when the number of onsets is greater than half of the number of pulses. See the examples below for 5 onsets in 8 pulses vs. 3 onsets in 8 pulses.
+
+![5 onsets 8 pulses](https://github.com/hfoley03/musical-guacamole/blob/main/img/3858.png?raw=?)
+
+We implemented the logic in the above images by using three arrays: joined, unjoined and buffer. The array joined initially holds the onests, represented by 1s and the unjoined holds the unsounded notes (pulses – onsets ). Our algorithm then iteratively completes the steps shown in the above images.
+
+```
+function euclidianPattern(onsets, pulses) {
+  let unjoined = new Array(pulses - onsets).fill([0]);
+  let joined = new Array(onsets).fill([1]);
+  let buffer = [];
+
+  while (unjoined.length > 1) {
+    let joinedLength = joined.length;
+    let unjoinedLength = unjoined.length;
+    let i = 0;
+    while ((joinedLength > 0) && (unjoinedLength > 0)) {
+      buffer[i] = joined[i].concat(unjoined[i]);
+      joinedLength = joinedLength - 1;
+      unjoinedLength = unjoinedLength - 1;
+      i = i + 1;
+    }
+    unjoined = unjoined.slice(i);
+    if (unjoinedLength < joinedLength) {
+      unjoined = joined.slice(i, joined.length);
+    }
+    joined = buffer;
+    buffer = [];
+  }
+  let output = joined.join().replaceAll(',', '');
+  if (unjoined[0]) {
+    output = (joined.join() + unjoined[0].toString()).replaceAll(',', '');
+  }
+  console.log("Binary Rhythm: " + output)
+  return output
+}
+```
+
+#### How to implement phase shifting?
+
+Implementing the logic for phase shifting the rhythms also presented a challenge. When the project was first conceived we believed it would be very simple, just circular shifting an array of notes. However, as we are working with the Tone.js MIDI object this was not straightforward.
+
+The MIDI object has no concept of what a bar is. All of the notes are simply stored in sequential order with a time value of when they should be played and how long they should last.
+
+We are satisified with the solution that we reached and it can be found as the function phaseAndCompose() in midiGeneration.js
+
+To create a whole composition of phase shifting rhythms we start with one bar of MIDI data in each track. The tracks are built in order, first track 1, then 2, and so on.
+
+- To create the next bar of MIDI data we slice the previous bar from the overall piece. This is important when shifting as we need to shift the previous bar and not the original rhythm
+
+- If we are working with either track 1 or 3, we create notes for the new bar in the same time position as the previous bar + 1 bar in ticks. So if there is an onset on the 2 of the previous bar we will have on onset on the 2 of the next bar.
+
+- If we are working with track 2 or 4 we need to check if phase shifting will occur in the next bar. To do this we check the result of dividing the bar number by the phase shift period.
+
+- If phase shifting does occur in the next bar the new time position of each note will be the same as the last bar + 1 bar + the phase shift amount.
+
+- We then check if all of the new notes are contained within the new bar. For example if a note in the previous bar was on the & of 4 and is now being shifted by 1/8th note it needs to be circular shifted back to 1. To do this we simply subtract 1 bar in ticks from the new position.
+
+- This process is repeated until the number of bars equals the length of the composition set by the user.
 
 
 
-![5 onsets 8 pulses](https://github.com/hfoley03/musical-guacamole/blob/main/img/cubancinquillo.png?raw=?)
+![Image of phaseAndCompose() flowchart](https://github.com/hfoley03/musical-guacamole/blob/Design_2/img/phaseAndComposeDiagram.png?raw=true)
+
 
 
 ## Future Work
