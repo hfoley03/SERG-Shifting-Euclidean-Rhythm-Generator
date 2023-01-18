@@ -58,8 +58,6 @@ let indexA = 0;
 let indexB = 0;
 let actualbarA = 0;
 let actualbarB = 0;
-let proportion_indexA = 0.8;
-let proportion_indexB = 0.8;
 let indexA_1, indexA_2;
 let indexB_1, indexB_2;
 
@@ -767,8 +765,10 @@ function VisualFixTimingB(){
 }
 
 // --------- Functions for the visuals of the shifting ------
-function ShiftingCircle(x, y, onset, pulses, prt, color1, color2) {
+function ShiftingCircle(x, y, onset, pulses, color1, color2) {
   let r2 = 12*w/60;
+  let prt = 0.7;
+
   strokeWeight(w*0.002);
 
   for (let i = 0; i<pulses; i++) {
@@ -783,14 +783,13 @@ function ShiftingCircle(x, y, onset, pulses, prt, color1, color2) {
       fill(color2);
       arc(x, y, r2 * prt, r2*prt, -90+360/pulses*i, -90+360/pulses*(i+1), PIE);
       fill(clr_bg);
-      arc(x, y, prt * r2-1.5*w/60, prt * r2-1.5*w/60, 0, 360, PIE);
+      arc(x, y, 0.7 * r2-1.5*w/60, 0.7 * r2-1.5*w/60, 0, 360, PIE);
     }
   }
 }
 function VisualShift(track){
   let pulses;
   let Shift_binary = [];
-  let proportion;
   let actualbar;
   let x_c;
   let y_c;
@@ -799,14 +798,12 @@ function VisualShift(track){
 
   if (track == 1){
     pulses = pulsesA;
-    proportion = proportion_indexA;
     actualbar = actualbarA;
     x_c = 10*w/60;
     y_c = 47.5*h/60;
     alpha=alpha2;
   }else if (track == 3){
     pulses = pulsesB;
-    proportion = proportion_indexB;
     actualbar = actualbarB;
     x_c = 50*w/60;
     y_c = 47.5*h/60;
@@ -825,7 +822,7 @@ function VisualShift(track){
     for (let i = 0; i < pulses; i++) {
       aux_onsets = Shift_binary.slice(actualbar*pulses, (actualbar+1)*pulses);
     }
-    ShiftingCircle(x_c, y_c, aux_onsets, pulses,proportion, cl3, cl4);
+    ShiftingCircle(x_c, y_c, aux_onsets, pulses, cl3, cl4);
   }
 }
 function GetBinaryShiftedOnset(track){
@@ -883,20 +880,11 @@ function VisualShiftTimingA(){
   if(actualbarA == length){
     actualbarA = 0;
   }
-  proportion_indexA = proportion_indexA - 0.2;
-  if (proportion_indexA < 0.4){
-    proportion_indexA = 0.8;
-  }
 }
 function VisualShiftTimingB(){
   actualbarB++;
   if(actualbarB == length){
     actualbarB = 0;
-  }
-
-  proportion_indexB = proportion_indexB - 0.2;
-  if (proportion_indexB < 0.4){
-    proportion_indexB = 0.8;
   }
 }
 
@@ -922,9 +910,7 @@ function stopTimer(){
     indexB_1 = -1;
     indexB_2 = 0;
     actualbarA = 0;
-    proportion_indexA = 0.8;
     actualbarB = 0;
-    proportion_indexB = 0.8;
     first_cycleA = 0;
     first_cycleB = 0;
   }
