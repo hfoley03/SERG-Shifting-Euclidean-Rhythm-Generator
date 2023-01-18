@@ -46,9 +46,8 @@ Blah blah blah
 
 
 ### GUI
+![FixedCircle()](https://github.com/hfoley03/musical-guacamole/blob/Design_2/img/FixedCircle.png?raw=true)
 
-Overview of GUI.js
-Outline key and interesting functions
 
 ### Browser Play
 
