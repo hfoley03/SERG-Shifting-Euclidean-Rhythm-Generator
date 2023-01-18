@@ -7,14 +7,11 @@ let h = 900;  //windowHeight
 let clr_bg = '#393939';       //Background Color
 let clr_tittle = 'rgba(99, 185, 149,1)';
 let clr_tittle2 = 'rgba(99, 185, 149,0.5)';
-let clr_subtittle = '#9AE6CD';
+let clr_subtittle = '#EEB1D5';
 let clr_txt = '#FFFFFF';      //Color of Text
 
-let clr_str ='rgba(127, 76, 138,1)';
-
-
+let clr_box_str ='rgba(127, 76, 138,1)';
 let myFont;
-
 
 let cl1 = 'rgba(99, 212, 188,1)';       // color onsets Fixed Circle
 let cl2 = 'rgba(99, 212, 188,0.3)';     // color offsets Fixed Circle
@@ -95,10 +92,7 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth,h);
-  //createCanvas(w, h);
   angleMode(DEGREES);
-
-
   w = width;
   let gui = createGui();
 
@@ -107,13 +101,13 @@ function setup() {
 
   // ---- Selection Synth type by the user
   let synth_x = 22.5*w/60+8;
-  let synth_y = 11.5*h/60-4;
+  let synth_y = 12.5*h/60-3;
   for(let i = 1; i<=4; i++){
     let tmp_synth_str = "tr" + i + "_synth";
     let tmp_synth = window[tmp_synth_str];
     tmp_synth = createSelect();
-    if(i==1 || i==2){tmp_synth.position(synth_x,synth_y+20*(i-1)+1);}
-    if(i==3 || i==4){tmp_synth.position(synth_x+16*w/60,synth_y+20*(i-3)+1);}
+    if(i==1 || i==2){tmp_synth.position(synth_x,synth_y+21*(i-1)+1);}
+    if(i==3 || i==4){tmp_synth.position(synth_x+16*w/60,synth_y+21*(i-3)+1);}
     for( let k = 0; k<All_Synths.length;k++){
       tmp_synth.option(All_Synths[k]);
     }
@@ -129,7 +123,7 @@ function setup() {
 
   // ----- Inputs of Onsets and Pulses for the Euclidean Rhythm
   let x_onsets = 22.5*w/60+8;
-  let y_onsets = 8.5*h/60;
+  let y_onsets = 9.5*h/60;
   let onsets_pulses = [onsetsA,pulsesA, onsetsB, pulsesB];
   let onsets_pulses_str = ["onsetsA","pulsesA", "onsetsB", "pulsesB"];
 
@@ -208,65 +202,61 @@ function setup() {
   scaleTypeSelect = createSelect();
   scaleTypeSelect.option("Major");scaleTypeSelect.option("Minor");scaleTypeSelect.option("Melodic Minor");
   scaleTypeSelect.size(60)
-  scaleTypeSelect.position(x_inputs2,y_inputs+20);
+  scaleTypeSelect.position(x_inputs2,y_inputs+22);
   scaleTypeSelect.style('color:'+clr_txt)
   scaleTypeSelect.style('background:'+clr_btn_bg)
 
-  box2nd = createToggle("2", x_inputs2-7,y_inputs+33, w/60, w/60);
+  box2nd = createToggle("2", x_inputs2-7,y_inputs+36, w/60, w/60);
   box2nd.setStyle({
-    rounding: 5, textSize:w/90,
+    rounding: 2, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
     strokeBgOff:color(clr_bt_st)});
-  box3rd = createToggle("3", x_inputs2+17, y_inputs+33, w/60, w/60);
-  box3rd.setStyle({
-    rounding: 5, textSize:w/90,
+  box3rd = createToggle("3", x_inputs2+17, y_inputs+36, w/60, w/60);
+  box3rd.setStyle({rounding: 2, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
     strokeBgOff:color(clr_bt_st)});
-  box4th = createToggle("4", x_inputs2+41, y_inputs+33, w/60, w/60);
-  box4th.setStyle({
-    rounding: 5, textSize:w/90,
+  box4th = createToggle("4", x_inputs2+41, y_inputs+36, w/60, w/60);
+  box4th.setStyle({rounding: 2, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
     strokeBgOff:color(clr_bt_st)});
-  box5th = createToggle("5", x_inputs2+65, y_inputs+33, w/60, w/60);
-  box5th.setStyle({
-    rounding: 5, textSize:w/90,
+  box5th = createToggle("5", x_inputs2+65, y_inputs+36, w/60, w/60);
+  box5th.setStyle({rounding:2, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
     strokeBgOff:color(clr_bt_st)});
-  box6th = createToggle("6", x_inputs2+89, y_inputs+33, w/60, w/60);
-  box6th.setStyle({
-    rounding: 5, textSize:w/90,
+  box6th = createToggle("6", x_inputs2+89, y_inputs+36, w/60, w/60);
+  box6th.setStyle({rounding: 2, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
     strokeBgOff:color(clr_bt_st)});
-  box7th = createToggle("7",x_inputs2+113, y_inputs+33, w/60, w/60);
-  box7th.setStyle({rounding: 5, textSize:w/90,
+  box7th = createToggle("7",x_inputs2+113, y_inputs+36, w/60, w/60);
+  box7th.setStyle({rounding: 2, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
     strokeBgOff:color(clr_bt_st)});
 
-  colorAmtSlider =  createSlider('Color Amt Slider', x_inputs2-7, y_inputs+57,6.5*w/60,w/60, 1, 0);
-  colorAmtSlider.setStyle({rounding: 5, trackWidth: 0.1,
+  colorAmtSlider =  createSlider('Color Amt Slider', x_inputs2-7, y_inputs+61,6.5*w/60,w/60, 1, 0);
+  colorAmtSlider.setStyle({rounding: 2, trackWidth: 0.1,
     fillBg:color(clr_btn_bg), strokeBg:color(clr_bt_st)});
 
 
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
-  gen_button = createButton('GENERATE', 17*w/60, 33*h/60,6*w/60,2*h/60);
+  gen_button = createButton('GENERATE', 17*w/60, 34*h/60,6*w/60,2*h/60);
   gen_button.setStyle({font:'Bahnschrift', textSize: w/60,
     fillBg:color(clr_btn_bg), rounding: 5,
     fillLabel:color('#FFFFFF'),fillLabelHover:color('#4E5258'), fillLabelActive:color('#4E5258'),
@@ -274,7 +264,7 @@ function setup() {
   });
 
   // ---- Play button
-  play_button = createButton('PLAY',27*w/60, 33*h/60,6*w/60,2*h/60);
+  play_button = createButton('PLAY',27*w/60, 34*h/60,6*w/60,2*h/60);
   play_button.setStyle({
     fillBg:color(clr_btn_bg), rounding: 5,
     font:'Bahnschrift', textSize: w/60,
@@ -283,7 +273,7 @@ function setup() {
   });
 
   // ---- Stop button
-  stop_button = createButton('STOP',37*w/60, 33*h/60,6*w/60,2*h/60);
+  stop_button = createButton('STOP',37*w/60, 34*h/60,6*w/60,2*h/60);
   stop_button.setStyle({
     fillBg:color(clr_btn_bg), rounding: 5,
     font:'Bahnschrift', textSize: w/60,
@@ -420,37 +410,37 @@ function draw() {
   text('Shifting Euclidean Rhythm Generator', w/2, 4*h/60);
 
   // ----- First box text
-  stroke(clr_str);
+  stroke(clr_box_str);
   strokeWeight(w*0.003);
   noFill();
-  rect(16*w/60,7*h/60,12*w/60,7.5*h/60,5);
+  rect(16*w/60,8*h/60,12*w/60,7.5*h/60,5);
 
   fill(clr_subtittle);
   strokeWeight(0);
   textAlign(CENTER, CENTER);
   textSize(w*0.02);
-  text('First Set', 22*w/60, 6*h/60);
+  text('SET A', 22*w/60, 6.5*h/60);
   textAlign(RIGHT, CENTER);
   fill(clr_txt);
   textSize(w*0.013);
   let xx1 = 21.5*w/60;
-  let yy = 8.5*h/60-2;
+  let yy = 9.5*h/60-2;
   text('Onsets', xx1, yy);
   text('Pulses', xx1, yy+22);
   text('1st Track', xx1, yy+44);
   text('2nd Track', xx1, yy+66);
 
   // ----- Second box text
-  stroke(clr_str);
+  stroke(clr_box_str);
   strokeWeight(w*0.003);
   noFill();
-  rect(32*w/60,7*h/60,12*w/60,7.5*h/60,5);
+  rect(32*w/60,8*h/60,12*w/60,7.5*h/60,5);
 
   textAlign(CENTER, CENTER);
   textSize(w*0.02);
   fill(clr_subtittle);
   strokeWeight(0);
-  text('Second Set', 38*w/60, 6*h/60);
+  text('SET B', 38*w/60, 6.5*h/60);
   textAlign(RIGHT, CENTER);
   fill(clr_txt);
   textSize(w*0.013);
@@ -461,11 +451,10 @@ function draw() {
   text('4th Track', xx2, yy+66);
 
   // ----- Third box text
-  stroke(clr_str);
+  stroke(clr_box_str);
   strokeWeight(w*0.003);
   noFill();
   rect(15*w/60,18*h/60,30*w/60,13.5*h/60,5);
-
 
   stroke('#A277B0');
   strokeWeight(w*0.003);
@@ -496,7 +485,7 @@ function draw() {
   text('Flavour Notes', xx4, yy2+44)
   text('Flavour %', xx4, yy2+66)
 
-  stroke('rgba(127, 76, 138,0.5)');
+  stroke('rgba(162, 119, 176,0.6)');
   strokeWeight(w*0.003);
   noFill();
   rect(23.5*w/60,27.5*h/60,13*w/60,3*h/60,5);
