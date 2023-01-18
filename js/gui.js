@@ -104,7 +104,6 @@ function setup() {
 
   tutorial = createGraphics(w, h);
   tutorial.textSize(10);
-  toggleTutorial();
 
   // ---- Selection Synth type by the user
   let synth_x = 22.5*w/60+8;
@@ -120,8 +119,10 @@ function setup() {
     }
     tmp_synth.selected(All_Synths[3]);
     tmp_synth.size(91);
+
     tmp_synth.style('color:'+clr_txt);
-    tmp_synth.style('background:'+clr_bg);
+    tmp_synth.style('background:'+clr_btn_bg);
+    tmp_synth.style("border-width", "thin")
     synthinps.push(tmp_synth)
   }
 
@@ -137,8 +138,8 @@ function setup() {
     let tmp_onsets = window[tmp_onsets_str];
 
     if (i==1 || i==3){
-      tmp_onsets = createInput(onsets_pulses[i-1]);
-      tmp_onsets.size(32);
+      tmp_onsets = createInput(" " + onsets_pulses[i-1]);
+      tmp_onsets.size(34.5);
     }
     else{
       tmp_onsets = createSelect();
@@ -152,6 +153,7 @@ function setup() {
     onsetsinps.push(tmp_onsets);
 
     tmp_onsets.style('color:'+clr_txt);
+    tmp_onsets.style("border-width", "thin")
 
   }
 
@@ -165,21 +167,29 @@ function setup() {
   phase_shift_amount_inp.position(x_inputs,y_inputs);
   phase_shift_amount_inp.size(32);
   phase_shift_amount_inp.style('color:'+clr_txt)
+  phase_shift_amount_inp.style("border-width", "thin")
+
 
   phase_shift_period_inp = createInput(phaseShiftPeriod.toString());
   phase_shift_period_inp.position(x_inputs,y_inputs+22);
   phase_shift_period_inp.size(32);
   phase_shift_period_inp.style('color:'+clr_txt)
+  phase_shift_period_inp.style("border-width", "thin")
+
 
   length_inp = createInput(length.toString());
   length_inp.position(x_inputs,y_inputs+44);
   length_inp.size(32);
   length_inp.style('color:'+clr_txt)
+  length_inp.style("border-width", "thin")
+
 
   tempo_bpm_inp = createInput(tempo_bpm.toString());
   tempo_bpm_inp.position(x_inputs,y_inputs+66);
   tempo_bpm_inp.size(32);
   tempo_bpm_inp.style('color:'+clr_txt)
+  tempo_bpm_inp.style("border-width", "thin")
+
 
   velAmtSlider =  createSlider('Velocity Amount Slider', 29*w/60-7, 29*h/60-11,6.5*w/60,w/60,1,0);
   velAmtSlider.setStyle({rounding: 5, trackWidth: 0.1,
@@ -192,7 +202,7 @@ function setup() {
   rootNoteSelect.size(40)
   rootNoteSelect.position(x_inputs2,y_inputs);
   rootNoteSelect.style('color:'+clr_txt)
-  rootNoteSelect.style('background:'+clr_bg)
+  rootNoteSelect.style('background:'+clr_btn_bg)
 
 
   scaleTypeSelect = createSelect();
@@ -200,11 +210,11 @@ function setup() {
   scaleTypeSelect.size(60)
   scaleTypeSelect.position(x_inputs2,y_inputs+20);
   scaleTypeSelect.style('color:'+clr_txt)
-  scaleTypeSelect.style('background:'+clr_bg)
+  scaleTypeSelect.style('background:'+clr_btn_bg)
 
   box2nd = createToggle("2", x_inputs2-7,y_inputs+33, w/60, w/60);
   box2nd.setStyle({
-    rounding: 5, textSize:w/60,
+    rounding: 5, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
@@ -212,7 +222,7 @@ function setup() {
     strokeBgOff:color(clr_bt_st)});
   box3rd = createToggle("3", x_inputs2+17, y_inputs+33, w/60, w/60);
   box3rd.setStyle({
-    rounding: 5, textSize:w/60,
+    rounding: 5, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
@@ -220,7 +230,7 @@ function setup() {
     strokeBgOff:color(clr_bt_st)});
   box4th = createToggle("4", x_inputs2+41, y_inputs+33, w/60, w/60);
   box4th.setStyle({
-    rounding: 5, textSize:w/60,
+    rounding: 5, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
@@ -228,7 +238,7 @@ function setup() {
     strokeBgOff:color(clr_bt_st)});
   box5th = createToggle("5", x_inputs2+65, y_inputs+33, w/60, w/60);
   box5th.setStyle({
-    rounding: 5, textSize:w/60,
+    rounding: 5, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
@@ -236,14 +246,14 @@ function setup() {
     strokeBgOff:color(clr_bt_st)});
   box6th = createToggle("6", x_inputs2+89, y_inputs+33, w/60, w/60);
   box6th.setStyle({
-    rounding: 5, textSize:w/60,
+    rounding: 5, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
     strokeBgOff:color(clr_bt_st)});
   box7th = createToggle("7",x_inputs2+113, y_inputs+33, w/60, w/60);
-  box7th.setStyle({rounding: 5, textSize:w/60,
+  box7th.setStyle({rounding: 5, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
@@ -368,7 +378,12 @@ function setup() {
   Delay2 = createSlider('Delay2', 22*w/60, 48.5*h/60, 6*w/60, w/60, 0, 1);
   Delay2.setStyle({rounding: 5, trackWidth: 0.1});
 
-  tutorial_button = createButton("?",54*w/60, 5*h/60,2*w/60,2*h/60);
+  tutorial_button = createButton("?",54*w/60, 5*h/60,1.5*w/60,2*h/60);
+  tutorial_button.setStyle({font:'Bahnschrift', textSize: w/60,
+    fillBg:color(clr_btn_bg), rounding: 5,
+    fillLabel:color('#FFFFFF'),fillLabelHover:color('#4E5258'), fillLabelActive:color('#4E5258'),
+    strokeBg:color(clr_bt_st)}
+  )
 
   initialization();
   checkErrors()
@@ -1129,7 +1144,7 @@ function checkErrors(){
     error_flag = true
   }
   else{
-    phase_shift_amount_inp.style('background-color', clr_bg)
+    phase_shift_amount_inp.style('background-color', clr_btn_bg)
   }
   if (parseInt(phase_shift_amount_inp.value()) > parseInt(onsetsinps[2].value())){
     error_message += "The phase shift amount, can't be more than number of pulses of the second set.";
@@ -1138,7 +1153,7 @@ function checkErrors(){
     error_flag = true
   }
   else{
-    phase_shift_amount_inp.style('background-color', clr_bg)
+    phase_shift_amount_inp.style('background-color', clr_btn_bg)
   }
   if (parseInt(phase_shift_period_inp.value()) > parseInt(length_inp.value())) {
     error_message += "The phase shift period can't be more than piece length"
@@ -1147,7 +1162,7 @@ function checkErrors(){
     error_flag = true
   }
   else{
-    phase_shift_period_inp.style('background-color', clr_bg)
+    phase_shift_period_inp.style('background-color', clr_btn_bg)
   }
   if (parseInt(tempo_bpm_inp.value()) < 30) {
     error_message += "The bpm can't be less than 30"
@@ -1156,7 +1171,7 @@ function checkErrors(){
     error_flag = true
   }
   else{
-    tempo_bpm_inp.style('background-color', clr_bg)
+    tempo_bpm_inp.style('background-color', clr_btn_bg)
   }
   if(parseInt(onsetsinps[1].value()) < 1){
     error_message += "Number of pulses should be greater than 0"
@@ -1165,7 +1180,7 @@ function checkErrors(){
     error_flag = true
   }
   else{
-    onsetsinps[1].style('background-color', clr_bg)
+    onsetsinps[1].style('background-color', clr_btn_bg)
   }
   if(parseInt(onsetsinps[2].value()) < 1){
     error_message += "Number of pulses should be greater than 0"
@@ -1174,7 +1189,7 @@ function checkErrors(){
     error_flag = true
   }
   else{
-    onsetsinps[3].style('background-color', clr_bg)
+    onsetsinps[3].style('background-color', clr_btn_bg)
   }
   if(parseInt(onsetsinps[0].value()) < 1){
     error_message += 'Number of onsets should be greater than 0'
@@ -1183,7 +1198,7 @@ function checkErrors(){
     error_flag = true
   }
   else{
-    onsetsinps[0].style('background-color', clr_bg)
+    onsetsinps[0].style('background-color', clr_btn_bg)
   }
   if(parseInt(onsetsinps[3].value()) < 1){
     error_message += "Number of onsets should be greater than 0"
@@ -1192,7 +1207,7 @@ function checkErrors(){
     error_flag = true
   }
   else{
-    onsetsinps[2].style('background-color', clr_bg)
+    onsetsinps[2].style('background-color', clr_btn_bg)
   }
   if(parseInt(onsetsinps[0].value()) > parseInt(onsetsinps[1].value())){
     error_message += "Number of onsets can't be more than number of pulses for the first set"
@@ -1202,8 +1217,8 @@ function checkErrors(){
     error_flag = true
   }
   else{
-    onsetsinps[0].style('background-color', clr_bg)
-    onsetsinps[1].style('background-color', clr_bg)
+    onsetsinps[0].style('background-color', clr_btn_bg)
+    onsetsinps[1].style('background-color', clr_btn_bg)
   }
   if(parseInt(onsetsinps[3].value()) < parseInt(onsetsinps[2].value())){
     error_message += "Number of onsets can't be more than number of pulses for the second set"
@@ -1213,8 +1228,8 @@ function checkErrors(){
     error_flag = true
   }
   else{
-    onsetsinps[2].style('background-color', clr_bg)
-    onsetsinps[3].style('background-color', clr_bg)
+    onsetsinps[2].style('background-color', clr_btn_bg)
+    onsetsinps[3].style('background-color', clr_btn_bg)
   }
   if(parseInt(length_inp.value()) < 1){
     error_message += "The piece length should be greater than or equal to 1"
@@ -1223,7 +1238,7 @@ function checkErrors(){
     error_flag = true
   }
   else{
-    length_inp.style('background-color', clr_bg)
+    length_inp.style('background-color', clr_btn_bg)
   }
 
   if(error_flag){
