@@ -116,7 +116,7 @@ function setup() {
       tmp_synth.option(All_Synths[k]);
     }
     tmp_synth.selected(All_Synths[3]);
-    tmp_synth.size(91);
+    tmp_synth.size(5*w/60);
 
     tmp_synth.style('color:'+clr_txt);
     tmp_synth.style('background:'+clr_btn_bg);
@@ -158,7 +158,7 @@ function setup() {
 
   // ----- Inputs of lenght of piece, shifting amount and shifting period, Tempo, Root, Scale
   let x_inputs = 26*w/60;
-  let x_inputs2 = 37*w/60;
+  let x_inputs2 = 37.5*w/60;
   let y_inputs = 20.5*h/60-3;
 
   phase_shift_amount_inp = createInput(phaseShiftAmount.toString());
@@ -210,7 +210,7 @@ function setup() {
   scaleTypeSelect.style('color:'+clr_txt)
   scaleTypeSelect.style('background:'+clr_btn_bg)
 
-  box2nd = createToggle("2", x_inputs2-7,y_inputs+33, w/60, w/60);
+  box2nd = createToggle("2", x_inputs2-w/140,y_inputs+35, w/80, w/60);
   box2nd.setStyle({
     rounding: 5, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
@@ -218,7 +218,7 @@ function setup() {
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
     strokeBgOff:color(clr_bt_st)});
-  box3rd = createToggle("3", x_inputs2+17, y_inputs+33, w/60, w/60);
+  box3rd = createToggle("3", x_inputs2-w/140 + w/60, y_inputs+35, w/80, w/60);
   box3rd.setStyle({
     rounding: 5, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
@@ -226,7 +226,7 @@ function setup() {
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
     strokeBgOff:color(clr_bt_st)});
-  box4th = createToggle("4", x_inputs2+41, y_inputs+33, w/60, w/60);
+  box4th = createToggle("4", x_inputs2-w/140+ w/60+ w/60, y_inputs+35, w/80, w/60);
   box4th.setStyle({
     rounding: 5, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
@@ -234,7 +234,7 @@ function setup() {
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
     strokeBgOff:color(clr_bt_st)});
-  box5th = createToggle("5", x_inputs2+65, y_inputs+33, w/60, w/60);
+  box5th = createToggle("5", x_inputs2-w/140+ w/60+ w/60+ w/60, y_inputs+35, w/80, w/60);
   box5th.setStyle({
     rounding: 5, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
@@ -242,7 +242,7 @@ function setup() {
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
     strokeBgOff:color(clr_bt_st)});
-  box6th = createToggle("6", x_inputs2+89, y_inputs+33, w/60, w/60);
+  box6th = createToggle("6", x_inputs2-w/140+ w/60+ w/60+ w/60+ w/60, y_inputs+35, w/80, w/60);
   box6th.setStyle({
     rounding: 5, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
@@ -250,7 +250,7 @@ function setup() {
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
     strokeBgOff:color(clr_bt_st)});
-  box7th = createToggle("7",x_inputs2+113, y_inputs+33, w/60, w/60);
+  box7th = createToggle("7",x_inputs2-w/140+ w/60+ w/60+ w/60+ w/60+ w/60, y_inputs+35, w/80, w/60);
   box7th.setStyle({rounding: 5, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
@@ -302,7 +302,7 @@ function setup() {
   // ---- Mute Selecotors
   Mute1 = createToggle("M", 29.5*w/60, 51*h/60, w/60, w/60);
   Mute1.setStyle({
-    textSize:w/60,
+    textSize:w/80,
     rounding: 5,
     fillLabelOn:color('#FFFFFF'),fillLabelOnHover:color('#FFFFFF'),fillLabelOnActive:color('#FFFFFF'),
     fillBgOn:color('rgba(254, 95, 85,1)'),
@@ -310,7 +310,7 @@ function setup() {
     fillBgOnActive:color('rgba(254, 95, 85,.3)')});
   Mute2 = createToggle("M", 32*w/60, 51*h/60, w/60, w/60);
   Mute2.setStyle({
-    textSize:w/60,
+    textSize:w/80,
     rounding: 5,
     fillLabelOn:color('#FFFFFF'),fillLabelOnHover:color('#FFFFFF'),fillLabelOnActive:color('#FFFFFF'),
     fillBgOn:color('rgba(254, 95, 85,1)'),
@@ -318,7 +318,7 @@ function setup() {
     fillBgOnActive:color('rgba(254, 95, 85,.3)')});
   Mute3 = createToggle("M", 34.5*w/60, 51*h/60, w/60, w/60);
   Mute3.setStyle({
-    textSize:w/60,
+    textSize:w/80,
     rounding: 5,
     fillLabelOn:color('#FFFFFF'),fillLabelOnHover:color('#FFFFFF'),fillLabelOnActive:color('#FFFFFF'),
     fillBgOn:color('rgba(254, 95, 85,1)'),
@@ -326,7 +326,7 @@ function setup() {
     fillBgOnActive:color('rgba(254, 95, 85,.3)')});
   Mute4 = createToggle("M", 37*w/60, 51*h/60, w/60, w/60);
   Mute4.setStyle({
-    textSize:w/60,
+    textSize:w/80,
     rounding: 5,
     fillLabelOn:color('#FFFFFF'),fillLabelOnHover:color('#FFFFFF'),fillLabelOnActive:color('#FFFFFF'),
     fillBgOn:color('rgba(254, 95, 85,1)'),
@@ -337,7 +337,7 @@ function setup() {
   // ---- Solo Selectors
   Solo1 = createToggle("S", 29.5*w/60, 53*h/60, w/60, w/60);
   Solo1.setStyle({
-    textSize:w/60,
+    textSize:w/80,
     rounding: 5,
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOn:color('rgba(170, 250, 200,1)'),
@@ -345,7 +345,7 @@ function setup() {
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
   Solo2 = createToggle("S", 32*w/60, 53*h/60, w/60, w/60);
   Solo2.setStyle({
-    textSize:w/60,
+    textSize:w/80,
     rounding: 5,
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOn:color('rgba(170, 250, 200,1)'),
@@ -353,7 +353,7 @@ function setup() {
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
   Solo3 = createToggle("S", 34.5*w/60, 53*h/60, w/60, w/60);
   Solo3.setStyle({
-    textSize:w/60,
+    textSize:w/80,
     rounding: 5,
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOn:color('rgba(170, 250, 200,1)'),
@@ -361,7 +361,7 @@ function setup() {
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
   Solo4 = createToggle("S", 37*w/60, 53*h/60, w/60, w/60);
   Solo4.setStyle({
-    textSize:w/60,
+    textSize:w/80,
     rounding: 5,
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOn:color('rgba(170, 250, 200,1)'),
@@ -427,7 +427,7 @@ function draw() {
   strokeWeight(0);
   textAlign(CENTER, CENTER);
   textSize(w*0.02);
-  text('FIRST SET', 22*w/60, 6*h/60);
+  text('SET A', 22*w/60, 6*h/60);
   textAlign(RIGHT, CENTER);
   fill(clr_txt);
   textSize(w*0.013);
@@ -448,7 +448,7 @@ function draw() {
   textSize(w*0.02);
   fill(clr_subtittle);
   strokeWeight(0);
-  text('SECOND SET', 38*w/60, 6*h/60);
+  text('SET B', 38*w/60, 6*h/60);
   textAlign(RIGHT, CENTER);
   fill(clr_txt);
   textSize(w*0.013);
@@ -570,9 +570,6 @@ function draw() {
   text('Reverb', 25*w/60, 40.5*h/60);
   text('Delay 1/4th', 25*w/60, 44*h/60);
   text('Delay 1/8th', 25*w/60, 47.5*h/60);
-
-  text('Mute', 27*w/60, 51*h/60+12);
-  text('Solo', 27*w/60, 53*h/60+12);
 
   if (Volume1.isChanged){
     channel1.volume.value = Math.round(Volume1.val);
@@ -1139,7 +1136,7 @@ function checkErrors(){
   error_flag = false // if true, errors present
   error_color = "#FE5F55FF";
   if (parseInt(phase_shift_amount_inp.value()) > parseInt(onsetsinps[1].value())){
-    error_message += "The phase shift amount, can't be more than number of pulses of the first set.";
+    error_message += "The phase shift amount, can't be more than number of pulses of the SET A.";
     error_message +="\n";
     phase_shift_amount_inp.style('background-color', error_color)
     error_flag = true
@@ -1148,7 +1145,7 @@ function checkErrors(){
     phase_shift_amount_inp.style('background-color', clr_btn_bg)
   }
   if (parseInt(phase_shift_amount_inp.value()) > parseInt(onsetsinps[2].value())){
-    error_message += "The phase shift amount, can't be more than number of pulses of the second set.";
+    error_message += "The phase shift amount, can't be more than number of pulses of the SET B.";
     error_message +="\n";
     phase_shift_amount_inp.style('background-color', error_color)
     error_flag = true
@@ -1211,7 +1208,7 @@ function checkErrors(){
     onsetsinps[2].style('background-color', clr_btn_bg)
   }
   if(parseInt(onsetsinps[0].value()) > parseInt(onsetsinps[1].value())){
-    error_message += "Number of onsets can't be more than number of pulses for the first set"
+    error_message += "Number of onsets can't be more than number of pulses for the SET A"
     error_message +="\n";
     onsetsinps[0].style('background-color', error_color)
     onsetsinps[1].style('background-color', error_color)
@@ -1222,7 +1219,7 @@ function checkErrors(){
     onsetsinps[1].style('background-color', clr_btn_bg)
   }
   if(parseInt(onsetsinps[3].value()) < parseInt(onsetsinps[2].value())){
-    error_message += "Number of onsets can't be more than number of pulses for the second set"
+    error_message += "Number of onsets can't be more than number of pulses for the SET B"
     error_message +="\n";
     onsetsinps[2].style('background-color', error_color)
     onsetsinps[3].style('background-color', error_color)
