@@ -543,10 +543,6 @@ function draw() {
 
   text('Mute', 27*w/60, 51*h/60+12);
   text('Solo', 27*w/60, 53*h/60+12);
-  strokeWeight(w*0.003);
-  stroke('rgba(135, 143, 155,.8)');
-  noFill();
-  rect(25.5*w/60,50.5*h/60,13*w/60,4.5*h/60,10);
 
   if (Volume1.isChanged){
     channel1.volume.value = Math.round(Volume1.val);
