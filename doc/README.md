@@ -1,12 +1,14 @@
 # SERG: Shifting Euclidean Rhythm Generator
 
-SERG is a music composition tool inspired by Steve Reichs concept of phase shifting rhythms.
+**SERG is a music composition tool inspired by Steve Reich's concept of phase shifting rhythms.**
+
+**It uses Godfried Toussaint's Euclidean Rhythms to create unique musical beats that change over time as they shift in and out of phase.**
 
 ## Introduction
 
 ### What are Phase Shifting Rhythms
 
-Phase Shifting Rhythms is the name we have given to a technique that Steve Reich used across his discography.
+Phase Shifting Rhythms is the name we have given to a technique that Steve Reich uses across his discography.
 
 To explain the concept we will take his piece “Clapping Music for Two Performers” as an example:
 * The piece starts with both performers clapping a 1 bar rhythm in unison, repeated 12 times.
@@ -18,7 +20,7 @@ It is this concept of shifting a rhythm over time that our project is based on.
 
 ### What are Euclidean Rhythms
 
-Euclidean Rhythm was discovered by Godfried Toussaint in 2004. It uses the Euclidean Algorithm to generate musical rhythms. What is most interesting is that the rhythms it produces and describes are traditional rhythms from all over the world, and rhythms that are found in modern electronic dance music. The greatest common divisor of two numbers is used to create the rhythm where the beats are as equidistant as possible.
+Euclidean Rhythm was discovered by Godfried Toussaint in 2004. It uses the Euclidean Algorithm to generate musical rhythms. What is most interesting is that the rhythms it produces are traditional rhythms from all over the world, and rhythms that are found in modern electronic dance music. The greatest common divisor of two numbers is used to create the rhythm where the beats are as equidistant as possible.
 
 The two numbers used to produce the rhythm are called onsets and pulses. Onsets the number of hits/beats in the bar. Pulses describes the number beats in the rhythm or the subdivision of the bar the rhythm is in.
 
@@ -40,7 +42,34 @@ Blah blah blah
 
 ### Technologies Used
 
+#### Tone.js
+
+> Tone.js is a Web Audio framework for creating interactive music in the browser. The architecture of Tone.js aims to be familiar to both musicians and audio programmers creating web-based audio applications.
+
+Tone.js is being used to create an audio context for the project. It provides the building blocks needed to create an audio application in the browser.
+
+#### Tone.js/midi
+
+> Midi makes it straightforward to read and write MIDI files with Javascript. It uses midi-file for parsing and writing.
+
+Tone.js/midi is a library for creating and interacting with Midi data in javascript. It is used in the project to create a four track MIDI file which is then played back in the browser using Tone.js.
+
+#### p5.js
+
+> p5.js is a JavaScript library for creative coding, with a focus on making coding accessible and inclusive for artists, designers, educators, beginners, and anyone else!
+
+P5.js is being used for creating our GUI and for visualising the MIDI data.
+
+
 ### Project Structure
+
+The project is primarily divided among three javasvript files: gui.js, browserPlay.js and midiGeneration.js
+
+- gui.js is responsible for the frontend of the web application.
+
+- browserPlay.js contains the functionality for in browser playback of the midi data using Tone.js.
+
+- midiGeneration.js contains the functionality for generating the rhythmic and melodic data and parsing this data into a Tone.js midi object.
 
 ### Flowchart
 
@@ -101,7 +130,7 @@ This function first stops the Audio. Then, it cleans the synths array to prevent
 We use channel stripping for all four tracks and their corresponding synths. We connect each synth to a limiter to limit their volumes to a specific value so that the sounds do not pop. Then, we connect the limiter to the chorus effect, delays, and reverb. After the effects, we connect to the destination. The connections are shown in the below figure:
 
 
-### Midi Generation
+### midiGeneration.js
 
 The generation of the midi object is handled by the javascript file midiGeneration. The process is divided  among several functions, with the function generateMidi handling the overall flow.
 
