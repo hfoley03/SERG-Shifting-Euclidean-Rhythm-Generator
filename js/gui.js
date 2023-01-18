@@ -102,7 +102,6 @@ function setup() {
 
   tutorial = createGraphics(w, h);
   tutorial.textSize(10);
-  toggleTutorial();
 
   // ---- Selection Synth type by the user
   let synth_x = 22.5*w/60+8;
@@ -377,7 +376,12 @@ function setup() {
   Delay2 = createSlider('Delay2', 22*w/60, 48.5*h/60, 6*w/60, w/60, 0, 1);
   Delay2.setStyle({rounding: 5, trackWidth: 0.1});
 
-  tutorial_button = createButton("?",54*w/60, 5*h/60,2*w/60,2*h/60);
+  tutorial_button = createButton("?",54*w/60, 5*h/60,1.5*w/60,2*h/60);
+  tutorial_button.setStyle({font:'Bahnschrift', textSize: w/60,
+    fillBg:color(clr_btn_bg), rounding: 5,
+    fillLabel:color('#FFFFFF'),fillLabelHover:color('#4E5258'), fillLabelActive:color('#4E5258'),
+    strokeBg:color(clr_bt_st)}
+  )
 
   initialization();
   checkErrors()
