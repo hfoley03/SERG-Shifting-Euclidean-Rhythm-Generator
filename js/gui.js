@@ -110,7 +110,7 @@ function setup() {
       tmp_synth.option(All_Synths[k]);
     }
     tmp_synth.selected(All_Synths[3]);
-    tmp_synth.size(91);
+    tmp_synth.size(5*w/60);
 
     tmp_synth.style('color:'+clr_txt);
     tmp_synth.style('background:'+clr_btn_bg);
@@ -152,39 +152,39 @@ function setup() {
 
   // ----- Inputs of lenght of piece, shifting amount and shifting period, Tempo, Root, Scale
   let x_inputs = 26*w/60;
-  let x_inputs2 = 37*w/60;
+  let x_inputs2 = 37.5*w/60;
   let y_inputs = 20.5*h/60-3;
 
   phase_shift_amount_inp = createInput(phaseShiftAmount.toString());
   phase_shift_amount_inp.position(x_inputs,y_inputs);
-  phase_shift_amount_inp.size(32);
+  phase_shift_amount_inp.size(w/25);
   phase_shift_amount_inp.style('color:'+clr_txt)
   phase_shift_amount_inp.style("border-width", "thin")
 
 
   phase_shift_period_inp = createInput(phaseShiftPeriod.toString());
   phase_shift_period_inp.position(x_inputs,y_inputs+22);
-  phase_shift_period_inp.size(32);
+  phase_shift_period_inp.size(w/25);
   phase_shift_period_inp.style('color:'+clr_txt)
   phase_shift_period_inp.style("border-width", "thin")
 
 
   length_inp = createInput(length.toString());
   length_inp.position(x_inputs,y_inputs+44);
-  length_inp.size(32);
+  length_inp.size(w/25);
   length_inp.style('color:'+clr_txt)
   length_inp.style("border-width", "thin")
 
 
   tempo_bpm_inp = createInput(tempo_bpm.toString());
   tempo_bpm_inp.position(x_inputs,y_inputs+66);
-  tempo_bpm_inp.size(32);
+  tempo_bpm_inp.size(w/25);
   tempo_bpm_inp.style('color:'+clr_txt)
   tempo_bpm_inp.style("border-width", "thin")
 
 
-  velAmtSlider =  createSlider('Velocity Amount Slider', 29*w/60-7, 29*h/60-11,6.5*w/60,w/60,1,0);
-  velAmtSlider.setStyle({rounding: 5, trackWidth: 0.1,
+  velAmtSlider =  createSlider('Velocity Amount Slider', 29*w/60-7, 29*h/60-8,6.5*w/60,w/60,1,0);
+  velAmtSlider.setStyle({rounding: 2, trackWidth: 0.1,
     fillBg:color(clr_btn_bg), strokeBg:color(clr_bt_st)});
 
   rootNoteSelect = createSelect();
@@ -204,7 +204,7 @@ function setup() {
   scaleTypeSelect.style('color:'+clr_txt)
   scaleTypeSelect.style('background:'+clr_btn_bg)
 
-  box2nd = createToggle("2", x_inputs2-7,y_inputs+36, w/60, w/60);
+  box2nd = createToggle("2", x_inputs2-w/140,y_inputs+35, w/80, w/60);
   box2nd.setStyle({
     rounding: 2, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
@@ -212,35 +212,39 @@ function setup() {
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
     strokeBgOff:color(clr_bt_st)});
-  box3rd = createToggle("3", x_inputs2+17, y_inputs+36, w/60, w/60);
-  box3rd.setStyle({rounding: 2, textSize:w/90,
+  box3rd = createToggle("3", x_inputs2-w/140 + w/60, y_inputs+35, w/80, w/60);
+  box3rd.setStyle({
+    rounding: 2, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
     strokeBgOff:color(clr_bt_st)});
-  box4th = createToggle("4", x_inputs2+41, y_inputs+36, w/60, w/60);
-  box4th.setStyle({rounding: 2, textSize:w/90,
+  box4th = createToggle("4", x_inputs2-w/140+ w/60+ w/60, y_inputs+35, w/80, w/60);
+  box4th.setStyle({
+    rounding: 2, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
     strokeBgOff:color(clr_bt_st)});
-  box5th = createToggle("5", x_inputs2+65, y_inputs+36, w/60, w/60);
-  box5th.setStyle({rounding:2, textSize:w/90,
+  box5th = createToggle("5", x_inputs2-w/140+ w/60+ w/60+ w/60, y_inputs+35, w/80, w/60);
+  box5th.setStyle({
+    rounding: 2, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
     strokeBgOff:color(clr_bt_st)});
-  box6th = createToggle("6", x_inputs2+89, y_inputs+36, w/60, w/60);
-  box6th.setStyle({rounding: 2, textSize:w/90,
+  box6th = createToggle("6", x_inputs2-w/140+ w/60+ w/60+ w/60+ w/60, y_inputs+35, w/80, w/60);
+  box6th.setStyle({
+    rounding: 2, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOff:color(clr_btn_bg),fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),fillBgOnActive:color('rgba(170, 250, 200,.3)'),
     strokeBgOff:color(clr_bt_st)});
-  box7th = createToggle("7",x_inputs2+113, y_inputs+36, w/60, w/60);
+  box7th = createToggle("7",x_inputs2-w/140+ w/60+ w/60+ w/60+ w/60+ w/60, y_inputs+35, w/80, w/60);
   box7th.setStyle({rounding: 2, textSize:w/90,
     fillLabelOff:color('#FFFFFF'),fillLabelOffHover:color(clr_bt_fl_off),
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
@@ -256,7 +260,7 @@ function setup() {
   // --- Get as input the values of the Onsets and Pulses of the Tracks.
   gen_button = createButton('GENERATE', 17*w/60, 34*h/60,6*w/60,2*h/60);
   gen_button.setStyle({font:'Bahnschrift', textSize: w/60,
-    fillBg:color(clr_btn_bg), rounding: 5,
+    fillBg:color(clr_btn_bg), rounding: 2,
     fillLabel:color('#FFFFFF'),fillLabelHover:color('#4E5258'), fillLabelActive:color('#4E5258'),
     strokeBg:color(clr_bt_st)
   });
@@ -264,7 +268,7 @@ function setup() {
   // ---- Play button
   play_button = createButton('PLAY',27*w/60, 34*h/60,6*w/60,2*h/60);
   play_button.setStyle({
-    fillBg:color(clr_btn_bg), rounding: 5,
+    fillBg:color(clr_btn_bg), rounding: 2,
     font:'Bahnschrift', textSize: w/60,
     fillLabel:color('#FFFFFF'), fillLabelHover:color('#4E5258'), fillLabelActive:color('#4E5258'),
     strokeBg:color(clr_bt_st)
@@ -273,7 +277,7 @@ function setup() {
   // ---- Stop button
   stop_button = createButton('STOP',37*w/60, 34*h/60,6*w/60,2*h/60);
   stop_button.setStyle({
-    fillBg:color(clr_btn_bg), rounding: 5,
+    fillBg:color(clr_btn_bg), rounding: 2,
     font:'Bahnschrift', textSize: w/60,
     fillLabel:color('#FFFFFF'), fillLabelHover:color('#4E5258'), fillLabelActive:color('#4E5258'),
     strokeBg:color(clr_bt_st)
@@ -281,43 +285,43 @@ function setup() {
 
   // ---- Volume Sliders
   Volume1 = createSliderV('Volume1', 29.5*w/60, 41.5*h/60, w/60, 6*w/60, -30, 0);
-  Volume1.setStyle({rounding: 5, trackWidth: 0.1});
+  Volume1.setStyle({rounding: 2, trackWidth: 0.1});
   Volume2 = createSliderV('Volume2', 32*w/60, 41.5*h/60, w/60, 6*w/60, -30, 0);
-  Volume2.setStyle({rounding: 5, trackWidth: 0.1});
+  Volume2.setStyle({rounding: 2, trackWidth: 0.1});
   Volume3 = createSliderV('Volume3', 34.5*w/60, 41.5*h/60, w/60, 6*w/60, -30, 0);
-  Volume3.setStyle({rounding: 5, trackWidth: 0.1});
+  Volume3.setStyle({rounding: 2, trackWidth: 0.1});
   Volume4 = createSliderV('Volume4', 37*w/60, 41.5*h/60, w/60, 6*w/60, -30, 0);
-  Volume4.setStyle({rounding: 5, trackWidth: 0.1});
+  Volume4.setStyle({rounding: 2, trackWidth: 0.1});
 
   // ---- Mute Selecotors
   Mute1 = createToggle("M", 29.5*w/60, 51*h/60, w/60, w/60);
   Mute1.setStyle({
-    textSize:w/60,
-    rounding: 5,
+    textSize:w/80,
+    rounding: 2,
     fillLabelOn:color('#FFFFFF'),fillLabelOnHover:color('#FFFFFF'),fillLabelOnActive:color('#FFFFFF'),
     fillBgOn:color('rgba(254, 95, 85,1)'),
     fillBgOnHover:color('rgba(254, 95, 85,.5)'),
     fillBgOnActive:color('rgba(254, 95, 85,.3)')});
   Mute2 = createToggle("M", 32*w/60, 51*h/60, w/60, w/60);
   Mute2.setStyle({
-    textSize:w/60,
-    rounding: 5,
+    textSize:w/80,
+    rounding: 2,
     fillLabelOn:color('#FFFFFF'),fillLabelOnHover:color('#FFFFFF'),fillLabelOnActive:color('#FFFFFF'),
     fillBgOn:color('rgba(254, 95, 85,1)'),
     fillBgOnHover:color('rgba(254, 95, 85,.5)'),
     fillBgOnActive:color('rgba(254, 95, 85,.3)')});
   Mute3 = createToggle("M", 34.5*w/60, 51*h/60, w/60, w/60);
   Mute3.setStyle({
-    textSize:w/60,
-    rounding: 5,
+    textSize:w/80,
+    rounding: 2,
     fillLabelOn:color('#FFFFFF'),fillLabelOnHover:color('#FFFFFF'),fillLabelOnActive:color('#FFFFFF'),
     fillBgOn:color('rgba(254, 95, 85,1)'),
     fillBgOnHover:color('rgba(254, 95, 85,.5)'),
     fillBgOnActive:color('rgba(254, 95, 85,.3)')});
   Mute4 = createToggle("M", 37*w/60, 51*h/60, w/60, w/60);
   Mute4.setStyle({
-    textSize:w/60,
-    rounding: 5,
+    textSize:w/80,
+    rounding: 2,
     fillLabelOn:color('#FFFFFF'),fillLabelOnHover:color('#FFFFFF'),fillLabelOnActive:color('#FFFFFF'),
     fillBgOn:color('rgba(254, 95, 85,1)'),
     fillBgOnHover:color('rgba(254, 95, 85,.5)'),
@@ -327,32 +331,32 @@ function setup() {
   // ---- Solo Selectors
   Solo1 = createToggle("S", 29.5*w/60, 53*h/60, w/60, w/60);
   Solo1.setStyle({
-    textSize:w/60,
-    rounding: 5,
+    textSize:w/80,
+    rounding: 2,
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
   Solo2 = createToggle("S", 32*w/60, 53*h/60, w/60, w/60);
   Solo2.setStyle({
-    textSize:w/60,
-    rounding: 5,
+    textSize:w/80,
+    rounding: 2,
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
   Solo3 = createToggle("S", 34.5*w/60, 53*h/60, w/60, w/60);
   Solo3.setStyle({
-    textSize:w/60,
-    rounding: 5,
+    textSize:w/80,
+    rounding: 2,
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
     fillBgOnActive:color('rgba(170, 250, 200,.3)')});
   Solo4 = createToggle("S", 37*w/60, 53*h/60, w/60, w/60);
   Solo4.setStyle({
-    textSize:w/60,
-    rounding: 5,
+    textSize:w/80,
+    rounding: 2,
     fillLabelOn:color('#4E5258'), fillLabelOnHover:color('#4E5258'), fillLabelOnActive:color('#4E5258'),
     fillBgOn:color('rgba(170, 250, 200,1)'),
     fillBgOnHover:color('rgba(170, 250, 200,.5)'),
@@ -360,15 +364,15 @@ function setup() {
 
   // ---- Effects Sliders
   Reverb = createSlider('Reverb', 22*w/60, 41.5*h/60, 6*w/60, w/60, 0, 1);
-  Reverb.setStyle({rounding: 5, trackWidth: 0.1});
+  Reverb.setStyle({rounding: 2, trackWidth: 0.1});
   Delay1 = createSlider('Delay1', 22*w/60, 45*h/60, 6*w/60, w/60, 0, 1);
-  Delay1.setStyle({rounding: 5, trackWidth: 0.1});
+  Delay1.setStyle({rounding: 2, trackWidth: 0.1});
   Delay2 = createSlider('Delay2', 22*w/60, 48.5*h/60, 6*w/60, w/60, 0, 1);
-  Delay2.setStyle({rounding: 5, trackWidth: 0.1});
+  Delay2.setStyle({rounding: 2, trackWidth: 0.1});
 
   tutorial_button = createButton("?",54*w/60, 5*h/60,1.5*w/60,2*h/60);
   tutorial_button.setStyle({font:'Bahnschrift', textSize: w/60,
-    fillBg:color(clr_btn_bg), rounding: 5,
+    fillBg:color(clr_btn_bg), rounding: 2,
     fillLabel:color('#FFFFFF'),fillLabelHover:color('#4E5258'), fillLabelActive:color('#4E5258'),
     strokeBg:color(clr_bt_st)}
   )
@@ -556,9 +560,6 @@ function draw() {
   text('Reverb', 25*w/60, 40.5*h/60);
   text('Delay 1/4th', 25*w/60, 44*h/60);
   text('Delay 1/8th', 25*w/60, 47.5*h/60);
-
-  text('Mute', 27*w/60, 51*h/60+12);
-  text('Solo', 27*w/60, 53*h/60+12);
 
   if (Volume1.isChanged){
     channel1.volume.value = Math.round(Volume1.val);
@@ -930,41 +931,82 @@ function start_aud_gui() {
 
 function toggleTutorial() {
   if (!tutorial_state) {
-
+    tutorial.stroke('rgba(127, 76, 138,0.5)');
+    //tutorial.strokeWeight(0.1);
+    tutorial.noFill();
 
     //tutorial.background('white')
     xx = 2*w/60
     yy = 7*h/60
 
+
+
+
+
+
+
+
+
+
     // top left
-    tutorial.rect(xx, yy,12*w/60,7*h/60);
+    tutorial.stroke('#BF94C7');
+    tutorial.strokeWeight(w*0.003);
+    tutorial.noFill();
+    tutorial.rect(xx, yy,12*w/60,7*h/60,5);
+    tutorial.fill(clr_txt);
+    tutorial.textSize(w*0.0075);
+    tutorial.strokeWeight(0);
     tutorial.text("A set has two tracks. The first track of each set is the base rhythm.\n\n" +
       "The second track plays the same base rhythm but will be circular shifted during the piece.\n\n" +
-      "The instrument for each track can be chosen. ", xx+2, yy+2,12*w/60,7*h/60);
+      "The instrument for each track can be chosen. ", xx+w/90, yy+w/90,12*w/60-w/90,7*h/60-w/90);
 
     // mid left
-    tutorial.rect(xx, yy+180,12*w/60,7*h/60);
+    tutorial.stroke('#BF94C7');
+    tutorial.strokeWeight(w*0.003);
+    tutorial.noFill();
+    tutorial.rect(xx, yy+180,12*w/60,7*h/60,5);
+    tutorial.fill(clr_txt);
+    tutorial.textSize(w*0.0075);
+    tutorial.strokeWeight(0);
     tutorial.text("Phase Shift Amount – by how many pulses is a rhythm shifted by in the second track\n\n" +
       "Phase Shift Period – after how many bars does a shift occur\n\n" +
-      "Length – number of bars before the composition loops", xx+2, yy+180+2,12*w/60,7*h/60);
+      "Length – number of bars before the composition loops", xx+w/90, yy+180+w/90,12*w/60-w/90,7*h/60-w/90);
 
     // bottom left
-    tutorial.rect(xx, yy+390,12*w/60,2.5*h/60);
-    tutorial.text("Generate must be clicked after changing any of the parameters in order to generate a new Midi file.", xx+2, yy+390+2,12*w/60,2.5*h/60);
+    tutorial.stroke('#BF94C7');
+    tutorial.strokeWeight(w*0.003);
+    tutorial.noFill();
+    tutorial.rect(xx, yy+390,12*w/60,3*h/60,5);
+    tutorial.fill(clr_txt);
+    tutorial.textSize(w*0.0075);
+    tutorial.strokeWeight(0);
+    tutorial.text("Generate must be clicked after changing any of the parameters in order to generate a new Midi file.", xx+w/90, yy+390+w/90,12*w/60-w/90,2.5*h/60-w/90);
 
 
     // top right
-    tutorial.rect(xx + 44*w/60, yy+10,12*w/60,7*h/60);
+    tutorial.stroke('#BF94C7');
+    tutorial.strokeWeight(w*0.003);
+    tutorial.noFill();
+    tutorial.rect(xx + 44*w/60, yy+10,12*w/60,7*h/60,5);
+    tutorial.fill(clr_txt);
+    tutorial.textSize(w*0.0075);
+    tutorial.strokeWeight(0);
     tutorial.text("Each set of tracks is based on a Euclidean Rhythm. This rhythm is created by choosing the number of onsets (hits) per bar and the number of pulses(sub division).\n\n" +
-      "Example. 3 onsets, 8 pulses produces the rhythm: 10010010. ", xx + 44*w/60 + 2, yy+10 + 4,12*w/60,7*h/60);
+      "Example. 3 onsets, 8 pulses produces the rhythm: 10010010. ", xx + 44*w/60 +w/90, yy+10 +w/90,12*w/60-w/90,7*h/60-w/90);
 
 
     // mid right
-    tutorial.rect(xx + 44*w/60, yy+180,12*w/60,7*h/60);
+    tutorial.stroke('#BF94C7');
+    tutorial.strokeWeight(w*0.003);
+    tutorial.noFill();
+    tutorial.rect(xx + 44*w/60, yy+180,12*w/60,7*h/60,5);
+    tutorial.fill(clr_txt);
+    tutorial.textSize(w*0.0075);
+    tutorial.strokeWeight(0);
     tutorial.text("Root Note – Root note of scale \n\n" +
       "Scale Mode – Major, Minor or Melodic Minor\n\n" +
       "Flavour Notes – To add notes of the scale, eg 5 adds 5ths\n\n" +
-      "Flavour Note % – Probability of flavour notes", xx + 44*w/60 + 2, yy+180 + 4,12*w/60,7*h/60);
+      "Flavour Note % – Probability of flavour notes", xx + 44*w/60+w/90, yy+180+w/90,12*w/60-w/90,7*h/60-w/90);
 
 
 
@@ -1113,7 +1155,7 @@ function checkErrors(){
   error_flag = false // if true, errors present
   error_color = "#FE5F55FF";
   if (parseInt(phase_shift_amount_inp.value()) > parseInt(onsetsinps[1].value())){
-    error_message += "The phase shift amount, can't be more than number of pulses of the first set.";
+    error_message += "The phase shift amount, can't be more than number of pulses of the SET A.";
     error_message +="\n";
     phase_shift_amount_inp.style('background-color', error_color)
     error_flag = true
@@ -1122,7 +1164,7 @@ function checkErrors(){
     phase_shift_amount_inp.style('background-color', clr_btn_bg)
   }
   if (parseInt(phase_shift_amount_inp.value()) > parseInt(onsetsinps[2].value())){
-    error_message += "The phase shift amount, can't be more than number of pulses of the second set.";
+    error_message += "The phase shift amount, can't be more than number of pulses of the SET B.";
     error_message +="\n";
     phase_shift_amount_inp.style('background-color', error_color)
     error_flag = true
@@ -1185,7 +1227,7 @@ function checkErrors(){
     onsetsinps[2].style('background-color', clr_btn_bg)
   }
   if(parseInt(onsetsinps[0].value()) > parseInt(onsetsinps[1].value())){
-    error_message += "Number of onsets can't be more than number of pulses for the first set"
+    error_message += "Number of onsets can't be more than number of pulses for the SET A"
     error_message +="\n";
     onsetsinps[0].style('background-color', error_color)
     onsetsinps[1].style('background-color', error_color)
@@ -1196,7 +1238,7 @@ function checkErrors(){
     onsetsinps[1].style('background-color', clr_btn_bg)
   }
   if(parseInt(onsetsinps[3].value()) < parseInt(onsetsinps[2].value())){
-    error_message += "Number of onsets can't be more than number of pulses for the second set"
+    error_message += "Number of onsets can't be more than number of pulses for the SET B"
     error_message +="\n";
     onsetsinps[2].style('background-color', error_color)
     onsetsinps[3].style('background-color', error_color)
