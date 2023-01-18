@@ -224,6 +224,9 @@ The function returns the final MIDI object.
 
 The flow chart in fig. x shows a high level flow of this function.
 
+![Image of phaseAndCompose() flowchart](https://github.com/hfoley03/musical-guacamole/blob/Design_2/img/phaseAndComposeDiagram.png?raw=true)
+
+
 ## Challenges
 
 ### Challenge 1
@@ -276,6 +279,7 @@ However, as this algorithm would be at the heart of our application it felt wron
 This presented a significant technical challenge.
 
 We needed to understand how the algorithm worked across all cases, as it behaves differently when the number of onsets is greater than half of the number of pulses. See the examples below for 5 onsets in 8 pulses vs. 3 onsets in 8 pulses.
+
 
 ![5 onsets 8 pulses](https://github.com/hfoley03/musical-guacamole/blob/main/img/3858.png?raw=?)
 
@@ -339,6 +343,33 @@ To create a whole composition of phase shifting rhythms we start with one bar of
 
 ![Image of phaseAndCompose() flowchart](https://github.com/hfoley03/musical-guacamole/blob/Design_2/img/phaseAndComposeDiagram.png?raw=true)
 
+
+
+#### How to schedule the audio events to exact time instants?
+
+For playing the notes on the exact time instances that are created for is a challenge due to code operation time. For instance, if an event is scheduled for the exact time when the function schedules it is called, then it is possible that the time instance when it is supposed to play has passed. Especially the Synths offered by Tone.js could take some time to create an event with triggerAttackRelease() function.
+
+So the solution was scheduling the event at two seconds after the time current time. In that way, if the function is supposed to call too many notes for each track, it has 2 seconds to schedule all the notes.
+
+#### How to loop the playNote function() so that there are little to no glitches and pops?
+
+On memory constrained devices like mobile phones loading many and/or large audio files can cause the browser to crash during the buffer decoding, especially if Tone.MonoSynth is used instead of Tone.Synth. The reason for that is Tone.MonoSynth consists of one oscillator, one filter, and two envelopes whereas the Tone.Synth consists of one oscillator and envelope. See the diagrams below for the comparison, the first one is for MonoSynth and the one below that is for Synth.
+
+![MonoSynth](https://github.com/hfoley03/musical-guacamole/blob/main/img/monosynth.jpg?raw=?)
+![Synth](https://github.com/hfoley03/musical-guacamole/blob/main/img/synth.jpg?raw=?)
+
+
+
+#### How to loop the MIDI function so that the timing is consistent?
+
+The looping of playNote() function could cause looping it too early or too late. Considering even 10-15 ms could change things a lot perceptually, it is important to play the loops to keep the timing correct.
+
+The way we solved the issue was to keep track of the duration of the whole MIDI file and setting the loop interval to that value. The value is different for each different tempos and composition lengths.
+
+#### How to play the samples?
+
+
+#### How to synch the audio and the visuals?
 
 
 ## Future Work
