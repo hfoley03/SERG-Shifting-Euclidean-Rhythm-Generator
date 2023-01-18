@@ -121,6 +121,8 @@ First, the *GetBinaryShiftedOnset()* function is called, to takes the Tracks 2 o
 
 For the Timing of the visual functions, there are used two different timers, one for *VisualFix()* based on the pulse duration and one for *VisualShift()* according to the duration of each bar. Consequently, there is one timer corresponding to each set.
 
+These function are sincronized with the audio playing that is way there are used two functions *startTimer()* and *stopTimer()*,which modify the auxiliary variables used to change the parameters in the drawing of the visuals.
+
 ```
 function VisualFixTimingA();     //Set 1
 function VisualFixTimingB();     //Set 2
@@ -128,7 +130,14 @@ function VisualShiftTimingA();   //Set 1
 function VisualShiftTimingB();   //Set 2
 ```
 
-These function are sincronized with the audio playing that is way there are used two functions *startTimer()* and *stopTimer()*,which modify the auxiliary variables used to change the parameters in the drawing of the visuals.
+#### checkErrors()
+
+This function checks if there are any errors are present for all input values and creates the error message accordingly.
+It also sets the color of the input box to red if there is an error present in it. The error message is shown by a windowed alert.
+
+####  toggleTutorial()
+
+This function contains tutorial texts and tells the user what he needs to know about the application. This function is called when the tutorial button (the one with ? on it) is pressed. It shows the tutorial if it is not present; it hides the button if it is already shown.
 
 ### Browser Play
 
@@ -136,8 +145,17 @@ The purpose of the browserPlay.js file is to manage the playback of the created 
 
 #### Functions
 #### playNotes()
-This function is responsible for scheduling the audio events for all tracks. The function is called repeatedly by the function Tone.Loop to play the Midi notes again if the user doesn’t press the button STOP. Therefore, it plays the same Midi notes that are created by the generateMidi() function with the help of looping.
-The first step is to set Tone.context.latencyHint to the value of 1 second so that when scheduling the events, it takes time to schedule them as precisely as possible at the expense of a small latency. However, we start by playing the notes 2 seconds later to solve all latency issues. The second step is to record the current time instant with Tone.context.currentTime so that we can start to schedule the audio events exactly after this time instance. Then, for each track in the object, we check the synth_type selected by the user for the Audio playback (this can be both samples and synths). Then we connect these synths to their corresponding channels. If a synth that is not a sample is selected by the dropdown menus on GUI, then for each note in each track, we schedule the audio events by synth.triggerAttackRelease() function with corresponding time instances, note pitches, durations, and velocities. If in the dropdown menus, samples are selected by the user instead of synths, then again for each note in all tracks, synth.start() function is used by their corresponding time instances, durations, and velocities. We don’t consider their corresponding pitch value because they are just buffered samples of percussive instruments.
+This function is responsible for scheduling the audio events for all tracks. The function is called repeatedly by the function Tone.Loop to play the Midi notes again if the user doesn’t press the button STOP. Therefore, it plays the same Midi notes that are created by the generateMidi() function by looping the playNote() function. The loop is created by the code:
+
+`let main_loop = new Tone.Loop(playNotes , main_loop_interval);`
+
+The first step is to set Tone.context.latencyHint to the value of 1 second so that when scheduling the events, it takes time to schedule them as precisely as possible at the expense of a small latency. However, we start by playing the notes 2 seconds later to solve all latency issues. The second step is to record the current time instant with Tone.context.currentTime with 2 seconds delay so that we can start to schedule the audio events exactly after this time instance after the delay. Then, for each track in the object, we check the synth_type selected by the user for the Audio playback (this can be both samples and synths). Then we connect these synths to their corresponding channels. If a synth that is not a sample is selected by the dropdown menus on GUI, then for each note in each track, we schedule the audio events by synth.triggerAttackRelease() function with corresponding time instances, note pitches, durations, and velocities. Here is the code snippet:
+
+```
+synth.triggerAttackRelease(note.name, note.duration, time_inst_to_play, note.velocity)
+```
+
+If in the dropdown menus, samples are selected by the user instead of synths, then again for each note in all tracks, synth.start() function is used by their corresponding time instances, durations, and velocities. We don’t consider their corresponding pitch value because they are just buffered samples of percussive instruments.
 
 #### start_aud()
 This function starts or resumes the Tone.context, and sets the tempo of the Tone.Transport, sets the volume of the destination of the Tone and calculates and sets the duration of the main loop function. Then, it initiates the main_loop with the calculated loop interval. This function is called when the user presses the START button.
@@ -147,6 +165,7 @@ This function first stops the Audio. Then, it cleans the synths array to prevent
 #### Connection of the Audio Nodes
 We use channel stripping for all four tracks and their corresponding synths. We connect each synth to a limiter to limit their volumes to a specific value so that the sounds do not pop. Then, we connect the limiter to the chorus effect, delays, and reverb. After the effects, we connect to the destination. The connections are shown in the below figure:
 
+![Audio-nodes flowchart](https://github.com/hfoley03/musical-guacamole/blob/main/img/AudioEffectsDiagram.png)
 
 ### midiGeneration.js
 
