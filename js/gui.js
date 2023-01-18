@@ -749,7 +749,7 @@ function VisualFixTimingB(){
 }
 
 // --------- Functions for the visuals of the shifting ------
-function ShuffleCircle(x, y, onset, pulses, prt, color1, color2) {
+function ShiftingCircle(x, y, onset, pulses, prt, color1, color2) {
   let r2 = 12*w/60;
   strokeWeight(w*0.002);
 
@@ -807,7 +807,7 @@ function VisualShift(track,){
     for (let i = 0; i < pulses; i++) {
       aux_onsets = Shift_binary.slice(actualbar*pulses, (actualbar+1)*pulses);
     }
-    ShuffleCircle(x_c, y_c, aux_onsets, pulses,proportion, cl3, cl4);
+    ShiftingCircle(x_c, y_c, aux_onsets, pulses,proportion, cl3, cl4);
   }
 }
 function GetBinaryShiftedOnset(track){
