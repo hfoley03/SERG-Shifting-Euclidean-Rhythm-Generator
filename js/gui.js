@@ -952,41 +952,82 @@ function start_aud_gui() {
 
 function toggleTutorial() {
   if (!tutorial_state) {
-
+    tutorial.stroke('rgba(127, 76, 138,0.5)');
+    //tutorial.strokeWeight(0.1);
+    tutorial.noFill();
 
     //tutorial.background('white')
     xx = 2*w/60
     yy = 7*h/60
 
+
+
+
+
+
+
+
+
+
     // top left
-    tutorial.rect(xx, yy,12*w/60,7*h/60);
+    tutorial.stroke('#BF94C7');
+    tutorial.strokeWeight(w*0.003);
+    tutorial.noFill();
+    tutorial.rect(xx, yy,12*w/60,7*h/60,5);
+    tutorial.fill(clr_txt);
+    tutorial.textSize(w*0.0075);
+    tutorial.strokeWeight(0);
     tutorial.text("A set has two tracks. The first track of each set is the base rhythm.\n\n" +
       "The second track plays the same base rhythm but will be circular shifted during the piece.\n\n" +
-      "The instrument for each track can be chosen. ", xx+2, yy+2,12*w/60,7*h/60);
+      "The instrument for each track can be chosen. ", xx+w/90, yy+w/90,12*w/60-w/90,7*h/60-w/90);
 
     // mid left
-    tutorial.rect(xx, yy+180,12*w/60,7*h/60);
+    tutorial.stroke('#BF94C7');
+    tutorial.strokeWeight(w*0.003);
+    tutorial.noFill();
+    tutorial.rect(xx, yy+180,12*w/60,7*h/60,5);
+    tutorial.fill(clr_txt);
+    tutorial.textSize(w*0.0075);
+    tutorial.strokeWeight(0);
     tutorial.text("Phase Shift Amount – by how many pulses is a rhythm shifted by in the second track\n\n" +
       "Phase Shift Period – after how many bars does a shift occur\n\n" +
-      "Length – number of bars before the composition loops", xx+2, yy+180+2,12*w/60,7*h/60);
+      "Length – number of bars before the composition loops", xx+w/90, yy+180+w/90,12*w/60-w/90,7*h/60-w/90);
 
     // bottom left
-    tutorial.rect(xx, yy+390,12*w/60,2.5*h/60);
-    tutorial.text("Generate must be clicked after changing any of the parameters in order to generate a new Midi file.", xx+2, yy+390+2,12*w/60,2.5*h/60);
+    tutorial.stroke('#BF94C7');
+    tutorial.strokeWeight(w*0.003);
+    tutorial.noFill();
+    tutorial.rect(xx, yy+390,12*w/60,3*h/60,5);
+    tutorial.fill(clr_txt);
+    tutorial.textSize(w*0.0075);
+    tutorial.strokeWeight(0);
+    tutorial.text("Generate must be clicked after changing any of the parameters in order to generate a new Midi file.", xx+w/90, yy+390+w/90,12*w/60-w/90,2.5*h/60-w/90);
 
 
     // top right
-    tutorial.rect(xx + 44*w/60, yy+10,12*w/60,7*h/60);
+    tutorial.stroke('#BF94C7');
+    tutorial.strokeWeight(w*0.003);
+    tutorial.noFill();
+    tutorial.rect(xx + 44*w/60, yy+10,12*w/60,7*h/60,5);
+    tutorial.fill(clr_txt);
+    tutorial.textSize(w*0.0075);
+    tutorial.strokeWeight(0);
     tutorial.text("Each set of tracks is based on a Euclidean Rhythm. This rhythm is created by choosing the number of onsets (hits) per bar and the number of pulses(sub division).\n\n" +
-      "Example. 3 onsets, 8 pulses produces the rhythm: 10010010. ", xx + 44*w/60 + 2, yy+10 + 4,12*w/60,7*h/60);
+      "Example. 3 onsets, 8 pulses produces the rhythm: 10010010. ", xx + 44*w/60 +w/90, yy+10 +w/90,12*w/60-w/90,7*h/60-w/90);
 
 
     // mid right
-    tutorial.rect(xx + 44*w/60, yy+180,12*w/60,7*h/60);
+    tutorial.stroke('#BF94C7');
+    tutorial.strokeWeight(w*0.003);
+    tutorial.noFill();
+    tutorial.rect(xx + 44*w/60, yy+180,12*w/60,7*h/60,5);
+    tutorial.fill(clr_txt);
+    tutorial.textSize(w*0.0075);
+    tutorial.strokeWeight(0);
     tutorial.text("Root Note – Root note of scale \n\n" +
       "Scale Mode – Major, Minor or Melodic Minor\n\n" +
       "Flavour Notes – To add notes of the scale, eg 5 adds 5ths\n\n" +
-      "Flavour Note % – Probability of flavour notes", xx + 44*w/60 + 2, yy+180 + 4,12*w/60,7*h/60);
+      "Flavour Note % – Probability of flavour notes", xx + 44*w/60+w/90, yy+180+w/90,12*w/60-w/90,7*h/60-w/90);
 
 
 
