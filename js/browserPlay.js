@@ -7,7 +7,7 @@ let main_loop = new Tone.Loop(playNotes , main_loop_interval);
 let time_instants_to_play = []; //This is used for testing the play times of each note
 
 //sample links
-var bufferkick = new Tone.Buffer("https://audio.jukehost.co.uk/mazfEsXSvszmtRHKw3p3jRZtWyTsVt9H")
+var bufferkick = new Tone.Buffer("https://audio.jukehost.co.uk/brgsh8HG6V3FeHu1bgl7r8Gbio6aQYvc")
 var buffersnare = new Tone.Buffer("https://audio.jukehost.co.uk/0v0XCCA6hcBRKPxqXZ5Xr0hOZ5AcvxcF")
 var bufferhihat = new Tone.Buffer("https://audio.jukehost.co.uk/Z3t7DblT22VAC0dDnHGq4gEBEczuFf1m")
 
