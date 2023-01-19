@@ -2,7 +2,7 @@
 
 Contributors:
 - Juan Sebastian Gonzalez
-- Eray
+- Eray Özgünay
 - Harry Foley
 
 **SERG is a music composition tool inspired by Steve Reich's concept of phase shifting rhythms.**
