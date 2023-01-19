@@ -390,11 +390,6 @@ function draw() {
 
   w = width;
 
-  //reposition();
-
-  //console.log('first', first_time_inst_play)
-  //console.log(Tone.context.currentTime)
-
   if(draw_flag == false && first_time_inst_play - 0.4 < Tone.context.currentTime ){
     startTimer();
     console.log('the conditions met')
@@ -850,10 +845,6 @@ function GetBinaryShiftedOnset(track){
     Time_notes_aux[index] = note.time;
   })
 
-  //console.log("Track: "+track)
-  //console.log("Time Notes: "+Time_notes_aux)
-  //console.log("Total pulses: "+Total_pulses)
-  //console.log("pulse_duration: "+pulse_duration)
 
   //Cycle to compare the times of the Onsets to set the full binary array of the Track
   for(let n=0;n<Total_pulses;n++){
@@ -1020,134 +1011,6 @@ function toggleTutorial() {
   }
 }
 
-function reposition(){
-
-  // Positioning when resizes
-
-  synth_x = 15 * w / 60 + 10;
-  synth_y = 16 * h / 60 + 1;
-
-
-  for (i = 1; i <= 4; i++) {
-    tmp_synth = synthinps[i-1]
-    if(i==1 || i ==2) tmp_synth.position(synth_x, synth_y + 20 * (i - 1) + 1);
-    if (i == 3 || i == 4) {
-      tmp_synth.position(synth_x + 15 * w / 60, synth_y + 20 * (i - 3) + 1);
-    }
-  }
-
-
-  let x_onsets = 15*w/60+10;
-  let y_onsets = 11*h/60;
-  for(let i = 1; i<=4; i++){
-    let tmp_onsets = onsetsinps[i-1]
-
-    if(i == 1 || i == 2) {
-      tmp_onsets.position(x_onsets, y_onsets + 22 * (i - 1));
-    }
-    else{
-      tmp_onsets.position(x_onsets+15*w/60, y_onsets + 22 * (i - 3));
-    }
-  }
-
-  let x_inputs = 49*w/60;
-  let y_inputs = 13*h/60-2;
-  phase_shift_amount_inp.position(x_inputs,y_inputs);
-
-  phase_shift_period_inp.position(x_inputs,y_inputs+22);
-  length_inp.position(x_inputs,y_inputs+44);
-  tempo_bpm_inp.position(x_inputs,y_inputs+66);
-  scaleTypeSelect.position(x_inputs,y_inputs+88);
-  rootNoteSelect.position(x_inputs,y_inputs+110);
-
-  gen_button.x = 12*w/60
-  gen_button.y = 24*h/60
-
-
-  play_button.x = 27*w/60
-  play_button.y = 24*h/60
-
-
-  stop_button.x = 42*w/60
-  stop_button.y = 24*h/60
-
-
-  tutorial_button.x = 54*w/60
-  tutorial_button.y = 5*h/60
-
-
-  Volume1.x = 22*w/60
-  Volume1.y = 36*h/60
-
-  Volume2.x = 24.5*w/60
-  Volume2.y = 36*h/60
-
-  Volume3.x = 27*w/60
-  Volume3.y = 36*h/60
-
-  Volume4.x = 29.5*w/60
-  Volume4.y = 36*h/60
-
-  Mute1.x = 22*w/60
-  Mute1.y = 51*h/60
-
-  Mute2.x = 24.5*w/60
-  Mute2.y = 51*h/60
-
-  Mute3.x = 27*w/60
-  Mute3.y = 51*h/60
-
-  Mute4.x = 29.5*w/60
-  Mute4.y = 51*h/60
-
-
-
-  Solo1.x = 22*w/60
-  Solo1.y = 54*h/60
-
-  Solo2.x = 24.5*w/60
-  Solo2.y = 54*h/60
-
-  Solo3.x = 27*w/60
-  Solo3.y = 54*h/60
-
-  Solo4.x = 29.5*w/60
-  Solo4.y = 54*h/60
-
-
-  Reverb.x = 32*w/60
-  Reverb.y = 36*h/60
-
-
-  Delay1.x = 32*w/60
-  Delay1.y = 41.5*h/60
-
-  Delay2.x = 32*w/60
-  Delay2.y = 41.5*h/60
-
-
-  box2nd.x = x_inputs
-  box2nd.y = y_inputs+132
-
-  box3rd.x = x_inputs + 20
-  box3rd.y = y_inputs+132
-
-  box4th.x = x_inputs + 40
-  box4th.y = y_inputs+132
-
-  box5th.x = x_inputs + 60
-  box5th.y = y_inputs+132
-
-  box6th.x = x_inputs + 80
-  box6th.y = y_inputs+132
-
-  box7th.x = x_inputs + 100
-  box7th.y = y_inputs+132
-
-
-  colorAmtSlider.x = x_inputs+100
-  colorAmtSlider.y = y_inputs+154
-}
 
 function checkErrors(){
 
