@@ -361,7 +361,7 @@ On memory constrained devices like mobile phones loading many and/or large audio
 
 #### How to loop the MIDI function so that the timing is consistent?
 
-The looping of playNote() function could cause looping it too early or too late. Considering even 10-15 ms could change things a lot perceptually, it is important to play the loops in such a way that the timing correct.
+The looping of playNote() function could cause looping it too early or too late. Considering even 10-15 ms could change things a lot perceptually, it is important to play the loops in such a way that the timing is correct.
 
 The way we solved the issue was to keep track of the duration of the whole MIDI file and set the loop interval to that value. The value is different for each different tempo and composition length.
 
