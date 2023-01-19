@@ -351,12 +351,14 @@ For playing the notes on the exact time instances that are created for is a chal
 
 So the solution was to schedule the event two seconds after the time current time. In that way, if the function is supposed to call too many notes for each track, it has 2 seconds to schedule all the notes.
 
-#### How to loop the playNote function() so that there are little to no glitches and pops?
+#### How to loop the playNote() function so that there are little to no glitches and pops?
 
 On memory constrained devices like mobile phones loading many and/or large audio files can cause the browser to crash during the buffer decoding, especially if Tone.MonoSynth is used instead of Tone.Synth. The reason for that is Tone.MonoSynth consists of one oscillator, one filter, and two envelopes, whereas the Tone.Synth consists of one oscillator and an envelope. See the diagrams below for the comparison, the first one is for MonoSynth, and the one below is for Synth.
 
 ![MonoSynth](https://github.com/hfoley03/musical-guacamole/blob/main/img/monosynth.jpg?raw=?)
 ![Synth](https://github.com/hfoley03/musical-guacamole/blob/main/img/synth.jpg?raw=?)
+
+For the solution, we fix the Tone.latencyHint attribute to "playback" so that the browser can take its time to schedule the events. The latency is not an issue in our case because we have already put 2 seconds delay at the first place.
 
 
 #### How to loop the MIDI function so that the timing is consistent?
