@@ -11,7 +11,7 @@ Contributors:
 
 Click here to play: https://hfoley03.github.io/musical-guacamole/
 
-Video Demo:
+Video Demo: https://youtu.be/Mx6VyCkzeFA
 
 ## Introduction
 
