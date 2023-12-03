@@ -9,7 +9,7 @@ Contributors:
 
 **It uses Godfried Toussaint's Euclidean Rhythms to create unique musical beats that change over time as they shift in and out of phase.**
 
-Click here to play: https://hfoley03.github.io/musical-guacamole/
+Click here to play: https://hfoley03.github.io/SERG-Shifting-Euclidean-Rhythm-Generator/
 
 Video Demo: https://youtu.be/Mx6VyCkzeFA
 
