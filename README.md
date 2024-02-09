@@ -1,7 +1,7 @@
 # SERG: Shifting Euclidean Rhythm Generator
 
 Contributors:
-- Juan Sebastian Gonzalez
+- Juan Sebastian Mendez
 - Eray Özgünay
 - Harry Foley
 
