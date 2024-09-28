@@ -1,13 +1,10 @@
 # SERG: Shifting Euclidean Rhythm Generator
 
-Contributors:
-- Juan Sebastian Mendez
-- Eray Özgünay
-- Harry Foley
-
 **SERG is a music composition tool inspired by Steve Reich's concept of phase shifting rhythms.**
 
 **It uses Godfried Toussaint's Euclidean Rhythms to create unique musical beats that change over time as they shift in and out of phase.**
+
+![tutorial](https://github.com/hfoley03/musical-guacamole/blob/main/img/screenshot1.png?raw=?)
 
 Click here to play: https://hfoley03.github.io/SERG-Shifting-Euclidean-Rhythm-Generator/
 
@@ -55,8 +52,6 @@ We chose to use Euclidean Rhythms for our base rhythms as they automatically sou
 
 
 ### SERG's Design
-
-![tutorial](https://github.com/hfoley03/musical-guacamole/blob/main/img/screenshot1.png?raw=?)
 
 SERG has two sets of phase shifting rhythms that are played in sync.
 
